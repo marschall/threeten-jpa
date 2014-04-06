@@ -13,8 +13,8 @@ public class LocalDateConverter implements AttributeConverter<LocalDate, Calenda
   public Calendar convertToDatabaseColumn(LocalDate attribute) {
     Calendar calendar = Calendar.getInstance();
     calendar.clear();
-    // avoid 0 vs 1 based months
     calendar.set(Calendar.YEAR, attribute.getYear());
+    // avoid 0 vs 1 based months
     calendar.set(Calendar.DAY_OF_YEAR, attribute.getDayOfYear());
     return null;
   }
