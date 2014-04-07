@@ -43,6 +43,10 @@
           <artifactId>hibernate-jpa-2.1-api</artifactId>
           <groupId>org.hibernate.javax.persistence</groupId>
         </exclusion>
+        <exclusion>
+          <artifactId>xml-apis</artifactId>
+          <groupId>xml-apis</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>

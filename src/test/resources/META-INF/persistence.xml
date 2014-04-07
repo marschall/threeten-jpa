@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
-                                 http://java.sun.com/xml/ns/persistence/persistence_2_1.xsd"
-             version="2.1">
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/persistence/persistence_2_1.xsd">
 
     <persistence-unit name="threeten-jpa-hibernate">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
@@ -11,7 +9,9 @@
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect" />
             <property name="hibernate.show_sql" value="false" />
-            <property name="hibernate.hbm2ddl.auto" value="validate" />
+            <!-- 
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+             -->
             <property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy"/>
             <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider" />
             <!-- 
@@ -23,7 +23,14 @@
 
     <persistence-unit name="threeten-jpa-eclipselink">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>com.github.marschall.threeten.jpa.JavaTime</class>
+        <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
         
+        <properties>
+          <property name="eclipselink.weaving" value="false"/>
+        </properties>
     </persistence-unit>
     
 </persistence>
