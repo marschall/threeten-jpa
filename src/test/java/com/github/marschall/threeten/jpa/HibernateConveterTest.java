@@ -13,8 +13,8 @@ import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
-@ContextConfiguration(classes = DerbyConfiguration.class)
-public class ConveterTest extends AbstractTransactionalJUnit4SpringContextTests {
+@ContextConfiguration(classes = {DerbyConfiguration.class, HibernateConfiguration.class})
+public class HibernateConveterTest extends AbstractTransactionalJUnit4SpringContextTests {
   
   @PersistenceContext
   private EntityManager entityManager;

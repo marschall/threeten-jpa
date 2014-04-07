@@ -25,16 +25,6 @@ public class DerbyConfiguration {
         .addScript("data.sql")
         .build();
   }
-  
-  @Bean
-  public LocalEntityManagerFactoryBean entityManager() {
-    LocalEntityManagerFactoryBean bean = new LocalEntityManagerFactoryBean();
-    bean.setPersistenceUnitName("threeten-jpa");
-    bean.setJpaDialect(new HibernateJpaDialect());
-    bean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-    return bean;
-  }
-  
   @Bean
   public PlatformTransactionManager txManager(EntityManagerFactory entityManagerFactory) {
     return new JpaTransactionManager(entityManagerFactory);

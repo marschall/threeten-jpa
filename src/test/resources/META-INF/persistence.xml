@@ -5,7 +5,7 @@
                                  http://java.sun.com/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
 
-    <persistence-unit name="threeten-jpa">
+    <persistence-unit name="threeten-jpa-hibernate">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         
         <properties>
@@ -19,6 +19,11 @@
             <property name="jadira.usertype.databaseZone" value="jvm" />
              -->
         </properties>
+    </persistence-unit>
+
+    <persistence-unit name="threeten-jpa-eclipselink">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        
     </persistence-unit>
     
 </persistence>
