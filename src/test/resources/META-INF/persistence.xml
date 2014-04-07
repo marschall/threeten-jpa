@@ -6,30 +6,44 @@
     <persistence-unit name="threeten-jpa-hibernate">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         
-        <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect" />
-            <property name="hibernate.show_sql" value="false" />
-            <!-- 
-            <property name="hibernate.hbm2ddl.auto" value="update" />
-             -->
-            <property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy"/>
-            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider" />
-            <!-- 
-            <property name="jadira.usertype.autoRegisterUserTypes" value="true" /> 1
-            <property name="jadira.usertype.databaseZone" value="jvm" />
-             -->
-        </properties>
-    </persistence-unit>
-
-    <persistence-unit name="threeten-jpa-eclipselink">
-        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <class>com.github.marschall.threeten.jpa.JavaTime</class>
+        
         <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
         
         <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect" />
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="threeten-jpa-eclipselink">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        
+        <class>com.github.marschall.threeten.jpa.JavaTime</class>
+        
+        <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        
+        <properties>
+          <property name="eclipselink.target-database" value="Derby"/>
           <property name="eclipselink.weaving" value="false"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="threeten-jpa-openjpa">
+        <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+        
+        <class>com.github.marschall.threeten.jpa.JavaTime</class>
+        
+        <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        
+        <properties>
+          <property name="openjpa.RuntimeUnenhancedClasses" value="supported"/>
+          <property name="openjpa.DynamicEnhancementAgent" value="false"/>
         </properties>
     </persistence-unit>
     
