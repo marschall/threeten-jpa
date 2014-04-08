@@ -3,7 +3,7 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/persistence/persistence_2_1.xsd">
 
-    <persistence-unit name="threeten-jpa-hibernate">
+    <persistence-unit name="threeten-jpa-hibernate-derby">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         
         <class>com.github.marschall.threeten.jpa.JavaTime</class>
@@ -17,7 +17,21 @@
         </properties>
     </persistence-unit>
 
-    <persistence-unit name="threeten-jpa-eclipselink">
+    <persistence-unit name="threeten-jpa-hibernate-h2">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        
+        <class>com.github.marschall.threeten.jpa.JavaTime</class>
+        
+        <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="threeten-jpa-eclipselink-derby">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         
         <class>com.github.marschall.threeten.jpa.JavaTime</class>
@@ -28,6 +42,21 @@
         
         <properties>
           <property name="eclipselink.target-database" value="Derby"/>
+          <property name="eclipselink.weaving" value="false"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="threeten-jpa-eclipselink-h2">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        
+        <class>com.github.marschall.threeten.jpa.JavaTime</class>
+        
+        <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        
+        <properties>
+          <property name="eclipselink.target-database" value="org.eclipse.persistence.platform.database.H2Platform"/>
           <property name="eclipselink.weaving" value="false"/>
         </properties>
     </persistence-unit>

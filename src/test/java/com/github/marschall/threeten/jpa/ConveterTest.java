@@ -2,8 +2,12 @@ package com.github.marschall.threeten.jpa;
 
 import static com.github.marschall.threeten.jpa.Constants.PERSISTENCE_UNIT_NAME;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +59,9 @@ public class ConveterTest {
     assertThat(resultList, hasSize(1));
     
     JavaTime javaTime = (JavaTime) resultList.get(0);
+    assertEquals(LocalDate.parse("1988-12-25"), javaTime.getLocalDate());
+    assertEquals(LocalTime.parse("15:09:02"), javaTime.getLocalDate());
+    assertEquals(LocalDateTime.parse("1960-01-01 23:03:20"), javaTime.getLocalDateTime());
   }
   
   @After
