@@ -7,6 +7,7 @@ import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -26,6 +27,15 @@ public class JavaTime {
 
   @Column(name = "TIMESTAMP_COLUMN")
   private LocalDateTime localDateTime;
+  
+
+  public BigInteger getId() {
+    return id;
+  }
+
+  public void setId(BigInteger id) {
+    this.id = id;
+  }
 
   public LocalDate getLocalDate() {
     return localDate;
