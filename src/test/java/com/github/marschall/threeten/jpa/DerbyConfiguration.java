@@ -21,10 +21,14 @@ public class DerbyConfiguration {
   @Bean
   public DataSource dataSource() {
     return new EmbeddedDatabaseBuilder()
+         // the spring test context framework keeps application contexts
+         // and thus databases around for the entire VM lifetime
+         // so be have to create a unique name here to avoid sharing
+         // between application contexts
         .setName("Derby-" + COUNT.incrementAndGet())
         .setType(DERBY)
-        .addScript("schema.sql")
-        .addScript("data.sql")
+        .addScript("derby-schema.sql")
+        .addScript("derby-data.sql")
         .build();
   }
   @Bean
