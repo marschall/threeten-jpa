@@ -4,14 +4,11 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 public class DerbyConfiguration {
@@ -30,10 +27,6 @@ public class DerbyConfiguration {
         .addScript("derby-schema.sql")
         .addScript("derby-data.sql")
         .build();
-  }
-  @Bean
-  public PlatformTransactionManager txManager(EntityManagerFactory entityManagerFactory) {
-    return new JpaTransactionManager(entityManagerFactory);
   }
 
 }

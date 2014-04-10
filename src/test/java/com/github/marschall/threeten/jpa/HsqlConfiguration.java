@@ -1,6 +1,6 @@
 package com.github.marschall.threeten.jpa;
 
-import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
+import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.HSQL;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 
 @Configuration
-public class H2Configuration {
+public class HsqlConfiguration {
 
   private static final AtomicInteger COUNT = new AtomicInteger();
   
@@ -22,10 +22,10 @@ public class H2Configuration {
          // and thus databases around for the entire VM lifetime
          // so be have to create a unique name here to avoid sharing
          // between application contexts
-        .setName("H2-" + COUNT.incrementAndGet())
-        .setType(H2)
-        .addScript("h2-schema.sql")
-        .addScript("h2-data.sql")
+        .setName("HSQL-" + COUNT.incrementAndGet())
+        .setType(HSQL)
+        .addScript("hsql-schema.sql")
+        .addScript("hsql-data.sql")
         .build();
   }
 

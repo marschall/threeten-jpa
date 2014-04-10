@@ -6,6 +6,6 @@ import org.springframework.test.context.ContextConfiguration;
     H2Configuration.class,
     TransactionManagerConfiguration.class,
     HibernateH2Configuration.class})
-public class HibernateH2Test extends AbstractConverterTest {
+public class HibernateHsqlTest extends AbstractConverterTest {
 
 }
