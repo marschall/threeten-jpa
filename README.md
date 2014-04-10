@@ -20,3 +20,4 @@ Tested with following JPA providers:
 Tested with the following databases:
  * Derby
  * H2
+ * HSQL
