@@ -9,13 +9,14 @@ import javax.persistence.Converter;
 
 @Converter(autoApply = true)
 public class LocalTimeConverter implements AttributeConverter<LocalTime, Time> {
+  // mapping with java.util.Calendar breaks EclipseLink
 
   @Override
   public Time convertToDatabaseColumn(LocalTime attribute) {
     Calendar calendar = Calendar.getInstance();
     calendar.clear();
-    // avoid 0 vs 1 based months
     calendar.set(Calendar.YEAR, 1970);
+    // avoid 0 vs 1 based months
     calendar.set(Calendar.DAY_OF_YEAR, 1);
     calendar.set(Calendar.HOUR_OF_DAY, attribute.getHour());
     calendar.set(Calendar.MINUTE, attribute.getMinute());
@@ -27,26 +28,11 @@ public class LocalTimeConverter implements AttributeConverter<LocalTime, Time> {
   public LocalTime convertToEntityAttribute(Time dbData) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(dbData);
-    // avoid 0 vs 1 based months
-    return LocalTime.of(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND), calendar.get(Calendar.MILLISECOND) * 1000000);
+    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+    int minute = calendar.get(Calendar.MINUTE);
+    int second = calendar.get(Calendar.SECOND);
+    int nanoOfSecond = calendar.get(Calendar.MILLISECOND) * 1000000;
+    return LocalTime.of(hour, minute, second, nanoOfSecond);
   }
-//  @Override
-//  public Calendar convertToDatabaseColumn(LocalTime attribute) {
-//    Calendar calendar = Calendar.getInstance();
-//    calendar.clear();
-//    // avoid 0 vs 1 based months
-//    calendar.set(Calendar.YEAR, 1970);
-//    calendar.set(Calendar.DAY_OF_YEAR, 1);
-//    calendar.set(Calendar.HOUR_OF_DAY, attribute.getHour());
-//    calendar.set(Calendar.MINUTE, attribute.getMinute());
-//    calendar.set(Calendar.MILLISECOND, (int) (attribute.getNano() / 1000000L));
-//    return calendar;
-//  }
-//
-//  @Override
-//  public LocalTime convertToEntityAttribute(Calendar dbData) {
-//    // avoid 0 vs 1 based months
-//    return LocalTime.of(dbData.get(Calendar.HOUR_OF_DAY), dbData.get(Calendar.MINUTE), dbData.get(Calendar.SECOND), dbData.get(Calendar.MILLISECOND) * 1000000);
-//  }
 
 }
