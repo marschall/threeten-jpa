@@ -1,4 +1,4 @@
-ThreeTen JPA
+ThreeTen JPA [![Build Status](https://travis-ci.org/marschall/threeten-jpa.svg?branch=master)](https://travis-ci.org/marschall/threeten-jpa)
 ============
 
 JPA attribute converters for JSR-310 dates and times.

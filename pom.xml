@@ -85,6 +85,8 @@
       <version>${spring.version}</version>
       <scope>test</scope>
     </dependency>
+    
+    <!-- databases -->
     <dependency>
       <groupId>org.apache.derby</groupId>
       <artifactId>derby</artifactId>
@@ -103,6 +105,26 @@
       <version>2.3.2</version>
       <scope>test</scope>
     </dependency>
+    <!-- 
+    <dependency>
+      <groupId>com.oracle</groupId>
+      <artifactId>ojdbc6</artifactId>
+      <version>11.2.0.3.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>9.3-1101-jdbc41</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.30</version>
+      <scope>test</scope>
+    </dependency>
+     -->
   </dependencies>
 
   <build>

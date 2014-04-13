@@ -10,7 +10,6 @@ import static org.junit.Assert.assertThat;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -22,6 +21,7 @@ import javax.persistence.Query;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -34,35 +34,30 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 @RunWith(Parameterized.class)
-public class ConverterTest {
+@Ignore("needs an oracle instance running")
+public class OracleConverterTest {
 
-  private final Class<?> datasourceConfiguration;
   private final Class<?> jpaConfiguration;
   private final String persistenceUnitName;
   private AnnotationConfigApplicationContext applicationContext;
 
-  public ConverterTest(Class<?> datasourceConfiguration, Class<?> jpaConfiguration, String persistenceUnitName) {
-    this.datasourceConfiguration = datasourceConfiguration;
+  public OracleConverterTest(Class<?> jpaConfiguration, String persistenceUnitName) {
     this.jpaConfiguration = jpaConfiguration;
     this.persistenceUnitName = persistenceUnitName;
   }
   
-  @Parameters(name = "{2}")
+  @Parameters(name = "12}")
   public static Collection<Object[]> parameters() {
     return Arrays.asList(
-        new Object[]{DerbyConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-derby"},
-        new Object[]{H2Configuration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-h2"},
-        new Object[]{HsqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-hsql"},
-        new Object[]{DerbyConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-derby"},
-        new Object[]{H2Configuration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-h2"},
-        new Object[]{HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"}
+        new Object[]{EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-oracle"},
+        new Object[]{HibernateConfiguration.class, "threeten-jpa-hibernate-oracle"}
         );
   }
   
   @Before
   public void setUp() {
     this.applicationContext = new AnnotationConfigApplicationContext();
-    this.applicationContext.register(this.datasourceConfiguration, TransactionManagerConfiguration.class, this.jpaConfiguration);
+    this.applicationContext.register(OracleConfiguration.class, TransactionManagerConfiguration.class, this.jpaConfiguration);
     ConfigurableEnvironment environment = this.applicationContext.getEnvironment();
     MutablePropertySources propertySources = environment.getPropertySources();
     Map<String, Object> source = singletonMap(PERSISTENCE_UNIT_NAME, this.persistenceUnitName);
@@ -92,29 +87,25 @@ public class ConverterTest {
       assertThat(resultList, hasSize(1));
 
       // validate the entity inserted by SQL
-      JavaTime javaTime = (JavaTime) resultList.get(0);
-      assertEquals(LocalTime.parse("15:09:02"), javaTime.getLocalTime());
+      OracleJavaTime javaTime = (OracleJavaTime) resultList.get(0);
       assertEquals(LocalDate.parse("1988-12-25"), javaTime.getLocalDate());
       assertEquals(LocalDateTime.parse("1960-01-01T23:03:20"), javaTime.getLocalDateTime());
 
       // insert a new entity into the database
       BigInteger newId = new BigInteger("2");
-      LocalTime newTime = LocalTime.now();
       LocalDate newDate = LocalDate.now();
       LocalDateTime newDateTime = LocalDateTime.now();
       
-      JavaTime toInsert = new JavaTime();
+      OracleJavaTime toInsert = new OracleJavaTime();
       toInsert.setId(newId);
       toInsert.setLocalDate(newDate);
-      toInsert.setLocalTime(newTime);
       toInsert.setLocalDateTime(newDateTime);
       entityManager.persist(toInsert);
 
       // validate the new entity inserted into the database
-      JavaTime readBack = entityManager.find(JavaTime.class, newId);
+      OracleJavaTime readBack = entityManager.find(OracleJavaTime.class, newId);
       assertNotNull(readBack);
       assertEquals(newId, readBack.getId());
-      assertEquals(newTime, readBack.getLocalTime());
       assertEquals(newDate, readBack.getLocalDate());
       assertEquals(newDateTime, readBack.getLocalDateTime());
     } finally {
