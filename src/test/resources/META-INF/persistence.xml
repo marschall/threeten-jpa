@@ -45,6 +45,20 @@
         </properties>
     </persistence-unit>
 
+    <persistence-unit name="threeten-jpa-hibernate-postgres">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        
+        <class>com.github.marschall.threeten.jpa.JavaTime</class>
+        
+        <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+        </properties>
+    </persistence-unit>
+
     <persistence-unit name="threeten-jpa-hibernate-oracle">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         
@@ -99,6 +113,21 @@
         
         <properties>
           <property name="eclipselink.target-database" value="HSQL"/>
+          <property name="eclipselink.weaving" value="false"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="threeten-jpa-eclipselink-postgres">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        
+        <class>com.github.marschall.threeten.jpa.JavaTime</class>
+        
+        <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        
+        <properties>
+          <property name="eclipselink.target-database" value="PostgreSQL"/>
           <property name="eclipselink.weaving" value="false"/>
         </properties>
     </persistence-unit>
