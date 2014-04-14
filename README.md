@@ -27,3 +27,4 @@ Tested with the following databases:
  * H2
  * HSQL
  * Oracle 11.2g with with 12.1c driver
+ * PostgreS 9.3
