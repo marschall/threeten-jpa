@@ -16,7 +16,7 @@ public class OracleConfiguration {
     dataSource.setUrl("");
     dataSource.setUsername("scott");
     dataSource.setPassword("tiger");
-    return dataSource();
+    return dataSource;
   }
 
 }

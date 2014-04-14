@@ -46,7 +46,7 @@ public class OracleConverterTest {
     this.persistenceUnitName = persistenceUnitName;
   }
   
-  @Parameters(name = "12}")
+  @Parameters(name = "{1}")
   public static Collection<Object[]> parameters() {
     return Arrays.asList(
         new Object[]{EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-oracle"},
@@ -82,7 +82,7 @@ public class OracleConverterTest {
     EntityManager entityManager = factory.createEntityManager();
     try {
       // read the entity inserted by SQL
-      Query query = entityManager.createQuery("SELECT t FROM JavaTime t");
+      Query query = entityManager.createQuery("SELECT t FROM OracleJavaTime t");
       List<?> resultList = query.getResultList();
       assertThat(resultList, hasSize(1));
 

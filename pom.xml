@@ -107,9 +107,9 @@
     </dependency>
     <!-- 
     <dependency>
-      <groupId>com.oracle</groupId>
-      <artifactId>ojdbc6</artifactId>
-      <version>11.2.0.3.0</version>
+      <groupId>oracle</groupId>
+      <artifactId>ojdbc7</artifactId>
+      <version>12.1.0.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>

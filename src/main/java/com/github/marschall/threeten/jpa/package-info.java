@@ -6,6 +6,7 @@
  * they're automatically applied to all entities in the same persistence
  * unit.
  * <p>
+ * We take inspiration from the JDBC 4.2 and currently support the following conversions:
  * <table>
  *  <thead>
  *    <tr>

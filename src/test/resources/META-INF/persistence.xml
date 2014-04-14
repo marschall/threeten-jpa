@@ -112,7 +112,7 @@
         <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
         
         <properties>
-          <property name="eclipselink.target-database" value="Oracle11"/>
+          <property name="eclipselink.target-database" value="Oracle"/>
           <property name="eclipselink.weaving" value="false"/>
         </properties>
     </persistence-unit>
