@@ -40,6 +40,7 @@ public class ConverterTest {
   private final Class<?> jpaConfiguration;
   private final String persistenceUnitName;
   private AnnotationConfigApplicationContext applicationContext;
+  private TransactionTemplate template;
 
   public ConverterTest(Class<?> datasourceConfiguration, Class<?> jpaConfiguration, String persistenceUnitName) {
     this.datasourceConfiguration = datasourceConfiguration;
@@ -68,6 +69,9 @@ public class ConverterTest {
     Map<String, Object> source = singletonMap(PERSISTENCE_UNIT_NAME, this.persistenceUnitName);
     propertySources.addFirst(new MapPropertySource("persistence unit name", source));
     this.applicationContext.refresh();
+    
+    PlatformTransactionManager txManager = this.applicationContext.getBean(PlatformTransactionManager.class);
+    this.template = new TransactionTemplate(txManager);
   }
   
   @After
@@ -77,25 +81,22 @@ public class ConverterTest {
   
   @Test
   public void runTest() {
-    PlatformTransactionManager txManager = this.applicationContext.getBean(PlatformTransactionManager.class);
-    TransactionTemplate template = new TransactionTemplate(txManager);
-    template.execute((s) -> runInTransation());
-  }
-  
-  private Void runInTransation() {
     EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
     EntityManager entityManager = factory.createEntityManager();
     try {
       // read the entity inserted by SQL
-      Query query = entityManager.createQuery("SELECT t FROM JavaTime t");
-      List<?> resultList = query.getResultList();
-      assertThat(resultList, hasSize(1));
-
-      // validate the entity inserted by SQL
-      JavaTime javaTime = (JavaTime) resultList.get(0);
-      assertEquals(LocalTime.parse("15:09:02"), javaTime.getLocalTime());
-      assertEquals(LocalDate.parse("1988-12-25"), javaTime.getLocalDate());
-      assertEquals(LocalDateTime.parse("1960-01-01T23:03:20"), javaTime.getLocalDateTime());
+      this.template.execute((s) -> {
+        Query query = entityManager.createQuery("SELECT t FROM JavaTime t");
+        List<?> resultList = query.getResultList();
+        assertThat(resultList, hasSize(1));
+        
+        // validate the entity inserted by SQL
+        JavaTime javaTime = (JavaTime) resultList.get(0);
+        assertEquals(LocalTime.parse("15:09:02"), javaTime.getLocalTime());
+        assertEquals(LocalDate.parse("1988-12-25"), javaTime.getLocalDate());
+        assertEquals(LocalDateTime.parse("1960-01-01T23:03:20"), javaTime.getLocalDateTime());
+        return null;
+       });
 
       // insert a new entity into the database
       BigInteger newId = new BigInteger("2");
@@ -103,24 +104,32 @@ public class ConverterTest {
       LocalDate newDate = LocalDate.now();
       LocalDateTime newDateTime = LocalDateTime.now();
       
-      JavaTime toInsert = new JavaTime();
-      toInsert.setId(newId);
-      toInsert.setLocalDate(newDate);
-      toInsert.setLocalTime(newTime);
-      toInsert.setLocalDateTime(newDateTime);
-      entityManager.persist(toInsert);
+      this.template.execute((s) -> {
+        JavaTime toInsert = new JavaTime();
+        toInsert.setId(newId);
+        toInsert.setLocalDate(newDate);
+        toInsert.setLocalTime(newTime);
+        toInsert.setLocalDateTime(newDateTime);
+        entityManager.persist(toInsert);
+        // the trannsaction should trigger a flush and write to the database
+        return null;
+      });
 
       // validate the new entity inserted into the database
-      JavaTime readBack = entityManager.find(JavaTime.class, newId);
-      assertNotNull(readBack);
-      assertEquals(newId, readBack.getId());
-      assertEquals(newTime, readBack.getLocalTime());
-      assertEquals(newDate, readBack.getLocalDate());
-      assertEquals(newDateTime, readBack.getLocalDateTime());
+      this.template.execute((s) -> {
+        JavaTime readBack = entityManager.find(JavaTime.class, newId);
+        assertNotNull(readBack);
+        assertEquals(newId, readBack.getId());
+        assertEquals(newTime, readBack.getLocalTime());
+        assertEquals(newDate, readBack.getLocalDate());
+        assertEquals(newDateTime, readBack.getLocalDateTime());
+        entityManager.remove(readBack);
+        return null;
+      });
     } finally {
       entityManager.close();
+      // EntityManagerFactory should be closed by spring.
     }
-    return null;
   }
 
 }
