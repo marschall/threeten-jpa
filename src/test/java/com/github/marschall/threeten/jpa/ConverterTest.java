@@ -111,7 +111,7 @@ public class ConverterTest {
         toInsert.setLocalTime(newTime);
         toInsert.setLocalDateTime(newDateTime);
         entityManager.persist(toInsert);
-        // the trannsaction should trigger a flush and write to the database
+        // the transaction should trigger a flush and write to the database
         return null;
       });
 
