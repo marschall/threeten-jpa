@@ -13,6 +13,10 @@ public class LocalDateConverter implements AttributeConverter<LocalDate, Date> {
 
   @Override
   public Date convertToDatabaseColumn(LocalDate attribute) {
+    if (attribute == null) {
+      return null;
+    }
+
     Calendar calendar = Calendar.getInstance();
     calendar.clear();
     calendar.set(Calendar.YEAR, attribute.getYear());
@@ -23,6 +27,10 @@ public class LocalDateConverter implements AttributeConverter<LocalDate, Date> {
 
   @Override
   public LocalDate convertToEntityAttribute(Date dbData) {
+    if (dbData == null) {
+      return null;
+    }
+
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(dbData);
     int year = calendar.get(Calendar.YEAR);
