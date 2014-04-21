@@ -13,6 +13,10 @@ public class LocalDateTimeConverter implements AttributeConverter<LocalDateTime,
 
   @Override
   public Timestamp convertToDatabaseColumn(LocalDateTime attribute) {
+    if (attribute == null) {
+      return null;
+    }
+
     Calendar calendar = Calendar.getInstance();
     calendar.set(Calendar.YEAR, attribute.getYear());
     // avoid 0 vs 1 based months
@@ -25,6 +29,10 @@ public class LocalDateTimeConverter implements AttributeConverter<LocalDateTime,
 
   @Override
   public LocalDateTime convertToEntityAttribute(Timestamp dbData) {
+    if (dbData == null) {
+      return null;
+    }
+
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(dbData);
     // convert 0 vs 1 based months

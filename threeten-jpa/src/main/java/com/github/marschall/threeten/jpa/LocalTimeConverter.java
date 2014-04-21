@@ -13,6 +13,10 @@ public class LocalTimeConverter implements AttributeConverter<LocalTime, Time> {
 
   @Override
   public Time convertToDatabaseColumn(LocalTime attribute) {
+    if (attribute == null) {
+      return null;
+    }
+
     Calendar calendar = Calendar.getInstance();
     calendar.clear();
     calendar.set(Calendar.YEAR, 1970);
@@ -26,6 +30,10 @@ public class LocalTimeConverter implements AttributeConverter<LocalTime, Time> {
   
   @Override
   public LocalTime convertToEntityAttribute(Time dbData) {
+    if (dbData == null) {
+      return null;
+    }
+
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(dbData);
     int hour = calendar.get(Calendar.HOUR_OF_DAY);
