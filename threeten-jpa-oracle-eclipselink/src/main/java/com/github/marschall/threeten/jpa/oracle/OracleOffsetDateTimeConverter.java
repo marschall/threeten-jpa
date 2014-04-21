@@ -36,6 +36,10 @@ public class OracleOffsetDateTimeConverter implements AttributeConverter<OffsetD
 
   @Override
   public TIMESTAMPTZ convertToDatabaseColumn(OffsetDateTime attribute) {
+    if (attribute == null) {
+      return null;
+    }
+    
     byte[] bytes = new byte[SIZE_TIMESTAMPTZ];
     int year = attribute.getYear();
     bytes[0] = (byte) (year / 100 + 100);
@@ -62,6 +66,10 @@ public class OracleOffsetDateTimeConverter implements AttributeConverter<OffsetD
 
   @Override
   public OffsetDateTime convertToEntityAttribute(TIMESTAMPTZ dbData) {
+    if (dbData == null) {
+      return null;
+    }
+    
     byte[] bytes = dbData.toBytes();
     int year = ((bytes[0] - 100) * 100) + (bytes[1] - 100);
     int month = bytes[2];
