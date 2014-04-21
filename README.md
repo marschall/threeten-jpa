@@ -12,9 +12,16 @@ Takes inspiration from the JDBC 4.2 and currently supports the following convers
 | TIME       | LocalTime      |
 | TIMESTAMP  | LocalDateTime  |
 
-Not supported are TIME WITH TIMEZONE (to OffsetTime) and TIMESTAMP WITH TIMEZONE (to OffsetDateTime) because there's no portable way to access them from JDBC (eg [TIMESTAMPTZ](http://docs.oracle.com/cd/E11882_01/appdev.112/e13995/oracle/sql/TIMESTAMPTZ.html)).
+Not supported is converting `TIME WITH TIMEZONE` to `OffsetTime` because there is no way of accessing this from JDBC/JPA.
+Converting `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime` is only supported with the Oracle EclipseLink extension.
 
-The project requires Java SE 8 and JPA 2.1 which introduces attribute converters.
+The project requires Java SE 8 and JPA 2.1.
+
+Project Structure
+-----------------
+The `threeten-jpa` submodule includes portable converters for the conversions above.
+
+The `threeten-jpa-oracle-eclipselink` includes extensions that work only with Oracle in combination with EclipseLink to map `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime`. Only EclipseLink supports [TIMESTAMPTZ](http://docs.oracle.com/cd/E11882_01/appdev.112/e13995/oracle/sql/TIMESTAMPTZ.html).
 
 Tested with following JPA providers:
  * EclipseLink
@@ -26,5 +33,5 @@ Tested with the following databases:
  * Derby
  * H2
  * HSQL
- * Oracle 11.2g with with 12.1c driver
+ * Oracle 11.2g with the 12.1c driver
  * PostgreS 9.3
