@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,6 +22,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 @ContextConfiguration(classes = OracleConfiguration.class)
+@Ignore("needs oracle database")
 public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4SpringContextTests {
   
   @Autowired
@@ -37,7 +39,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
   }
   
   @Test
-  private void read() {
+  public void read() {
     OracleJavaTime byOffset = this.entityManager.find(OracleJavaTime.class, new BigInteger("1"));
     ZoneOffset offset = ZoneOffset.ofHoursMinutes(2, 0);
     OffsetDateTime expected = OffsetDateTime.of(1997, 1, 31, 9, 26, 56, 660000000, offset);
