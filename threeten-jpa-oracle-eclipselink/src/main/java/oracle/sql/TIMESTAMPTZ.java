@@ -9,12 +9,18 @@ package oracle.sql;
  */
 public class TIMESTAMPTZ {
   
+  private byte[] timestamptz;
+
   public TIMESTAMPTZ(byte[] timestamptz) {
-    super();
+    this.timestamptz = timestamptz;
+  }
+  
+  public TIMESTAMPTZ() {
+    this.timestamptz = new byte[13];
   }
 
   public byte[] toBytes() {
-    return new byte[0];
+    return this.timestamptz;
   }
 
 }

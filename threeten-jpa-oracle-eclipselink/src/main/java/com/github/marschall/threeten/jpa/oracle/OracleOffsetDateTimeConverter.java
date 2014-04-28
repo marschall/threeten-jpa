@@ -7,8 +7,10 @@ import java.time.temporal.ChronoField;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import javax.persistence.PersistenceException;
+import static java.lang.Byte.toUnsignedInt;
 
 import oracle.sql.TIMESTAMPTZ;
+import static java.time.ZoneOffset.UTC;
 
 @Converter(autoApply = true)
 public class OracleOffsetDateTimeConverter implements AttributeConverter<OffsetDateTime, TIMESTAMPTZ> {
@@ -71,16 +73,20 @@ public class OracleOffsetDateTimeConverter implements AttributeConverter<OffsetD
     }
     
     byte[] bytes = dbData.toBytes();
-    int year = ((bytes[0] - 100) * 100) + (bytes[1] - 100);
+    int year = ((toUnsignedInt(bytes[0]) - 100) * 100) + (toUnsignedInt(bytes[1]) - 100);
     int month = bytes[2];
     int dayOfMonth = bytes[3];
     int hour = bytes[4] -1;
     int minute = bytes[5] - 1;
     int second = bytes[6] - 1;
-    int nanoOfSecond = bytes[7] << 24 | bytes[8] << 16 | bytes[9] << 8 | bytes[10];
+    int nanoOfSecond = toUnsignedInt(bytes[7]) << 24
+        | toUnsignedInt(bytes[8]) << 16
+        | toUnsignedInt(bytes[9]) << 8
+        | toUnsignedInt(bytes[10]);
     if ((bytes[11] & REGIONIDBIT) == 0) {
-      ZoneOffset offset = ZoneOffset.ofHoursMinutes(bytes[11], bytes[12]);
-      return OffsetDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond, offset);
+      OffsetDateTime utc = OffsetDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond, UTC);
+      ZoneOffset offset = ZoneOffset.ofHoursMinutes(bytes[11] - 20, bytes[12] - 60);
+      return utc.withOffsetSameInstant(offset);
     } else {
       throw new PersistenceException("can not convert time zone id to offset");
     }
