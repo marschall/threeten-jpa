@@ -1,17 +1,17 @@
 package com.github.marschall.threeten.jpa.oracle;
 
+import static java.lang.Byte.toUnsignedInt;
+import static java.time.ZoneOffset.UTC;
+
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoField;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import javax.persistence.PersistenceException;
 
-import static java.lang.Byte.toUnsignedInt;
 import oracle.sql.TIMESTAMPTZ;
-import static java.time.ZoneOffset.UTC;
 
 @Converter(autoApply = true)
 public class OracleOffsetDateTimeConverter implements AttributeConverter<OffsetDateTime, TIMESTAMPTZ> {
