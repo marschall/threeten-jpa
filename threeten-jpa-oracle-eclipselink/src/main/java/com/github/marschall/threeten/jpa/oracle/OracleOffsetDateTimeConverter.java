@@ -2,13 +2,14 @@ package com.github.marschall.threeten.jpa.oracle;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import javax.persistence.PersistenceException;
-import static java.lang.Byte.toUnsignedInt;
 
+import static java.lang.Byte.toUnsignedInt;
 import oracle.sql.TIMESTAMPTZ;
 import static java.time.ZoneOffset.UTC;
 
@@ -41,27 +42,29 @@ public class OracleOffsetDateTimeConverter implements AttributeConverter<OffsetD
     if (attribute == null) {
       return null;
     }
+    ZonedDateTime utc = attribute.atZoneSameInstant(UTC);
     
     byte[] bytes = new byte[SIZE_TIMESTAMPTZ];
-    int year = attribute.getYear();
+    int year = utc.getYear();
     bytes[0] = (byte) (year / 100 + 100);
     bytes[1] = (byte) (year % 100 + 100);
     
-    bytes[2] = (byte) attribute.getMonthValue();
-    bytes[3] = (byte) attribute.getDayOfMonth();
-    bytes[4] = (byte) (attribute.getHour() + 1);
-    bytes[5] = (byte) (attribute.getMinute() + 1);
-    bytes[6] = (byte) (attribute.getSecond() + 1);
+    bytes[2] = (byte) utc.getMonthValue();
+    bytes[3] = (byte) utc.getDayOfMonth();
+    bytes[4] = (byte) (utc.getHour() + 1);
+    bytes[5] = (byte) (utc.getMinute() + 1);
+    bytes[6] = (byte) (utc.getSecond() + 1);
     
-    int nano = attribute.getNano();
+    int nano = utc.getNano();
     bytes[7] = (byte) (nano >> 24);
     bytes[8] = (byte) (nano >> 16 & 0xFF);
     bytes[9] = (byte) (nano >> 8 & 0xFF);
     bytes[10] = (byte) (nano & 0xFF);
     
     ZoneOffset offset = attribute.getOffset();
-    bytes[11] = (byte) (offset.get(ChronoField.HOUR_OF_DAY) + OFFSET_HOUR);
-    bytes[12] = (byte) (offset.get(ChronoField.MINUTE_OF_HOUR) + OFFSET_MINUTE);
+    int totalMinutes = offset.getTotalSeconds() / 60;
+    bytes[11] = (byte) ((totalMinutes / 60) + OFFSET_HOUR);
+    bytes[12] = (byte) ((totalMinutes % 60) + OFFSET_MINUTE);
     
     return new TIMESTAMPTZ(bytes);
   }

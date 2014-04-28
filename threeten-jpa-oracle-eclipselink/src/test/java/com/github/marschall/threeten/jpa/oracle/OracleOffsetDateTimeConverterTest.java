@@ -1,5 +1,6 @@
 package com.github.marschall.threeten.jpa.oracle;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
@@ -14,6 +15,8 @@ import org.junit.Test;
 
 public class OracleOffsetDateTimeConverterTest {
   
+  // TODO write test for negative offset
+  
   private OracleOffsetDateTimeConverter converter;
 
   @Before
@@ -23,6 +26,15 @@ public class OracleOffsetDateTimeConverterTest {
 
   @Test
   public void convertToDatabaseColumn() {
+    ZoneOffset offset = ZoneOffset.ofHoursMinutes(2, 0);
+    LocalDate date = LocalDate.of(1997, 1, 31);
+    LocalTime time = LocalTime.of(9, 26, 56, 660000000);
+    OffsetDateTime attribute = OffsetDateTime.of(date, time, offset);
+    
+    TIMESTAMPTZ timestamptz = this.converter.convertToDatabaseColumn(attribute);
+    byte[] actual = timestamptz.toBytes();
+    byte[] expected = new byte[]{119, -59, 1, 31, 8, 27, 57, 39, 86, -51, 0, 22, 60};
+    assertArrayEquals(expected, actual);;
   }
   
   @Test
