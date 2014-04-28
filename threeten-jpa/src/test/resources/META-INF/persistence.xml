@@ -13,7 +13,7 @@
         <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
         
         <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyTenSevenDialect" />
         </properties>
     </persistence-unit>
 
