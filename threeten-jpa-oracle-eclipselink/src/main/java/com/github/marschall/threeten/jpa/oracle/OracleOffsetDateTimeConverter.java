@@ -4,24 +4,25 @@ import static java.lang.Byte.toUnsignedInt;
 import static java.time.ZoneOffset.UTC;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
-import javax.persistence.PersistenceException;
 
 import oracle.sql.TIMESTAMPTZ;
+import oracle.sql.ZONEIDMAP;
 
 @Converter(autoApply = true)
 public class OracleOffsetDateTimeConverter implements AttributeConverter<OffsetDateTime, TIMESTAMPTZ> {
-  
+
   // magic
   private static int SIZE_TIMESTAMPTZ = 13;
   private static int OFFSET_HOUR = 20;
   private static int OFFSET_MINUTE = 60;
   private static byte REGIONIDBIT = -128;
-  
+
   // Byte 0: Century, offset is 100 (value - 100 is century)
   // Byte 1: Decade, offset is 100 (value - 100 is decade)
   // Byte 2: Month UTC
@@ -43,29 +44,29 @@ public class OracleOffsetDateTimeConverter implements AttributeConverter<OffsetD
       return null;
     }
     ZonedDateTime utc = attribute.atZoneSameInstant(UTC);
-    
+
     byte[] bytes = new byte[SIZE_TIMESTAMPTZ];
     int year = utc.getYear();
     bytes[0] = (byte) (year / 100 + 100);
     bytes[1] = (byte) (year % 100 + 100);
-    
+
     bytes[2] = (byte) utc.getMonthValue();
     bytes[3] = (byte) utc.getDayOfMonth();
     bytes[4] = (byte) (utc.getHour() + 1);
     bytes[5] = (byte) (utc.getMinute() + 1);
     bytes[6] = (byte) (utc.getSecond() + 1);
-    
+
     int nano = utc.getNano();
     bytes[7] = (byte) (nano >> 24);
     bytes[8] = (byte) (nano >> 16 & 0xFF);
     bytes[9] = (byte) (nano >> 8 & 0xFF);
     bytes[10] = (byte) (nano & 0xFF);
-    
+
     ZoneOffset offset = attribute.getOffset();
     int totalMinutes = offset.getTotalSeconds() / 60;
     bytes[11] = (byte) ((totalMinutes / 60) + OFFSET_HOUR);
     bytes[12] = (byte) ((totalMinutes % 60) + OFFSET_MINUTE);
-    
+
     return new TIMESTAMPTZ(bytes);
   }
 
@@ -74,7 +75,7 @@ public class OracleOffsetDateTimeConverter implements AttributeConverter<OffsetD
     if (dbData == null) {
       return null;
     }
-    
+
     byte[] bytes = dbData.toBytes();
     int year = ((toUnsignedInt(bytes[0]) - 100) * 100) + (toUnsignedInt(bytes[1]) - 100);
     int month = bytes[2];
@@ -86,12 +87,18 @@ public class OracleOffsetDateTimeConverter implements AttributeConverter<OffsetD
         | toUnsignedInt(bytes[8]) << 16
         | toUnsignedInt(bytes[9]) << 8
         | toUnsignedInt(bytes[10]);
+    OffsetDateTime utc = OffsetDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond, UTC);
     if ((bytes[11] & REGIONIDBIT) == 0) {
-      OffsetDateTime utc = OffsetDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond, UTC);
       ZoneOffset offset = ZoneOffset.ofHoursMinutes(bytes[11] - 20, bytes[12] - 60);
       return utc.withOffsetSameInstant(offset);
     } else {
-      throw new PersistenceException("can not convert time zone id to offset");
+      // high order bits
+      int regionCode = (bytes[11] & 0x7F) << 6;
+      // low order bits
+      regionCode += (bytes[12] & 0xFC) >> 2;
+      String regionName = ZONEIDMAP.getRegion(regionCode);
+      ZoneId zoneId = ZoneId.of(regionName);
+      return utc.atZoneSameInstant(zoneId).toOffsetDateTime();
     }
   }
 
