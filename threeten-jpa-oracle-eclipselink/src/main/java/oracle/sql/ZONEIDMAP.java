@@ -9,7 +9,7 @@ package oracle.sql;
  */
 public class ZONEIDMAP {
 
-  protected static int INV_ZONEID;
+  private static final int INV_ZONEID = -1;
 
   public static int getID(String paramString) {
     if (paramString == null) {
