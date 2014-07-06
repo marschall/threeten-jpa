@@ -24,7 +24,7 @@ Usage
 <dependency>
     <groupId>com.github.marschall</groupId>
     <artifactId>threeten-jpa</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
@@ -36,11 +36,11 @@ The additional Oracle EclipseLink features require and additional dependency.
 <dependency>
     <groupId>com.github.marschall</groupId>
     <artifactId>threeten-jpa-oracle-eclipselink</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
-In addition the Oracle driver module has to be visible to the deployment (eg [Class Loading in WildFly](https://docs.jboss.org/author/display/WFLY8/Class+Loading+in+WildFly)).
+Note the Oracle driver module has to be visible to the deployment (eg [Class Loading in WildFly](https://docs.jboss.org/author/display/WFLY8/Class+Loading+in+WildFly)).
 
 Project Structure
 -----------------
