@@ -14,6 +14,9 @@ import javax.persistence.Converter;
 import oracle.sql.TIMESTAMPTZ;
 import oracle.sql.ZONEIDMAP;
 
+/**
+ * Converts {@link TIMESTAMPTZ} to {@link OffsetDateTime} and back.
+ */
 @Converter(autoApply = true)
 public class OracleOffsetDateTimeConverter implements AttributeConverter<OffsetDateTime, TIMESTAMPTZ> {
 

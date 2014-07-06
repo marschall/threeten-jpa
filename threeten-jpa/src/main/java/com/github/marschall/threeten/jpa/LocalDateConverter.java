@@ -7,6 +7,9 @@ import java.util.Calendar;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
+/**
+ * Converts {@link Date} to {@link LocalDate} and back.
+ */
 @Converter(autoApply = true)
 public class LocalDateConverter implements AttributeConverter<LocalDate, Date> {
   // mapping with java.util.Calendar breaks EclipseLink

@@ -17,6 +17,31 @@ Converting `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime` is only supported with 
 
 The project requires Java SE 8 (for the date and time classes) and JPA 2.1 (for the attribute converters).
 
+Usage
+-----
+
+```xml
+<dependency>
+    <groupId>com.github.marschall</groupId>
+    <artifactId>threeten-jpa</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+All the converters have set `Converter#autoApply()` to `true` to they're automatically applied to all entities in the same persistence unit.
+
+The additional Oracle EclipseLink features require and additional dependency.
+
+```xml
+<dependency>
+    <groupId>com.github.marschall</groupId>
+    <artifactId>threeten-jpa-oracle-eclipselink</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+In addition the Oracle driver module has to be visible to the deployment (eg [Class Loading in WildFly](https://docs.jboss.org/author/display/WFLY8/Class+Loading+in+WildFly)).
+
 Project Structure
 -----------------
 The `threeten-jpa` submodule includes portable converters for the conversions above.
