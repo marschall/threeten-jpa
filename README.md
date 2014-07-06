@@ -1,7 +1,7 @@
 ThreeTen JPA [![Build Status](https://travis-ci.org/marschall/threeten-jpa.svg?branch=master)](https://travis-ci.org/marschall/threeten-jpa)
 ============
 
-JPA attribute converters for JSR-310 dates and times.
+JPA attribute converters for JSR-310 (Java 8) dates and times.
 This is stop gap measure until [JPA_SPEC-63](https://java.net/jira/browse/JPA_SPEC-63) is fixed in JPA 2.2.
 
 Takes inspiration from the JDBC 4.2 and currently supports the following conversions:
@@ -15,7 +15,7 @@ Takes inspiration from the JDBC 4.2 and currently supports the following convers
 Not supported is converting `TIME WITH TIMEZONE` to `OffsetTime` because there is no way of accessing this from JDBC/JPA.
 Converting `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime` is only supported with the Oracle EclipseLink extension.
 
-The project requires Java SE 8 and JPA 2.1.
+The project requires Java SE 8 (for the date and time classes) and JPA 2.1 (for the attribute converters).
 
 Project Structure
 -----------------
