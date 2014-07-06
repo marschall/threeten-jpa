@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.marschall</groupId>
   <artifactId>threeten-jpa-master</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <inceptionYear>2014</inceptionYear>
   <name>ThreeTen-JPA</name>
   <description>JPA attribute converters for JSR-310 dates and times.</description>
@@ -15,7 +15,7 @@
     <connection>scm:git:git@github.com:marschall/threeten-jpa.git</connection>
     <developerConnection>scm:git:git@github.com:marschall/threeten-jpa.git</developerConnection>
     <url>${project.url}</url>
-    <tag>threeten-jpa-master-1.0.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <developers>
