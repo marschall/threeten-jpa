@@ -8,6 +8,7 @@
  * <p>
  * We take inspiration from the JDBC 4.2 and currently support the following conversions:
  * <table>
+ *  <caption>Supported type conversions</caption>
  *  <thead>
  *    <tr>
  *      <td>ANSI SQL</td>
@@ -15,6 +16,7 @@
  *      <td>Converter</td>
  *     </tr>
  *  </thead>
+ *  <tbody>
  *    <tr>
  *      <td>DATE</td>
  *      <td>LocalDate</td>
@@ -30,8 +32,7 @@
  *      <td>LocalDateTime</td>
  *      <td>{@link com.github.marschall.threeten.jpa.LocalDateTimeConverter}</td>
  *    </tr>
- *  <tbody>
  *  </tbody>
- * <table>
+ * </table>
  */
 package com.github.marschall.threeten.jpa;

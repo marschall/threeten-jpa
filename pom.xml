@@ -23,7 +23,7 @@
       <id>marschall</id>
       <name>Philippe Marschall</name>
       <email>philippe.marschall@gmail.com</email>
-      <timezone>+1</timezone>
+      <timezone>Europe/Zurich</timezone>
       <roles>
         <role>developer</role>
       </roles>
