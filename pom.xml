@@ -8,6 +8,35 @@
   <name>ThreeTen-JPA</name>
   <description>JPA attribute converters for JSR-310 dates and times.</description>
   <packaging>pom</packaging>
+  
+  <url>https://github.com/marschall/threeten-jpa</url>
+
+  <scm>
+    <connection>scm:git:git@github.com:marschall/threeten-jpa.git</connection>
+    <developerConnection>scm:git:git@github.com:marschall/threeten-jpa.git</developerConnection>
+    <url>${project.url}</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>marschall</id>
+      <name>Philippe Marschall</name>
+      <email>philippe.marschall@gmail.com</email>
+      <timezone>+1</timezone>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+  
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>http://opensource.org/licenses/MIT</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
   <modules>
     <module>threeten-jpa</module>
