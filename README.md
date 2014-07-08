@@ -28,6 +28,33 @@ Usage
 </dependency>
 ```
 
+```xml
+<persistence-unit>
+    …
+    <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
+    <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
+    <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+    …
+</persistence-unit>
+```
+
+```java
+@Entity
+@Table
+public class SampleEntity {
+
+  @Column
+  private LocalDate localDate;
+
+  @Column
+  private LocalTime localTime;
+
+  @Column
+  private LocalDateTime localDateTime;
+  
+}
+```
+
 All the converters have set `Converter#autoApply()` to `true` to they're automatically applied to all entities in the same persistence unit.
 
 The additional Oracle EclipseLink features require and additional dependency.
