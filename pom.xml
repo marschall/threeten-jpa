@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.marschall</groupId>
   <artifactId>threeten-jpa-master</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.1.0-SNAPSHOT</version>
   <inceptionYear>2014</inceptionYear>
   <name>ThreeTen-JPA</name>
   <description>JPA attribute converters for JSR-310 dates and times.</description>
@@ -12,7 +12,7 @@
   <url>https://github.com/marschall/threeten-jpa</url>
 
   <scm>
-    <connection>scm:git:git@github.com:marschall/threeten-jpa.git</connection>
+    <connection>scm:git:https://github.com/marschall/threeten-jpa.git</connection>
     <developerConnection>scm:git:git@github.com:marschall/threeten-jpa.git</developerConnection>
     <url>${project.url}</url>
     <tag>HEAD</tag>
@@ -63,7 +63,7 @@
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>
-        <version>4.3.5.Final</version>
+        <version>4.3.6.Final</version>
         <exclusions>
           <exclusion>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
@@ -265,7 +265,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-scm-plugin</artifactId>
-          <version>1.9</version>
+          <version>1.9.1</version>
         </plugin>
         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
         <plugin>
@@ -322,7 +322,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <spring.version>4.0.5.RELEASE</spring.version>
+    <spring.version>4.1.0.RELEASE</spring.version>
     <java.version>1.8</java.version>
   </properties>
 
