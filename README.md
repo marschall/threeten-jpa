@@ -69,6 +69,20 @@ The additional Oracle EclipseLink features require and additional dependency.
 
 Note the Oracle driver module has to be visible to the deployment (eg [Class Loading in WildFly](https://docs.jboss.org/author/display/WFLY8/Class+Loading+in+WildFly)).
 
+
+FAQ
+---
+
+### Why does ZonedDateTime and OffsetDateTime not work with Hibernate?
+Check out [HHH-3193](https://hibernate.atlassian.net/browse/HHH-3193)
+
+### Why does ZonedDateTime and OffsetDateTime not work with OpenJPA?
+Check out [OPENJPA-1480](https://issues.apache.org/jira/browse/OPENJPA-1480)
+
+### Why does ZonedDateTime and OffsetDateTime not work with my database?
+In general both the JDBC driver and the JPA provider have to support fetching the timezone id or offset.
+
+
 Project Structure
 -----------------
 The `threeten-jpa` submodule includes portable converters for the conversions above.
