@@ -4,7 +4,7 @@ ThreeTen JPA [![Build Status](https://travis-ci.org/marschall/threeten-jpa.svg?b
 JPA attribute converters for JSR-310 (Java 8) dates and times.
 This is stop gap measure until [JPA_SPEC-63](https://java.net/jira/browse/JPA_SPEC-63) is fixed in JPA 2.2.
 
-Takes inspiration from the JDBC 4.2 and currently supports the following conversions:
+We take inspiration from the JDBC 4.2 and currently supports the following conversions:
 
 | ANSI SQL   | Java SE 8      |
 | ---------- | -------------- |
@@ -15,7 +15,9 @@ Takes inspiration from the JDBC 4.2 and currently supports the following convers
 Not supported is converting `TIME WITH TIMEZONE` to `OffsetTime` because there is no way of accessing this from JDBC/JPA.
 Converting `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime` is only supported with the Oracle EclipseLink extension.
 
-The project requires Java SE 8 (for the date and time classes) and JPA 2.1 (for the attribute converters).
+This project requires Java SE 8 (for the date and time classes) and JPA 2.1 (for the attribute converters).
+
+This project is very similar to [montanajava/jpaattributeconverters](https://bitbucket.org/montanajava/jpaattributeconverters) and can be used in [much the same way](https://weblogs.java.net/blog/montanajava/archive/2014/06/17/using-java-8-datetime-classes-jpa).
 
 Usage
 -----
