@@ -4,8 +4,10 @@ import static com.github.marschall.threeten.jpa.oracle.OracleTimeConverter.extra
 import static com.github.marschall.threeten.jpa.oracle.OracleTimeConverter.extractUtc;
 import static com.github.marschall.threeten.jpa.oracle.OracleTimeConverter.extractZoneId;
 import static com.github.marschall.threeten.jpa.oracle.OracleTimeConverter.isFixedOffset;
+import static com.github.marschall.threeten.jpa.oracle.OracleTimeConverter.isValidRegionCode;
 import static com.github.marschall.threeten.jpa.oracle.OracleTimeConverter.newBuffer;
 import static com.github.marschall.threeten.jpa.oracle.OracleTimeConverter.writeDateTime;
+import static com.github.marschall.threeten.jpa.oracle.OracleTimeConverter.writeZoneId;
 import static com.github.marschall.threeten.jpa.oracle.OracleTimeConverter.writeZoneOffset;
 import static java.time.ZoneOffset.UTC;
 
@@ -21,49 +23,48 @@ import oracle.sql.TIMESTAMPTZ;
 import oracle.sql.ZONEIDMAP;
 
 /**
- * Converts {@link TIMESTAMPTZ} to {@link OffsetDateTime} and back.
+ * Converts {@link TIMESTAMPTZ} to {@link ZonedDateTime} and back.
  */
 @Converter(autoApply = true)
-public class OracleOffsetDateTimeConverter implements AttributeConverter<OffsetDateTime, TIMESTAMPTZ> {
-
+public class OracleZonedDateTimeConverter implements AttributeConverter<ZonedDateTime, TIMESTAMPTZ> {
 
   @Override
-  public TIMESTAMPTZ convertToDatabaseColumn(OffsetDateTime attribute) {
+  public TIMESTAMPTZ convertToDatabaseColumn(ZonedDateTime attribute) {
     if (attribute == null) {
       return null;
     }
 
     byte[] bytes = newBuffer();
-    ZonedDateTime utc = attribute.atZoneSameInstant(UTC);
+    ZonedDateTime utc = attribute.withZoneSameInstant(UTC);
     writeDateTime(bytes, utc);
 
-    ZoneOffset offset = attribute.getOffset();
-    writeZoneOffset(bytes, offset);
+    String zoneId = attribute.getZone().getId();
+    int regionCode = ZONEIDMAP.getID(zoneId);
+    
+    if (isValidRegionCode(regionCode)) {
+      writeZoneId(bytes, regionCode);
+    } else {
+      writeZoneOffset(bytes, attribute.getOffset());
+    }
+    
 
     return new TIMESTAMPTZ(bytes);
   }
 
   @Override
-  public OffsetDateTime convertToEntityAttribute(TIMESTAMPTZ dbData) {
+  public ZonedDateTime convertToEntityAttribute(TIMESTAMPTZ dbData) {
     if (dbData == null) {
       return null;
     }
-
+    
     byte[] bytes = dbData.toBytes();
     OffsetDateTime utc = extractUtc(bytes);
     if (isFixedOffset(bytes)) {
       ZoneOffset offset = extractOffset(bytes);
-      return utc.withOffsetSameInstant(offset);
+      return utc.atZoneSameInstant(offset);
     } else {
-   // high order bits
-      int regionCode = (bytes[11] & 0x7F) << 6;
-      // low order bits
-      regionCode += (bytes[12] & 0xFC) >> 2;
-      String regionName = ZONEIDMAP.getRegion(regionCode);
-      ZoneId zoneId2 = ZoneId.of(regionName);
-      
       ZoneId zoneId = extractZoneId(bytes);
-      return utc.atZoneSameInstant(zoneId).toOffsetDateTime();
+      return utc.atZoneSameInstant(zoneId);
     }
   }
 
