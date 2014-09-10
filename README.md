@@ -42,7 +42,6 @@ Usage
 
 ```java
 @Entity
-@Table
 public class SampleEntity {
 
   @Column
