@@ -21,11 +21,13 @@ public class LocalDateTimeConverter implements AttributeConverter<LocalDateTime,
     }
 
     Calendar calendar = Calendar.getInstance();
+    calendar.clear();
     calendar.set(Calendar.YEAR, attribute.getYear());
     // avoid 0 vs 1 based months
     calendar.set(Calendar.DAY_OF_YEAR, attribute.getDayOfYear());
     calendar.set(Calendar.HOUR_OF_DAY, attribute.getHour());
     calendar.set(Calendar.MINUTE, attribute.getMinute());
+    calendar.set(Calendar.SECOND, attribute.getSecond());
     calendar.set(Calendar.MILLISECOND, (int) (attribute.getNano() / 1000000L));
     return new Timestamp(calendar.getTimeInMillis());
   }

@@ -27,10 +27,11 @@ public class LocalTimeConverter implements AttributeConverter<LocalTime, Time> {
     calendar.set(Calendar.DAY_OF_YEAR, 1);
     calendar.set(Calendar.HOUR_OF_DAY, attribute.getHour());
     calendar.set(Calendar.MINUTE, attribute.getMinute());
+    calendar.set(Calendar.SECOND, attribute.getSecond());
     calendar.set(Calendar.MILLISECOND, (int) (attribute.getNano() / 1000000L));
     return new Time(calendar.getTimeInMillis());
   }
-  
+
   @Override
   public LocalTime convertToEntityAttribute(Time dbData) {
     if (dbData == null) {
