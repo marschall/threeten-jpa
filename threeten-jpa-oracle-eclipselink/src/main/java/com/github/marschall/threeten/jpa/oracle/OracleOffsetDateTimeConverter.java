@@ -18,7 +18,6 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 import oracle.sql.TIMESTAMPTZ;
-import oracle.sql.ZONEIDMAP;
 
 /**
  * Converts {@link TIMESTAMPTZ} to {@link OffsetDateTime} and back.
@@ -55,13 +54,6 @@ public class OracleOffsetDateTimeConverter implements AttributeConverter<OffsetD
       ZoneOffset offset = extractOffset(bytes);
       return utc.withOffsetSameInstant(offset);
     } else {
-   // high order bits
-      int regionCode = (bytes[11] & 0x7F) << 6;
-      // low order bits
-      regionCode += (bytes[12] & 0xFC) >> 2;
-      String regionName = ZONEIDMAP.getRegion(regionCode);
-      ZoneId zoneId2 = ZoneId.of(regionName);
-      
       ZoneId zoneId = extractZoneId(bytes);
       return utc.atZoneSameInstant(zoneId).toOffsetDateTime();
     }

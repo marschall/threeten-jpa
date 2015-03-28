@@ -2,7 +2,6 @@ package com.github.marschall.threeten.jpa;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Calendar;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
