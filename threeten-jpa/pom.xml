@@ -7,6 +7,7 @@
     <version>1.1.1-SNAPSHOT</version>
   </parent>
   <artifactId>threeten-jpa</artifactId>
+  <name>ThreeTen-JPA Parent POM</name>
   
   <dependencies>
     <dependency>

@@ -7,6 +7,7 @@
     <version>1.1.1-SNAPSHOT</version>
   </parent>
   <artifactId>threeten-jpa-oracle-eclipselink</artifactId>
+  <name>ThreeTen-JPA Oracle Eclipse Link</name>
   <description>Extensions for Oracle and EclipseLink</description>
 
   <dependencies>
