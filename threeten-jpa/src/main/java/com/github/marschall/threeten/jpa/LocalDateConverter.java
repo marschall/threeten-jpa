@@ -19,13 +19,7 @@ public class LocalDateConverter implements AttributeConverter<LocalDate, Date> {
     if (attribute == null) {
       return null;
     }
-
-    Calendar calendar = Calendar.getInstance();
-    calendar.clear();
-    calendar.set(Calendar.YEAR, attribute.getYear());
-    // avoid 0 vs 1 based months
-    calendar.set(Calendar.DAY_OF_YEAR, attribute.getDayOfYear());
-    return new Date(calendar.getTimeInMillis());
+    return Date.valueOf(attribute);
   }
 
   @Override
@@ -33,13 +27,7 @@ public class LocalDateConverter implements AttributeConverter<LocalDate, Date> {
     if (dbData == null) {
       return null;
     }
-
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(dbData);
-    int year = calendar.get(Calendar.YEAR);
-    // avoid 0 vs 1 based months
-    int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
-    return LocalDate.ofYearDay(year, dayOfYear);
+    return dbData.toLocalDate();
   }
 
 }

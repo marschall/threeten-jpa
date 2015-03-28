@@ -19,17 +19,7 @@ public class LocalTimeConverter implements AttributeConverter<LocalTime, Time> {
     if (attribute == null) {
       return null;
     }
-
-    Calendar calendar = Calendar.getInstance();
-    calendar.clear();
-    calendar.set(Calendar.YEAR, 1970);
-    // avoid 0 vs 1 based months
-    calendar.set(Calendar.DAY_OF_YEAR, 1);
-    calendar.set(Calendar.HOUR_OF_DAY, attribute.getHour());
-    calendar.set(Calendar.MINUTE, attribute.getMinute());
-    calendar.set(Calendar.SECOND, attribute.getSecond());
-    calendar.set(Calendar.MILLISECOND, (int) (attribute.getNano() / 1000000L));
-    return new Time(calendar.getTimeInMillis());
+    return Time.valueOf(attribute);
   }
 
   @Override
@@ -38,13 +28,7 @@ public class LocalTimeConverter implements AttributeConverter<LocalTime, Time> {
       return null;
     }
 
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(dbData);
-    int hour = calendar.get(Calendar.HOUR_OF_DAY);
-    int minute = calendar.get(Calendar.MINUTE);
-    int second = calendar.get(Calendar.SECOND);
-    int nanoOfSecond = calendar.get(Calendar.MILLISECOND) * 1000000;
-    return LocalTime.of(hour, minute, second, nanoOfSecond);
+    return dbData.toLocalTime();
   }
 
 }
