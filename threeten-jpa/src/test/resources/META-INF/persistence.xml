@@ -11,6 +11,7 @@
         <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.InstantConverter</class>
         
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyTenSevenDialect" />
@@ -25,6 +26,7 @@
         <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.InstantConverter</class>
         
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
@@ -39,6 +41,7 @@
         <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.InstantConverter</class>
         
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
@@ -53,6 +56,7 @@
         <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.InstantConverter</class>
         
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
@@ -80,6 +84,7 @@
         <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.InstantConverter</class>
         
         <properties>
           <property name="eclipselink.target-database" value="Derby"/>
@@ -95,6 +100,7 @@
         <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.InstantConverter</class>
         
         <properties>
           <property name="eclipselink.target-database" value="org.eclipse.persistence.platform.database.H2Platform"/>
@@ -110,6 +116,7 @@
         <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.InstantConverter</class>
         
         <properties>
           <property name="eclipselink.target-database" value="HSQL"/>
@@ -125,6 +132,7 @@
         <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.InstantConverter</class>
         
         <properties>
           <property name="eclipselink.target-database" value="PostgreSQL"/>
@@ -154,6 +162,7 @@
         <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
         <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.InstantConverter</class>
         
         <properties>
           <property name="openjpa.RuntimeUnenhancedClasses" value="supported"/>

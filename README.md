@@ -11,6 +11,7 @@ We take inspiration from the JDBC 4.2 and currently supports the following conve
 | DATE       | LocalDate      |
 | TIME       | LocalTime      |
 | TIMESTAMP  | LocalDateTime  |
+| TIMESTAMP  | Instant        |
 
 Not supported is converting `TIME WITH TIMEZONE` to `OffsetTime` because there is no way of accessing this from JDBC/JPA.
 Converting `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime` is only supported with the Oracle EclipseLink extension.

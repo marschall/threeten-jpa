@@ -8,9 +8,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigInteger;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -47,7 +49,7 @@ public class ConverterTest {
     this.jpaConfiguration = jpaConfiguration;
     this.persistenceUnitName = persistenceUnitName;
   }
-  
+
   @Parameters(name = "{2}")
   public static Collection<Object[]> parameters() {
     return Arrays.asList(
@@ -61,7 +63,7 @@ public class ConverterTest {
 //        new Object[]{PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres"}
         );
   }
-  
+
   @Before
   public void setUp() {
     this.applicationContext = new AnnotationConfigApplicationContext();
@@ -71,16 +73,16 @@ public class ConverterTest {
     Map<String, Object> source = singletonMap(PERSISTENCE_UNIT_NAME, this.persistenceUnitName);
     propertySources.addFirst(new MapPropertySource("persistence unit name", source));
     this.applicationContext.refresh();
-    
+
     PlatformTransactionManager txManager = this.applicationContext.getBean(PlatformTransactionManager.class);
     this.template = new TransactionTemplate(txManager);
   }
-  
+
   @After
   public void tearDown() {
     this.applicationContext.close();
   }
-  
+
   @Test
   public void runTest() {
     EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
@@ -91,12 +93,13 @@ public class ConverterTest {
         Query query = entityManager.createQuery("SELECT t FROM JavaTime t");
         List<?> resultList = query.getResultList();
         assertThat(resultList, hasSize(1));
-        
+
         // validate the entity inserted by SQL
         JavaTime javaTime = (JavaTime) resultList.get(0);
         assertEquals(LocalTime.parse("15:09:02"), javaTime.getLocalTime());
         assertEquals(LocalDate.parse("1988-12-25"), javaTime.getLocalDate());
         assertEquals(LocalDateTime.parse("1960-01-01T23:03:20"), javaTime.getLocalDateTime());
+        assertEquals(LocalDateTime.parse("1960-01-01T23:03:20").atZone(ZoneId.systemDefault()).toInstant(), javaTime.getInstant());
         return null;
        });
 
@@ -105,13 +108,15 @@ public class ConverterTest {
       LocalTime newTime = LocalTime.now();
       LocalDate newDate = LocalDate.now();
       LocalDateTime newDateTime = LocalDateTime.now();
-      
+      Instant newInstant = Instant.now();
+
       this.template.execute((s) -> {
         JavaTime toInsert = new JavaTime();
         toInsert.setId(newId);
         toInsert.setLocalDate(newDate);
         toInsert.setLocalTime(newTime);
         toInsert.setLocalDateTime(newDateTime);
+        toInsert.setInstant(newInstant);
         entityManager.persist(toInsert);
         // the transaction should trigger a flush and write to the database
         return null;
@@ -125,6 +130,7 @@ public class ConverterTest {
         assertEquals(newTime, readBack.getLocalTime());
         assertEquals(newDate, readBack.getLocalDate());
         assertEquals(newDateTime, readBack.getLocalDateTime());
+        assertEquals(newInstant, readBack.getInstant());
         entityManager.remove(readBack);
         return null;
       });

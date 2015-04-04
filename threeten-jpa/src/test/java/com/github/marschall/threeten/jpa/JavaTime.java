@@ -1,6 +1,7 @@
 package com.github.marschall.threeten.jpa;
 
 import java.math.BigInteger;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -13,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "JAVA_TIME")
 public class JavaTime {
-  
+
   @Id
   @Column(name = "ID")
   private BigInteger id;
@@ -26,7 +27,10 @@ public class JavaTime {
 
   @Column(name = "TIMESTAMP_COLUMN")
   private LocalDateTime localDateTime;
-  
+
+  @Column(name = "TIMESTAMP_COLUMN_2")
+  private Instant instant;
+
 
   public BigInteger getId() {
     return id;
@@ -58,6 +62,14 @@ public class JavaTime {
 
   public void setLocalDateTime(LocalDateTime localDateTime) {
     this.localDateTime = localDateTime;
+  }
+
+  public Instant getInstant() {
+    return instant;
+  }
+
+  public void setInstant(Instant instant) {
+    this.instant = instant;
   }
 
 }

@@ -32,6 +32,11 @@
  *      <td>LocalDateTime</td>
  *      <td>{@link com.github.marschall.threeten.jpa.LocalDateTimeConverter}</td>
  *    </tr>
+ *    <tr>
+ *      <td>TIMESTAMP</td>
+ *      <td>Instant</td>
+ *      <td>{@link com.github.marschall.threeten.jpa.InstantConverter}</td>
+ *    </tr>
  *  </tbody>
  * </table>
  */
