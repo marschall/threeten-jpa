@@ -100,9 +100,9 @@ final class OracleTimeConverter {
     bytes[11] = (byte) ((totalMinutes / 60) + OFFSET_HOUR);
     bytes[12] = (byte) ((totalMinutes % 60) + OFFSET_MINUTE);
   }
-  
+
   static void writeZoneId(byte[] bytes, int regionCode) {
-    bytes[11] = (byte) (REGIONIDBIT | (byte) (regionCode & 0b11111100000) >>> 6);
+    bytes[11] = (byte) (REGIONIDBIT | (regionCode & 0b11111100000) >>> 6);
     bytes[12] = (byte) ((regionCode & 0b11111) << 2);
   }
 
