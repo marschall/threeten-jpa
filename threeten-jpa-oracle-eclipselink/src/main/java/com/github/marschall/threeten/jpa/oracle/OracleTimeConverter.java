@@ -12,13 +12,13 @@ import oracle.sql.ZONEIDMAP;
 
 final class OracleTimeConverter {
 
-  final static int INV_ZONEID = -1;
+  static final int INV_ZONEID = -1;
 
   // magic
-  private static int SIZE_TIMESTAMPTZ = 13;
-  private static int OFFSET_HOUR = 20;
-  private static int OFFSET_MINUTE = 60;
-  private static byte REGIONIDBIT = (byte) 0b1000_0000; // -128
+  private static final int SIZE_TIMESTAMPTZ = 13;
+  private static final int OFFSET_HOUR = 20;
+  private static final int OFFSET_MINUTE = 60;
+  private static final byte REGIONIDBIT = (byte) 0b1000_0000; // -128
 
   // Byte 0: Century, offset is 100 (value - 100 is century)
   // Byte 1: Decade, offset is 100 (value - 100 is decade)
@@ -42,7 +42,7 @@ final class OracleTimeConverter {
     int year = ((toUnsignedInt(bytes[0]) - 100) * 100) + (toUnsignedInt(bytes[1]) - 100);
     int month = bytes[2];
     int dayOfMonth = bytes[3];
-    int hour = bytes[4] -1;
+    int hour = bytes[4] - 1;
     int minute = bytes[5] - 1;
     int second = bytes[6] - 1;
     int nanoOfSecond = toUnsignedInt(bytes[7]) << 24
