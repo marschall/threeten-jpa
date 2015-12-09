@@ -65,7 +65,7 @@ The additional Oracle EclipseLink features require and additional dependency.
 <dependency>
     <groupId>com.github.marschall</groupId>
     <artifactId>threeten-jpa-oracle-eclipselink</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.1</version>
 </dependency>
 ```
 
