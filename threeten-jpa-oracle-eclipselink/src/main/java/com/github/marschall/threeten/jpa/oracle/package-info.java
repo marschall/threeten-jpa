@@ -21,6 +21,11 @@
  *  <tbody>
  *    <tr>
  *      <td>TIMESTAMP WITH TIMEZONE</td>
+ *      <td>ZonedDateTime</td>
+ *      <td>{@link com.github.marschall.threeten.jpa.oracle.OracleZonedDateTimeConverter}</td>
+ *    </tr>
+ *    <tr>
+ *      <td>TIMESTAMP WITH TIMEZONE</td>
  *      <td>OffsetDateTime</td>
  *      <td>{@link com.github.marschall.threeten.jpa.oracle.OracleOffsetDateTimeConverter}</td>
  *    </tr>
