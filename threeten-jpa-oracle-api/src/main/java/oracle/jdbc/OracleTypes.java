@@ -2,6 +2,6 @@ package oracle.jdbc;
 
 public class OracleTypes {
 
-  public final int TIMESTAMPTZ = -101;
+  public static final int TIMESTAMPTZ = -101;
 
 }
