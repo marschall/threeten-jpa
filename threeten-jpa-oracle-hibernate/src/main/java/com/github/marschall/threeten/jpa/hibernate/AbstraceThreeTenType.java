@@ -6,6 +6,9 @@ import java.util.Objects;
 import org.hibernate.HibernateException;
 import org.hibernate.usertype.UserType;
 
+/**
+ * Abstract base class for all JSR-310 types.
+ */
 public abstract class AbstraceThreeTenType implements UserType {
 
   @Override
