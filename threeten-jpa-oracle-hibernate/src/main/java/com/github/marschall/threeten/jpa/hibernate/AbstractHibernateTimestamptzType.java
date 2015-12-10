@@ -13,14 +13,15 @@ import oracle.jdbc.OracleResultSet;
 import oracle.jdbc.OracleTypes;
 import oracle.sql.TIMESTAMPTZ;
 
+/**
+ * Abstract base class for types based on {@code TIMESTAMP WITH TIME ZONE}.
+ */
 public abstract class AbstractHibernateTimestamptzType extends AbstraceThreeTenType {
 
   @Override
   public int[] sqlTypes() {
     return new int []{Types.TIMESTAMP_WITH_TIMEZONE, OracleTypes.TIMESTAMPTZ};
   }
-
-
 
   @Override
   public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws HibernateException, SQLException {
@@ -32,8 +33,6 @@ public abstract class AbstractHibernateTimestamptzType extends AbstraceThreeTenT
       return convertToThreeTen(timestamptz);
     }
   }
-
-
 
   @Override
   public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session) throws HibernateException, SQLException {

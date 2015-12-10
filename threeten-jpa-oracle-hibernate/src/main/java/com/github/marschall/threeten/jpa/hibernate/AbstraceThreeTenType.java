@@ -17,12 +17,12 @@ public abstract class AbstraceThreeTenType implements UserType {
   }
 
   @Override
-  public int hashCode(Object x) throws HibernateException {
+  public int hashCode(Object x) {
     return Objects.hashCode(x);
   }
 
   @Override
-  public Object deepCopy(Object value) throws HibernateException {
+  public Object deepCopy(Object value) {
     return value;
   }
 
@@ -32,17 +32,17 @@ public abstract class AbstraceThreeTenType implements UserType {
   }
 
   @Override
-  public Serializable disassemble(Object value) throws HibernateException {
+  public Serializable disassemble(Object value) {
     return (Serializable) value;
   }
 
   @Override
-  public Object assemble(Serializable cached, Object owner) throws HibernateException {
+  public Object assemble(Serializable cached, Object owner) {
     return cached;
   }
 
   @Override
-  public Object replace(Object original, Object target, Object owner) throws HibernateException {
+  public Object replace(Object original, Object target, Object owner) {
     return original;
   }
 
