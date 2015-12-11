@@ -4,12 +4,12 @@ import java.time.OffsetDateTime;
 
 import oracle.sql.TIMESTAMPTZ;
 
-public class HibernateOffsetDateTimeType extends AbstractHibernateTimestamptzType {
+public class OracleOffsetDateTimeType extends AbstractTimestamptzType {
 
   /**
    * Singleton access
    */
-  public static final HibernateOffsetDateTimeType INSTANCE = new HibernateOffsetDateTimeType();
+  public static final OracleOffsetDateTimeType INSTANCE = new OracleOffsetDateTimeType();
 
   @Override
   public Class<?> returnedClass() {

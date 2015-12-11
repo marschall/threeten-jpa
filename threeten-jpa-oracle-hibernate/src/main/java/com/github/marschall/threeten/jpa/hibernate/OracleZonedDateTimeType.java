@@ -4,12 +4,12 @@ import java.time.ZonedDateTime;
 
 import oracle.sql.TIMESTAMPTZ;
 
-public class HibernateZonedDateTimeType extends AbstractHibernateTimestamptzType {
+public class OracleZonedDateTimeType extends AbstractTimestamptzType {
 
   /**
    * Singleton access
    */
-  public static final HibernateZonedDateTimeType INSTANCE = new HibernateZonedDateTimeType();
+  public static final OracleZonedDateTimeType INSTANCE = new OracleZonedDateTimeType();
 
   @Override
   public Class<?> returnedClass() {

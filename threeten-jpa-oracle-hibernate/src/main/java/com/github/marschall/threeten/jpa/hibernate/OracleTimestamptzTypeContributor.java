@@ -8,8 +8,8 @@ public class OracleTimestamptzTypeContributor implements TypeContributor {
 
   @Override
   public void contribute(TypeContributions typeContributions, ServiceRegistry serviceRegistry) {
-    typeContributions.contributeType(HibernateZonedDateTimeType.INSTANCE, HibernateZonedDateTimeType.class.getSimpleName());
-    typeContributions.contributeType(HibernateOffsetDateTimeType.INSTANCE, HibernateOffsetDateTimeType.class.getSimpleName());
+    typeContributions.contributeType(OracleZonedDateTimeType.INSTANCE, OracleZonedDateTimeType.class.getSimpleName());
+    typeContributions.contributeType(OracleOffsetDateTimeType.INSTANCE, OracleOffsetDateTimeType.class.getSimpleName());
   }
 
 }

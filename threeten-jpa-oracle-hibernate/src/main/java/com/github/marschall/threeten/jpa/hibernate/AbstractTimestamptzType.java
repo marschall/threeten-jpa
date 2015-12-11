@@ -16,7 +16,7 @@ import oracle.sql.TIMESTAMPTZ;
 /**
  * Abstract base class for types based on {@code TIMESTAMP WITH TIME ZONE}.
  */
-public abstract class AbstractHibernateTimestamptzType extends AbstraceThreeTenType {
+public abstract class AbstractTimestamptzType extends AbstraceThreeTenType {
 
   @Override
   public int[] sqlTypes() {
