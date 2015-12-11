@@ -6,6 +6,11 @@ import oracle.sql.TIMESTAMPTZ;
 
 public class HibernateZonedDateTimeType extends AbstractHibernateTimestamptzType {
 
+  /**
+   * Singleton access
+   */
+  public static final HibernateZonedDateTimeType INSTANCE = new HibernateZonedDateTimeType();
+
   @Override
   public Class<?> returnedClass() {
     return ZonedDateTime.class;

@@ -6,6 +6,11 @@ import oracle.sql.TIMESTAMPTZ;
 
 public class HibernateOffsetDateTimeType extends AbstractHibernateTimestamptzType {
 
+  /**
+   * Singleton access
+   */
+  public static final HibernateOffsetDateTimeType INSTANCE = new HibernateOffsetDateTimeType();
+
   @Override
   public Class<?> returnedClass() {
     return OffsetDateTime.class;
