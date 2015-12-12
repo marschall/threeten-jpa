@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "JAVA_TIME")
+@Table(name = "JAVA_TIME_WITH_ZONE")
 public class JavaTimeWithZone {
 
   @Id

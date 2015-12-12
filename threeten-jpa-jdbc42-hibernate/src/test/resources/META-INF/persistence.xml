@@ -6,12 +6,7 @@
     <persistence-unit name="threeten-jpa-hibernate-hsql">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         
-        <class>com.github.marschall.threeten.jpa.JavaTime</class>
-        
-        <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
-        <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
-        <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
-        <class>com.github.marschall.threeten.jpa.InstantConverter</class>
+        <class>com.github.marschall.threeten.jpa.jdbc42.hibernate.JavaTimeWithZone</class>
         
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
@@ -21,12 +16,7 @@
     <persistence-unit name="threeten-jpa-hibernate-postgres">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         
-        <class>com.github.marschall.threeten.jpa.JavaTime</class>
-        
-        <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
-        <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
-        <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
-        <class>com.github.marschall.threeten.jpa.InstantConverter</class>
+        <class>com.github.marschall.threeten.jpa.jdbc42.hibernate.JavaTimeWithZone</class>
         
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
