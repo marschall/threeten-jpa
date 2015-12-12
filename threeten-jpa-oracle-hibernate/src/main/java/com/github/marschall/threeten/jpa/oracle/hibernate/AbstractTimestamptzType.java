@@ -1,4 +1,4 @@
-package com.github.marschall.threeten.jpa.hibernate;
+package com.github.marschall.threeten.jpa.oracle.hibernate;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

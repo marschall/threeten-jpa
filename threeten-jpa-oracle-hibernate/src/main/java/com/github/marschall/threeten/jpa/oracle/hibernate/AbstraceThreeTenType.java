@@ -1,4 +1,4 @@
-package com.github.marschall.threeten.jpa.hibernate;
+package com.github.marschall.threeten.jpa.oracle.hibernate;
 
 import java.io.Serializable;
 import java.util.Objects;
