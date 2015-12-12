@@ -69,27 +69,39 @@ The additional Oracle EclipseLink features require and additional dependency.
 </dependency>
 ```
 
-Note the Oracle driver module has to be visible to the deployment (eg [Class Loading in WildFly](https://docs.jboss.org/author/display/WFLY8/Class+Loading+in+WildFly)).
+Note the Oracle driver module has to be visible to the deployment (eg [Class Loading in WildFly](https://docs.jboss.org/author/display/WFLY9/Class+Loading+in+WildFly)).
 
+Time Zone Support
+-----------------
 
-FAQ
----
+Databases that support `TIMESTAMP WITH TIME ZONE`:
 
-### Why does ZonedDateTime and OffsetDateTime not work with Hibernate?
-Check out [HHH-3193](https://hibernate.atlassian.net/browse/HHH-3193)
+ * Oracle
+ * PostgreSQL
+ * SQL Server
 
-### Why does ZonedDateTime and OffsetDateTime not work with OpenJPA?
-Check out [OPENJPA-1480](https://issues.apache.org/jira/browse/OPENJPA-1480)
+|             | Oracle                          | PostgreSQL                    | SQL Server                    |
+| ----------- | ------------------------------- | ----------------------------- | ----------------------------- |
+| EclipseLink | threeten-jpa-oracle-eclipselink | :x:                           | :x:                           |
+| Hibernate   | threeten-jpa-oracle-hibernate   | threeten-jpa-jdbc42-hibernate | threeten-jpa-jdbc42-hibernate |
 
-### Why does ZonedDateTime and OffsetDateTime not work with my database?
-In general both the JDBC driver and the JPA provider have to support fetching the timezone id or offset.
+Databases that do *not* support `TIMESTAMP WITH TIME ZONE`:
 
+ * DB2
+ * Derby
+ * Firebird
+ * H2
+ * MySQL
 
 Project Structure
 -----------------
 The `threeten-jpa` submodule includes portable converters for the conversions above.
 
-The `threeten-jpa-oracle-eclipselink` includes extensions that work only with Oracle in combination with EclipseLink to map `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime`. Only EclipseLink supports [TIMESTAMPTZ](http://docs.oracle.com/cd/E11882_01/appdev.112/e13995/oracle/sql/TIMESTAMPTZ.html).
+The `threeten-jpa-oracle-eclipselink` includes extensions that work only with Oracle in combination with EclipseLink to map `TIMESTAMP WITH TIMEZONE` to `ZonedDateTime` or `OffsetDateTime`.
+
+The `threeten-jpa-oracle-hibernate` includes extensions that work only with Oracle in combination with Hibernate to map `TIMESTAMP WITH TIMEZONE` `ZonedDateTime` to `OffsetDateTime`.
+
+The `threeten-jpa-jdbc42-hibernate` includes extensions that work with any JDBC 4.2 compliant driver in combination with Hibernate to map to map `TIMESTAMP WITH TIMEZONE` `ZonedDateTime` to `OffsetDateTime`.
 
 Tested with following JPA providers:
  * EclipseLink
