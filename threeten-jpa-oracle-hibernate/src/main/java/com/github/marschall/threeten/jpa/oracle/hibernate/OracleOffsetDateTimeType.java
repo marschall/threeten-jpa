@@ -4,6 +4,9 @@ import java.time.OffsetDateTime;
 
 import oracle.sql.TIMESTAMPTZ;
 
+/**
+ * Type for {@link OffsetDateTime}.
+ */
 public class OracleOffsetDateTimeType extends AbstractTimestamptzType {
 
   /**

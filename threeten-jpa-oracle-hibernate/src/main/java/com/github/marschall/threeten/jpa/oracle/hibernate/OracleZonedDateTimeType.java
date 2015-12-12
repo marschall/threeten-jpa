@@ -4,6 +4,9 @@ import java.time.ZonedDateTime;
 
 import oracle.sql.TIMESTAMPTZ;
 
+/**
+ * Type for {@link ZonedDateTime}.
+ */
 public class OracleZonedDateTimeType extends AbstractTimestamptzType {
 
   /**
