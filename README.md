@@ -77,13 +77,18 @@ Time Zone Support
 Databases that support `TIMESTAMP WITH TIME ZONE`:
 
  * Oracle
+ * HSQL
  * PostgreSQL
  * SQL Server
 
-|             | Oracle                          | PostgreSQL                    | SQL Server                    |
-| ----------- | ------------------------------- | ----------------------------- | ----------------------------- |
-| EclipseLink | threeten-jpa-oracle-eclipselink | :x:                           | :x:                           |
-| Hibernate   | threeten-jpa-oracle-hibernate   | threeten-jpa-jdbc42-hibernate | threeten-jpa-jdbc42-hibernate |
+Unfortunately both the HSQL and PostgreSQL have either incomplete or buggy implementation of JDBC 4.2 and therefore can't be supported.
+
+|             | Oracle                          | SQL Server                    |
+| ----------- | ------------------------------- | ----------------------------- |
+| EclipseLink | threeten-jpa-oracle-eclipselink | :x:                           |
+| Hibernate   | threeten-jpa-oracle-hibernate   | threeten-jpa-jdbc42-hibernate |
+
+SQL Server support is theoretical and has not been tested.
 
 Databases that do *not* support `TIMESTAMP WITH TIME ZONE`:
 
