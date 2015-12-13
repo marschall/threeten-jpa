@@ -14,6 +14,11 @@ public class OracleOffsetDateTimeType extends AbstractTimestamptzType {
    */
   public static final OracleOffsetDateTimeType INSTANCE = new OracleOffsetDateTimeType();
 
+  /**
+   * Name of the type.
+   */
+  public static final String NAME = "OracleOffsetDateTimeType";
+
   @Override
   public Class<?> returnedClass() {
     return OffsetDateTime.class;

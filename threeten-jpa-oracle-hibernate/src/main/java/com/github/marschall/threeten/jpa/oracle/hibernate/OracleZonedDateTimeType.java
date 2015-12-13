@@ -14,6 +14,11 @@ public class OracleZonedDateTimeType extends AbstractTimestamptzType {
    */
   public static final OracleZonedDateTimeType INSTANCE = new OracleZonedDateTimeType();
 
+  /**
+   * Name of the type.
+   */
+  public static final String NAME = "OracleZonedDateTimeType";
+
   @Override
   public Class<?> returnedClass() {
     return ZonedDateTime.class;

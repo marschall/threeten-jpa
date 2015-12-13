@@ -9,8 +9,8 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.orm.jpa.JpaDialect;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.EclipseLinkJpaDialect;
-import org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter;
+import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
@@ -33,20 +33,20 @@ public class OracleConfiguration {
     transactionManager.setJpaDialect(jpaDialect());
     return transactionManager;
   }
-  
+
   @Bean
   public LocalContainerEntityManagerFactoryBean entityManager(DataSource dataSource) {
     LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
-    bean.setPersistenceUnitName("threeten-jpa-eclipselink-oracle");
+    bean.setPersistenceUnitName("threeten-jpa-hibernate-oracle");
     bean.setJpaDialect(jpaDialect());
-    bean.setJpaVendorAdapter(new EclipseLinkJpaVendorAdapter());
+    bean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
     bean.setDataSource(dataSource);
     return bean;
   }
 
   @Bean
   public JpaDialect jpaDialect() {
-    return new EclipseLinkJpaDialect();
+    return new HibernateJpaDialect();
   }
 
 }

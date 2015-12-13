@@ -12,8 +12,8 @@ public class OracleTimestamptzTypeContributor implements TypeContributor {
   @Override
   public void contribute(TypeContributions typeContributions, ServiceRegistry serviceRegistry) {
     // register the Hibernate type mappings
-    typeContributions.contributeType(OracleZonedDateTimeType.INSTANCE, OracleZonedDateTimeType.class.getSimpleName());
-    typeContributions.contributeType(OracleOffsetDateTimeType.INSTANCE, OracleOffsetDateTimeType.class.getSimpleName());
+    typeContributions.contributeType(OracleZonedDateTimeType.INSTANCE, OracleZonedDateTimeType.NAME);
+    typeContributions.contributeType(OracleOffsetDateTimeType.INSTANCE, OracleOffsetDateTimeType.NAME);
   }
 
 }
