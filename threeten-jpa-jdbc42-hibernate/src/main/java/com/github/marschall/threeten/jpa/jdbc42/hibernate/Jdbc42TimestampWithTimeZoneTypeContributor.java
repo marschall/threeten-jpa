@@ -12,8 +12,8 @@ public class Jdbc42TimestampWithTimeZoneTypeContributor implements TypeContribut
   @Override
   public void contribute(TypeContributions typeContributions, ServiceRegistry serviceRegistry) {
     // register the Hibernate type mappings
-    typeContributions.contributeType(Jdbc42ZonedDateTimeType.INSTANCE, Jdbc42ZonedDateTimeType.class.getSimpleName());
-    typeContributions.contributeType(Jdbc42OffsetDateTimeType.INSTANCE, Jdbc42OffsetDateTimeType.class.getSimpleName());
+    typeContributions.contributeType(Jdbc42ZonedDateTimeType.INSTANCE, Jdbc42ZonedDateTimeType.NAME);
+    typeContributions.contributeType(Jdbc42OffsetDateTimeType.INSTANCE, Jdbc42OffsetDateTimeType.NAME);
   }
 
 }

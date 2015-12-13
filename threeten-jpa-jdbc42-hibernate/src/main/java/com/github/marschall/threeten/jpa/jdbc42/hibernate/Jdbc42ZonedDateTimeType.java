@@ -16,6 +16,8 @@ public class Jdbc42ZonedDateTimeType extends AbstraceThreeTenTimestampWithTimeZo
    */
   public static final Jdbc42ZonedDateTimeType INSTANCE = new Jdbc42ZonedDateTimeType();
 
+  public static final String NAME = "Jdbc42ZonedDateTimeType";
+
   @Override
   public Class<?> returnedClass() {
     return ZonedDateTime.class;

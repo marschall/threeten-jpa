@@ -16,6 +16,8 @@ public class Jdbc42OffsetDateTimeType extends AbstraceThreeTenTimestampWithTimeZ
    */
   public static final Jdbc42OffsetDateTimeType INSTANCE = new Jdbc42OffsetDateTimeType();
 
+  public static final String NAME = "Jdbc42OffsetDateTimeType";
+
   @Override
   public Class<?> returnedClass() {
     return OffsetDateTime.class;

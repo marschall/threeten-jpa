@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name = "JAVA_TIME_WITH_ZONE")
 public class JavaTimeWithZone {
@@ -18,9 +20,11 @@ public class JavaTimeWithZone {
   private BigInteger id;
 
   @Column(name = "ZONED_TIME")
+  @Type(type = Jdbc42ZonedDateTimeType.NAME)
   private ZonedDateTime zoned;
 
   @Column(name = "OFFSET_TIME")
+  @Type(type = Jdbc42OffsetDateTimeType.NAME)
   private OffsetDateTime offset;
 
   public BigInteger getId() {
