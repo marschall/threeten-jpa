@@ -8,8 +8,6 @@
         
         <class>com.github.marschall.threeten.jpa.oracle.OracleJavaTime</class>
         
-        <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
-        <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
         <class>com.github.marschall.threeten.jpa.oracle.OracleOffsetDateTimeConverter</class>
         
         <properties>

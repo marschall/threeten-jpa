@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.math.BigInteger;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
@@ -24,48 +22,44 @@ import org.springframework.transaction.support.TransactionTemplate;
 @ContextConfiguration(classes = OracleConfiguration.class)
 @Ignore("needs oracle database")
 public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4SpringContextTests {
-  
+
   @Autowired
   private PlatformTransactionManager txManager;
-  
+
   @PersistenceContext
   private EntityManager entityManager;
-  
+
   private TransactionTemplate template;
-  
+
   @Before
   public void setUp() {
     this.template = new TransactionTemplate(txManager);
   }
-  
+
   @Test
   public void read() {
     OracleJavaTime byOffset = this.entityManager.find(OracleJavaTime.class, new BigInteger("1"));
     ZoneOffset offset = ZoneOffset.ofHoursMinutes(2, 0);
     OffsetDateTime expected = OffsetDateTime.of(1997, 1, 31, 9, 26, 56, 660000000, offset);
     assertEquals(expected, byOffset.getOffsetDateTime());
-    
+
     OracleJavaTime byZone = this.entityManager.find(OracleJavaTime.class, new BigInteger("2"));
     ZoneOffset pacificOffset = ZoneOffset.ofHoursMinutes(8, 0);
     expected = OffsetDateTime.of(1999, 1, 15, 8, 0, 0, 0, pacificOffset);
     assertEquals(expected, byZone.getOffsetDateTime());
   }
-  
+
   @Test
   public void runTest() {
     // insert a new entity into the database
     BigInteger newId = new BigInteger("3");
-    LocalDate newDate = LocalDate.now();
     ZoneOffset offset = ZoneOffset.ofHoursMinutes(2, 0);
     OffsetDateTime newOffsetDateTime = OffsetDateTime.of(2014, 4, 27, 22, 24, 30, 0, offset);
-    LocalDateTime newDateTime = LocalDateTime.now();
 
     this.template.execute((s) -> {
       OracleJavaTime toInsert = new OracleJavaTime();
       toInsert.setId(newId);
-      toInsert.setLocalDate(newDate);
       toInsert.setOffsetDateTime(newOffsetDateTime);
-      toInsert.setLocalDateTime(newDateTime);
       entityManager.persist(toInsert);
       // the transaction should trigger a flush and write to the database
       return null;
@@ -77,8 +71,6 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
       assertNotNull(readBack);
       assertEquals(newId, readBack.getId());
       assertEquals(newOffsetDateTime, readBack.getOffsetDateTime());
-      assertEquals(newDate, readBack.getLocalDate());
-      assertEquals(newDateTime, readBack.getLocalDateTime());
       entityManager.remove(readBack);
       return null;
     });
