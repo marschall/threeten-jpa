@@ -2,6 +2,8 @@ package com.github.marschall.threeten.jpa.oracle.hibernate;
 
 import java.time.OffsetDateTime;
 
+import com.github.marschall.threeten.jpa.oracle.impl.TimestamptzConverter;
+
 import oracle.sql.TIMESTAMPTZ;
 
 /**
@@ -26,14 +28,12 @@ public class OracleOffsetDateTimeType extends AbstractTimestamptzType {
 
   @Override
   Object convertToThreeTen(TIMESTAMPTZ timestamptz) {
-    // TODO Auto-generated method stub
-    return null;
+    return TimestamptzConverter.timestamptzToOffsetDateTime(timestamptz);
   }
 
   @Override
   TIMESTAMPTZ convertFromThreeTen(Object value) {
-    // TODO Auto-generated method stub
-    return null;
+    return TimestamptzConverter.offsetDateTimeToTimestamptz((OffsetDateTime) value);
   }
 
 }

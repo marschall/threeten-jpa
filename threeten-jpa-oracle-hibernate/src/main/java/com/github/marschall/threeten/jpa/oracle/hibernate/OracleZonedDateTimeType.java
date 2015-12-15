@@ -2,6 +2,8 @@ package com.github.marschall.threeten.jpa.oracle.hibernate;
 
 import java.time.ZonedDateTime;
 
+import com.github.marschall.threeten.jpa.oracle.impl.TimestamptzConverter;
+
 import oracle.sql.TIMESTAMPTZ;
 
 /**
@@ -25,15 +27,13 @@ public class OracleZonedDateTimeType extends AbstractTimestamptzType {
   }
 
   @Override
-  TIMESTAMPTZ convertFromThreeTen(Object value) {
-    // TODO Auto-generated method stub
-    return null;
+  Object convertToThreeTen(TIMESTAMPTZ timestamptz) {
+    return TimestamptzConverter.timestamptzToZonedDateTime(timestamptz);
   }
 
   @Override
-  Object convertToThreeTen(TIMESTAMPTZ timestamptz) {
-    // TODO Auto-generated method stub
-    return null;
+  TIMESTAMPTZ convertFromThreeTen(Object value) {
+    return TimestamptzConverter.zonedDateTimeToTimestamptz((ZonedDateTime) value);
   }
 
 }
