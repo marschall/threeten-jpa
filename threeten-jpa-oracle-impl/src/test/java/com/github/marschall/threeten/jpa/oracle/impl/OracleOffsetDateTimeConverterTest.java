@@ -1,4 +1,4 @@
-package com.github.marschall.threeten.jpa.oracle;
+package com.github.marschall.threeten.jpa.oracle.impl;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -8,81 +8,76 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-import oracle.sql.TIMESTAMPTZ;
-
-import org.junit.Before;
 import org.junit.Test;
 
-public class OracleOffsetDateTimeConverterTest {
-  
-  private OracleOffsetDateTimeConverter converter;
+import com.github.marschall.threeten.jpa.oracle.impl.TimestamptzConverter;
 
-  @Before
-  public void setUp() {
-    this.converter = new OracleOffsetDateTimeConverter();
-  }
+import oracle.sql.TIMESTAMPTZ;
+
+public class OracleOffsetDateTimeConverterTest {
+
   @Test
   public void convertToDatabaseColumnPositiveOffset() {
     ZoneOffset offset = ZoneOffset.ofHoursMinutes(2, 0);
     LocalDate date = LocalDate.of(1997, 1, 31);
     LocalTime time = LocalTime.of(9, 26, 56, 660000000);
     OffsetDateTime attribute = OffsetDateTime.of(date, time, offset);
-    
-    TIMESTAMPTZ timestamptz = this.converter.convertToDatabaseColumn(attribute);
+
+    TIMESTAMPTZ timestamptz = TimestamptzConverter.offsetDateTimeToTimestamptz(attribute);
     byte[] actual = timestamptz.toBytes();
     byte[] expected = new byte[]{119, -59, 1, 31, 8, 27, 57, 39, 86, -51, 0, 22, 60};
     assertArrayEquals(expected, actual);
   }
-  
+
   @Test
   public void convertToDatabaseColumnNegativeOffset() {
     ZoneOffset offset = ZoneOffset.ofHoursMinutes(-2, -30);
     LocalDate date = LocalDate.of(1997, 1, 31);
     LocalTime time = LocalTime.of(9, 26, 56, 660000000);
     OffsetDateTime attribute = OffsetDateTime.of(date, time, offset);
-    
-    TIMESTAMPTZ timestamptz = this.converter.convertToDatabaseColumn(attribute);
+
+    TIMESTAMPTZ timestamptz = TimestamptzConverter.offsetDateTimeToTimestamptz(attribute);
     byte[] actual = timestamptz.toBytes();
     byte[] expected = new byte[]{119, -59, 1, 31, 12, 57, 57, 39, 86, -51, 0, 18, 30};
     assertArrayEquals(expected, actual);
   }
-  
+
   @Test
   public void convertToEntityAttributePositiveOffset() {
     byte[] timestamptz = new byte[]{119, -59, 1, 31, 8, 27, 57, 39, 86, -51, 0, 22, 60};
     TIMESTAMPTZ dbData = new TIMESTAMPTZ(timestamptz);
-    
+
     ZoneOffset offset = ZoneOffset.ofHoursMinutes(2, 0);
     LocalDate date = LocalDate.of(1997, 1, 31);
     LocalTime time = LocalTime.of(9, 26, 56, 660000000);
     OffsetDateTime exptected = OffsetDateTime.of(date, time, offset);
-    OffsetDateTime actual = this.converter.convertToEntityAttribute(dbData);
+    OffsetDateTime actual = TimestamptzConverter.timestamptzToOffsetDateTime(dbData);
     assertEquals(exptected, actual);
   }
-  
+
   @Test
   public void convertToEntityAttributeNegativeOffset() {
     byte[] timestamptz = new byte[]{119, -59, 1, 31, 12, 57, 57, 39, 86, -51, 0, 18, 30};
     TIMESTAMPTZ dbData = new TIMESTAMPTZ(timestamptz);
-    
+
     ZoneOffset offset = ZoneOffset.ofHoursMinutes(-2, -30);
     LocalDate date = LocalDate.of(1997, 1, 31);
     LocalTime time = LocalTime.of(9, 26, 56, 660000000);
     OffsetDateTime exptected = OffsetDateTime.of(date, time, offset);
-    OffsetDateTime actual = this.converter.convertToEntityAttribute(dbData);
+    OffsetDateTime actual = TimestamptzConverter.timestamptzToOffsetDateTime(dbData);
     assertEquals(exptected, actual);
   }
-  
+
   @Test
   public void convertToEntityAttributeNamedZone() {
     byte[] timestamptz = new byte[]{119, -57, 1, 15, 17, 1, 1, 0, 0, 0, 0, -119, -100};
     TIMESTAMPTZ dbData = new TIMESTAMPTZ(timestamptz);
-    
+
     ZoneOffset offset = ZoneOffset.ofHours(-8);
     LocalDate date = LocalDate.of(1999, 1, 15);
     LocalTime time = LocalTime.of(8, 0, 0);
     OffsetDateTime exptected = OffsetDateTime.of(date, time, offset);
-    OffsetDateTime actual = this.converter.convertToEntityAttribute(dbData);
+    OffsetDateTime actual = TimestamptzConverter.timestamptzToOffsetDateTime(dbData);
     assertEquals(exptected, actual);
   }
 

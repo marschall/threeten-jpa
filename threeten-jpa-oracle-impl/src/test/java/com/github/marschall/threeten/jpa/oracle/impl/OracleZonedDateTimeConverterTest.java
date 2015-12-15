@@ -1,4 +1,4 @@
-package com.github.marschall.threeten.jpa.oracle;
+package com.github.marschall.threeten.jpa.oracle.impl;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -11,19 +11,13 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
-import oracle.sql.TIMESTAMPTZ;
-
-import org.junit.Before;
 import org.junit.Test;
 
+import com.github.marschall.threeten.jpa.oracle.impl.TimestamptzConverter;
+
+import oracle.sql.TIMESTAMPTZ;
+
 public class OracleZonedDateTimeConverterTest {
-
-  private OracleZonedDateTimeConverter converter;
-
-  @Before
-  public void setUp() {
-    this.converter = new OracleZonedDateTimeConverter();
-  }
 
   @Test
   public void convertToDatabaseColumnPositiveOffset() {
@@ -32,7 +26,7 @@ public class OracleZonedDateTimeConverterTest {
     LocalTime time = LocalTime.of(9, 26, 56, 660000000);
     ZonedDateTime attribute = ZonedDateTime.of(date, time, offset);
 
-    TIMESTAMPTZ timestamptz = this.converter.convertToDatabaseColumn(attribute);
+    TIMESTAMPTZ timestamptz = TimestamptzConverter.zonedDateTimeToTimestamptz(attribute);
     byte[] actual = timestamptz.toBytes();
     byte[] expected = new byte[]{119, -59, 1, 31, 8, 27, 57, 39, 86, -51, 0, 22, 60};
     assertArrayEquals(expected, actual);
@@ -45,7 +39,7 @@ public class OracleZonedDateTimeConverterTest {
     LocalTime time = LocalTime.of(9, 26, 56, 660000000);
     ZonedDateTime attribute = ZonedDateTime.of(date, time, offset);
 
-    TIMESTAMPTZ timestamptz = this.converter.convertToDatabaseColumn(attribute);
+    TIMESTAMPTZ timestamptz = TimestamptzConverter.zonedDateTimeToTimestamptz(attribute);
     byte[] actual = timestamptz.toBytes();
     byte[] expected = new byte[]{119, -59, 1, 31, 12, 57, 57, 39, 86, -51, 0, 18, 30};
     assertArrayEquals(expected, actual);
@@ -60,7 +54,7 @@ public class OracleZonedDateTimeConverterTest {
     LocalDate date = LocalDate.of(1997, 1, 31);
     LocalTime time = LocalTime.of(9, 26, 56, 660000000);
     ZonedDateTime exptected = ZonedDateTime.of(date, time, offset);
-    ZonedDateTime actual = this.converter.convertToEntityAttribute(dbData);
+    ZonedDateTime actual = TimestamptzConverter.timestamptzToZonedDateTime(dbData);
     assertEquals(exptected, actual);
   }
 
@@ -73,7 +67,7 @@ public class OracleZonedDateTimeConverterTest {
     LocalDate date = LocalDate.of(1997, 1, 31);
     LocalTime time = LocalTime.of(9, 26, 56, 660000000);
     ZonedDateTime exptected = ZonedDateTime.of(date, time, offset);
-    ZonedDateTime actual = this.converter.convertToEntityAttribute(dbData);
+    ZonedDateTime actual = TimestamptzConverter.timestamptzToZonedDateTime(dbData);
     assertEquals(exptected, actual);
   }
 
@@ -86,7 +80,7 @@ public class OracleZonedDateTimeConverterTest {
     LocalDate date = LocalDate.of(1999, 1, 15);
     LocalTime time = LocalTime.of(8, 0, 0);
     ZonedDateTime exptected = ZonedDateTime.of(date, time, zoneId);
-    ZonedDateTime actual = this.converter.convertToEntityAttribute(dbData);
+    ZonedDateTime actual = TimestamptzConverter.timestamptzToZonedDateTime(dbData);
     assertEquals(exptected, actual);
   }
 
@@ -94,7 +88,7 @@ public class OracleZonedDateTimeConverterTest {
   public void convertToEntityAttributeNamedZoneEuropeZurich() {
     int[] expected = new int[]{120, 115, 10, 24, 24, 46, 1, 0, 0, 0, 0, 134, 88};
     byte[] data = convert(expected);
-    ZonedDateTime zonedDateTime = this.converter.convertToEntityAttribute(new TIMESTAMPTZ(data));
+    ZonedDateTime zonedDateTime = TimestamptzConverter.timestamptzToZonedDateTime(new TIMESTAMPTZ(data));
     assertNotNull(zonedDateTime);
   }
 
@@ -102,7 +96,7 @@ public class OracleZonedDateTimeConverterTest {
   public void convertToDatabaseColumnEuropeZurich() {
     ZoneId zoneId = ZoneId.of("Europe/Zurich");
     ZonedDateTime zonedDateTime = LocalDateTime.of(LocalDate.of(2015, 10, 25), LocalTime.of(1, 45)).atZone(zoneId);
-    byte[] bytes = this.converter.convertToDatabaseColumn(zonedDateTime).toBytes();
+    byte[] bytes = TimestamptzConverter.zonedDateTimeToTimestamptz(zonedDateTime).toBytes();
     int[] expected = new int[]{120, 115, 10, 24, 24, 46, 1, 0, 0, 0, 0, 134, 88};
     assertEquals(expected.length, bytes.length);
     for (int i = 0; i < expected.length; i++) {
