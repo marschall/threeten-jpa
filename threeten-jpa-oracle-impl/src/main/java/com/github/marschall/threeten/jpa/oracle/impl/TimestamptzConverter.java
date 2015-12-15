@@ -1,4 +1,4 @@
-package com.github.marschall.threeten.jpa.oracle;
+package com.github.marschall.threeten.jpa.oracle.impl;
 
 import static java.lang.Byte.toUnsignedInt;
 import static java.time.ZoneOffset.UTC;
@@ -14,7 +14,7 @@ import oracle.sql.ZONEIDMAP;
 /**
  * Converts between {@link TIMESTAMPTZ} and java.time times and back.
  */
-final class TimestamptzConverter {
+public final class TimestamptzConverter {
 
   private static final int INV_ZONEID = -1;
 

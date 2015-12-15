@@ -5,6 +5,8 @@ import java.time.ZonedDateTime;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
+import com.github.marschall.threeten.jpa.oracle.impl.TimestamptzConverter;
+
 import oracle.sql.TIMESTAMPTZ;
 
 /**

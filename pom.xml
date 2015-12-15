@@ -48,6 +48,7 @@
     <module>threeten-jpa-oracle-hibernate</module>
     <module>threeten-jpa-oracle-api</module>
     <module>threeten-jpa-jdbc42-hibernate</module>
+    <module>threeten-jpa-oracle-impl</module>
   </modules>
   
   <dependencyManagement>
