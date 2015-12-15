@@ -1,11 +1,5 @@
 /**
- * Contains additional type converters for Oracle that currently only
- * work with EclipseLink.
- * <p>
- * All the converters have set
- * {@link javax.persistence.Converter#autoApply()} to {@code true} to
- * they're automatically applied to all entities in the same persistence
- * unit.
+ * Contains additional user type converters for Oracle.
  * <p>
  * The Oracle driver module has to be visible to the deployment
  * (eg <a href="https://docs.jboss.org/author/display/WFLY9/Class+Loading+in+WildFly">Class Loading in WildFly</a>).
@@ -32,4 +26,4 @@
  *  </tbody>
  * </table>
  */
-package com.github.marschall.threeten.jpa.oracle;
+package com.github.marschall.threeten.jpa.oracle.hibernate;
