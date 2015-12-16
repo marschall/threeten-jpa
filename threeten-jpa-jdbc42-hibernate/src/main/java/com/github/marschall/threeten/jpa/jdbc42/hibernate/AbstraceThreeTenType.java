@@ -12,7 +12,7 @@ import org.hibernate.usertype.UserType;
 public abstract class AbstraceThreeTenType implements UserType {
 
   @Override
-  public boolean equals(Object x, Object y) throws HibernateException {
+  public boolean equals(Object x, Object y) {
     return Objects.equals(x, y);
   }
 
