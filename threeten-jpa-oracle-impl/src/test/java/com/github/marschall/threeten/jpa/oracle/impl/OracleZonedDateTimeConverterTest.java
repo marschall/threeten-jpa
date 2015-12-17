@@ -13,8 +13,6 @@ import java.time.ZonedDateTime;
 
 import org.junit.Test;
 
-import com.github.marschall.threeten.jpa.oracle.impl.TimestamptzConverter;
-
 import oracle.sql.TIMESTAMPTZ;
 
 public class OracleZonedDateTimeConverterTest {

@@ -11,9 +11,11 @@ import org.hibernate.engine.spi.SessionImplementor;
  */
 public abstract class AbstraceThreeTenTimestampWithTimeZoneType extends AbstraceThreeTenType {
 
+  private static final int[] SQL_TYPES = new int[]{Types.TIMESTAMP_WITH_TIMEZONE};
+
   @Override
   public int[] sqlTypes() {
-    return new int[]{Types.TIMESTAMP_WITH_TIMEZONE};
+    return SQL_TYPES;
   }
 
   @Override

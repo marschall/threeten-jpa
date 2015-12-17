@@ -3,9 +3,7 @@ package com.github.marschall.threeten.jpa.oracle.hibernate;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 
-import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 
 import oracle.jdbc.OraclePreparedStatement;
@@ -19,9 +17,11 @@ import oracle.sql.TIMESTAMPTZ;
  */
 public abstract class AbstractTimestamptzType extends AbstraceThreeTenType {
 
+  private static final int[] SQL_TYPES = new int []{OracleTypes.TIMESTAMPTZ};
+
   @Override
   public int[] sqlTypes() {
-    return new int []{Types.TIMESTAMP_WITH_TIMEZONE, OracleTypes.TIMESTAMPTZ};
+    return SQL_TYPES;
   }
 
   @Override

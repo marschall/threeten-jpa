@@ -3,7 +3,6 @@ package com.github.marschall.threeten.jpa.jdbc42.hibernate;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.hibernate.HibernateException;
 import org.hibernate.usertype.UserType;
 
 /**

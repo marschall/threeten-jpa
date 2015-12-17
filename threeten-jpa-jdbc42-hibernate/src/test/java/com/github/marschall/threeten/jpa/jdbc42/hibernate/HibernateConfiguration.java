@@ -1,8 +1,8 @@
 package com.github.marschall.threeten.jpa.jdbc42.hibernate;
 
-import javax.sql.DataSource;
-
 import static com.github.marschall.threeten.jpa.jdbc42.hibernate.Constants.PERSISTENCE_UNIT_NAME;
+
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

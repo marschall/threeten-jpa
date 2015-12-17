@@ -10,8 +10,6 @@ import java.time.ZoneOffset;
 
 import org.junit.Test;
 
-import com.github.marschall.threeten.jpa.oracle.impl.TimestamptzConverter;
-
 import oracle.sql.TIMESTAMPTZ;
 
 public class OracleOffsetDateTimeConverterTest {
