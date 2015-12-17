@@ -11,6 +11,9 @@
   <description>Extensions for Oracle and EclipseLink</description>
 
   <dependencies>
+    <!-- 
+      has to be commented out when actually testing with oracle
+     -->
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>threeten-jpa-oracle-api</artifactId>
@@ -49,9 +52,12 @@
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-all</artifactId>
+      <artifactId>hamcrest-junit</artifactId>
       <scope>test</scope>
     </dependency>
+    <!-- 
+      has to be replaced with real coordinates when actually testing with oracle
+     -->
     <!-- 
     <dependency>
       <groupId>oracle</groupId>
