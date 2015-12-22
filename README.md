@@ -6,16 +6,16 @@ This is stop gap measure until [JPA_SPEC-63](https://java.net/jira/browse/JPA_SP
 
 We take inspiration from the JDBC 4.2 and currently supports the following conversions:
 
-| ANSI SQL                | Java SE 8       |
-| ----------------------- | --------------- |
-| DATE                    | LocalDate       |
-| TIME                    | LocalTime       |
-| TIMESTAMP               | LocalDateTime   |
-| TIMESTAMP               | Instant         |
-| TIMESTAMP WITH TIMEZONE | OffsetTime *    |
-| TIMESTAMP WITH TIMEZONE | ZonedDateTime * |
+| ANSI SQL                | Java SE 8         |
+| ----------------------- | ----------------- |
+| DATE                    | LocalDate         |
+| TIME                    | LocalTime         |
+| TIMESTAMP               | LocalDateTime     |
+| TIMESTAMP               | Instant           |
+| TIMESTAMP WITH TIMEZONE | OffsetTime (*)    |
+| TIMESTAMP WITH TIMEZONE | ZonedDateTime (*) |
 
- * Converting `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime` or `ZonedDateTime` requires special extensions extension.
+ (*) Converting `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime` or `ZonedDateTime` requires special extensions extension.
 
 Not supported is converting `TIME WITH TIMEZONE` to `OffsetTime` because it seems [not useful](http://www.postgresql.org/docs/9.4/static/datatype-datetime.html#DATATYPE-TIMEZONES).
 
