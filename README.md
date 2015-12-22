@@ -4,7 +4,7 @@ ThreeTen JPA [![Build Status](https://travis-ci.org/marschall/threeten-jpa.svg?b
 JPA attribute converters for JSR-310 (Java 8) dates and times.
 This is stop gap measure until [JPA_SPEC-63](https://java.net/jira/browse/JPA_SPEC-63) is fixed in JPA 2.2.
 
-We take inspiration from the JDBC 4.2 and currently supports the following conversions:
+We take inspiration from the JDBC 4.2 and currently support the following conversions:
 
 | ANSI SQL                | Java SE 8         |
 | ----------------------- | ----------------- |
@@ -15,13 +15,13 @@ We take inspiration from the JDBC 4.2 and currently supports the following conve
 | TIMESTAMP WITH TIMEZONE | OffsetTime (*)    |
 | TIMESTAMP WITH TIMEZONE | ZonedDateTime (*) |
 
- (*) Converting `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime` or `ZonedDateTime` requires special extensions extension.
+ (*) Converting `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime` or `ZonedDateTime` requires special extensions.
 
-Not supported is converting `TIME WITH TIMEZONE` to `OffsetTime` because it seems [not useful](http://www.postgresql.org/docs/9.4/static/datatype-datetime.html#DATATYPE-TIMEZONES).
+Not supported is converting `TIME WITH TIMEZONE` to `OffsetTime` because it seems [not very useful](http://www.postgresql.org/docs/9.4/static/datatype-datetime.html#DATATYPE-TIMEZONES).
 
 This project requires Java SE 8 (for the date and time classes) and JPA 2.1 (for the attribute converters).
 
-This project is very similar to [montanajava/jpaattributeconverters](https://bitbucket.org/montanajava/jpaattributeconverters) or [perceptron8/datetime-jpa](https://github.com/perceptron8/datetime-jpa) and can be used in [much the same way](https://weblogs.java.net/blog/montanajava/archive/2014/06/17/using-java-8-datetime-classes-jpa).
+This project is very similar to [montanajava/jpaattributeconverters](https://bitbucket.org/montanajava/jpaattributeconverters) or [perceptron8/datetime-jpa](https://github.com/perceptron8/datetime-jpa) and can be used in [much the same way](https://wiki.java.net/blog/montanajava/archive/2014/06/17/using-java-8-datetime-classes-jpa).
 
 Usage
 -----
@@ -60,7 +60,7 @@ public class SampleEntity {
 }
 ```
 
-All the converters have set `Converter#autoApply()` to `true` to they're automatically applied to all entities in the same persistence unit.
+All the converters have set `Converter#autoApply()` to `true` so they're automatically applied to all entities in the same persistence unit.
 
 Time Zone Support
 -----------------
@@ -74,7 +74,7 @@ Databases that support `TIMESTAMP WITH TIME ZONE`:
  * PostgreSQL
  * SQL Server
 
-Unfortunately both HSQL and PostgreSQL have either incomplete or buggy implementation of JDBC 4.2 and therefore can't be supported. In addition PostgreSQL throws the time zone away when storing. To make matters more complicated Oracle does not yet have a JDBC 4.2 driver and supports accessing time zones only through proprietary APIs.
+Unfortunately both HSQL and PostgreSQL have either incomplete or buggy implementations of JDBC 4.2 and therefore can't be supported. In addition PostgreSQL throws the time zone away when storing. To make matters more complicated Oracle does not yet have a JDBC 4.2 driver and supports accessing time zones only through proprietary APIs.
 
 Databases that do *not* support `TIMESTAMP WITH TIME ZONE`:
 
