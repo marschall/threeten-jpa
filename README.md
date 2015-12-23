@@ -74,7 +74,7 @@ Databases that support `TIMESTAMP WITH TIME ZONE`:
  * PostgreSQL
  * SQL Server
 
-Unfortunately both HSQL and PostgreSQL have either incomplete or buggy implementations of JDBC 4.2 and therefore can't be supported. In addition PostgreSQL throws the time zone away when storing. To make matters more complicated Oracle does not yet have a JDBC 4.2 driver and supports accessing time zones only through proprietary APIs.
+Unfortunately both HSQL and PostgreSQL have either incomplete or buggy implementations of JDBC 4.2 and therefore can't be supported. In addition PostgreSQL throws the time zone away when storing. To make matters more complicated Oracle does not yet have a JDBC 4.2 driver and supports accessing time zones only through [proprietary APIs](http://docs.oracle.com/cd/E11882_01/appdev.112/e13995/oracle/sql/TIMESTAMPTZ.html).
 
 Databases that do *not* support `TIMESTAMP WITH TIME ZONE`:
 
