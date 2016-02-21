@@ -130,10 +130,6 @@ public class SampleEntity {
 public class SampleEntity {
 
   @Column
-  @Type(type = Jdbc42ZonedDateTimeType.NAME)
-  private ZonedDateTime onedDateTime;
-
-  @Column
   @Type(type = Jdbc42OffsetDateTimeType.NAME)
   private OffsetDateTime offsetDateTime;
 
