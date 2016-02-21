@@ -19,9 +19,10 @@ public class JavaTimeWithZone {
   @Column(name = "ID")
   private BigInteger id;
 
-  @Column(name = "ZONED_TIME")
-  @Type(type = Jdbc42ZonedDateTimeType.NAME)
-  private ZonedDateTime zoned;
+//  unsupported by jdbc spec
+//  @Column(name = "ZONED_TIME")
+//  @Type(type = Jdbc42ZonedDateTimeType.NAME)
+//  private ZonedDateTime zoned;
 
   @Column(name = "OFFSET_TIME")
   @Type(type = Jdbc42OffsetDateTimeType.NAME)
@@ -35,13 +36,13 @@ public class JavaTimeWithZone {
     this.id = id;
   }
 
-  public ZonedDateTime getZoned() {
-    return zoned;
-  }
-
-  public void setZoned(ZonedDateTime zoned) {
-    this.zoned = zoned;
-  }
+//  public ZonedDateTime getZoned() {
+//    return zoned;
+//  }
+//
+//  public void setZoned(ZonedDateTime zoned) {
+//    this.zoned = zoned;
+//  }
 
   public OffsetDateTime getOffset() {
     return offset;
