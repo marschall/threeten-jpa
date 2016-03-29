@@ -1,4 +1,4 @@
-package com.github.marschall.threeten.jpa.jdbc42.hibernate;
+package com.github.marschall.threeten.jpa.oracle.hibernate;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -8,7 +8,7 @@ import org.hibernate.usertype.UserType;
 /**
  * Abstract base class for all JSR-310 types.
  */
-public abstract class AbstraceThreeTenType implements UserType {
+public abstract class AbstractThreeTenType implements UserType {
 
   @Override
   public boolean equals(Object x, Object y) {

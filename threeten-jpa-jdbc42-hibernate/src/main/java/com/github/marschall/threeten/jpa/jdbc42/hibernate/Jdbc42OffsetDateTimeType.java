@@ -9,7 +9,7 @@ import org.hibernate.engine.spi.SessionImplementor;
 /**
  * Type for {@link OffsetDateTime}.
  */
-public class Jdbc42OffsetDateTimeType extends AbstraceThreeTenTimestampWithTimeZoneType {
+public class Jdbc42OffsetDateTimeType extends AbstractThreeTenTimestampWithTimeZoneType {
 
   /**
    * Singleton access
