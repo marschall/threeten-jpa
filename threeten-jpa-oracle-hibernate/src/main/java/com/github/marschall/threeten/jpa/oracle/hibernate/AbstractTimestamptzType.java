@@ -15,7 +15,7 @@ import oracle.sql.TIMESTAMPTZ;
  * Abstract base class for types based on {@code TIMESTAMP WITH TIME ZONE}
  * implemented with the Oracle {@code TIMESTAMPTZ} type.
  */
-public abstract class AbstractTimestamptzType extends AbstraceThreeTenType {
+public abstract class AbstractTimestamptzType extends AbstractThreeTenType {
 
   private static final int[] SQL_TYPES = new int []{OracleTypes.TIMESTAMPTZ};
 
