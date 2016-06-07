@@ -144,10 +144,10 @@ Hibernate 5
 
 If you use [Hibernate 5.0.0](http://in.relation.to/2015/08/20/hibernate-orm-500-final-release/) and the hibernate-java8 module (no longer needed for [Hibernate 5.2.0](http://in.relation.to/2016/06/01/hibernate-orm-520-final-release/)) you're using the equivalent of `com.github.marschall:threeten-jpa`. While this may seem like a good out of the box soultion it has the following issues:
 
- * can lead to issues with 
+ * can lead to issues with timestamps not representable with the local time zone
  * does not preserve the time zone from the database
 
-if you're running a JDBC 4.2 compliant driver (like pgjdbc) we would still recommend using `com.github.marschall:threeten-jpa-jdbc42-hibernate`.
+if you're running a JDBC 4.2 compliant driver (like pgjdbc) we would still recommend using `com.github.marschall:threeten-jpa-jdbc42-hibernate` even on Hibernate 5.
 
 Project Structure
 -----------------
