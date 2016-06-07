@@ -8,6 +8,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -35,7 +38,7 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-//@Ignore("database access")
+@Ignore("database access")
 @RunWith(Parameterized.class)
 public class ConverterTest {
 
@@ -99,6 +102,9 @@ public class ConverterTest {
         } else {
           assertEquals(OffsetDateTime.parse("1960-01-01T23:03:20+02:00"), javaTime.getOffset());
         }
+        assertEquals(LocalTime.parse("02:55:00"), javaTime.getLocalTime());
+        assertEquals(LocalDate.parse("2016-03-27"), javaTime.getLocalDate());
+        assertEquals(LocalDateTime.parse("2016-03-27T02:55:00"), javaTime.getLocalDateTime());
         return null;
        });
 
