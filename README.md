@@ -138,6 +138,14 @@ public class SampleEntity {
 
 Note the Oracle driver module has to be visible to the deployment (eg [Class Loading in WildFly](https://docs.jboss.org/author/display/WFLY9/Class+Loading+in+WildFly)).
 
+
+Hibernate
+---------
+
+If you use [Hibernate 5.0.0](http://in.relation.to/2015/08/20/hibernate-orm-500-final-release/) or later and a JDBC 4.2 compliant driver (like pgjdbc) and the hibernate-java8 module you don't need this project and everything should "just work"
+If you use [Hibernate 5.2.0](http://in.relation.to/2016/06/01/hibernate-orm-520-final-release/) or later and a JDBC 4.2 compliant driver (like pgjdbc) you don't need this project and everything should "just work".
+
+
 Project Structure
 -----------------
 
