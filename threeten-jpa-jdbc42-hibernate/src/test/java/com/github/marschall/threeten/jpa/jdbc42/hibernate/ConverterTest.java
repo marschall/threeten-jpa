@@ -35,7 +35,7 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-@Ignore("database access")
+//@Ignore("database access")
 @RunWith(Parameterized.class)
 public class ConverterTest {
 

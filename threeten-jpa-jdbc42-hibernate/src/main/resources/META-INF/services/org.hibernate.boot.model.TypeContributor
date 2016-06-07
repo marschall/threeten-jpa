@@ -1,1 +1,1 @@
-com.github.marschall.threeten.jpa.jdbc42.hibernate.Jdbc42TimestampWithTimeZoneTypeContributor
+com.github.marschall.threeten.jpa.jdbc42.hibernate.Jdbc42NativeJavaDateTimeTypeContributor
