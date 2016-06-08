@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.github.marschall</groupId>
     <artifactId>threeten-jpa-master</artifactId>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.4.1</version>
   </parent>
   <artifactId>threeten-jpa</artifactId>
   <name>ThreeTen-JPA</name>
