@@ -157,7 +157,7 @@ The project includes the following submodule:
  * `threeten-jpa` contains portable converters for the conversions above.
  * `threeten-jpa-oracle-eclipselink` contains extensions that work only with Oracle in combination with EclipseLink to map `TIMESTAMP WITH TIMEZONE` to `ZonedDateTime` or `OffsetDateTime`.
  * `threeten-jpa-oracle-hibernate` contains extensions that work only with Oracle in combination with Hibernate to map `TIMESTAMP WITH TIMEZONE` `ZonedDateTime` to `OffsetDateTime`.
- * `threeten-jpa-jdbc42-hibernate` contains extensions that work with any JDBC 4.2 compliant driver in combination with Hibernate to map to map `TIMESTAMP WITH TIMEZONE` `ZonedDateTime` to `OffsetDateTime`.
+ * `threeten-jpa-jdbc42-hibernate` contains extensions that work with any JDBC 4.2 compliant driver in combination with Hibernate to map `TIMESTAMP WITH TIMEZONE` to `ZonedDateTime` or `OffsetDateTime`. Also contains extensions that work with any JDBC 4.2 compliant driver in combination with Hibernate to map `TIMESTAMP [ WITHOUT TIME ZONE ]` to `LocalDateTime` and avoids issues with timestamps that can't be represented in the local time zone.
  * `threeten-jpa-oracle-api` contains stub Oracle classes. These are only used for compilation and not present at runtime.
  * `threeten-jpa-oracle-impl` contains the type conversion code from Oracle types to Java 8 types.
 
