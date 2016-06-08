@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 
 import org.hibernate.engine.spi.SessionImplementor;
 
+/**
+ * Type for {@link LocalDateTime}.
+ */
 public class Jdbc42LocalDateTimeType extends AbstractThreeTenType {
 
   /**
