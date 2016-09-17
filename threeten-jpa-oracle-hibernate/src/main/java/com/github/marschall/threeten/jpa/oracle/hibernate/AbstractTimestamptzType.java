@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
 import oracle.jdbc.OraclePreparedStatement;
 import oracle.jdbc.OracleResultSet;
@@ -25,7 +25,7 @@ public abstract class AbstractTimestamptzType extends AbstractThreeTenType {
   }
 
   @Override
-  public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws SQLException {
+  public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws SQLException {
     OracleResultSet oracleResultSet = rs.unwrap(OracleResultSet.class);
     TIMESTAMPTZ timestamptz = oracleResultSet.getTIMESTAMPTZ(names[0]);
     if (timestamptz == null) {
@@ -36,7 +36,7 @@ public abstract class AbstractTimestamptzType extends AbstractThreeTenType {
   }
 
   @Override
-  public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session) throws SQLException {
+  public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws SQLException {
     OraclePreparedStatement oraclePreparedStatement = st.unwrap(OraclePreparedStatement.class);
     if (value == null) {
       oraclePreparedStatement.setTIMESTAMPTZ(index, null);

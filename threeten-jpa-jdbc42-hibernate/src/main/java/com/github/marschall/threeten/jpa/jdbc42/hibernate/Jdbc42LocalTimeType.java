@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalTime;
 
-import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
 /**
  * Type for {@link LocalTime}.
@@ -36,12 +36,12 @@ public class Jdbc42LocalTimeType extends AbstractThreeTenType {
   }
 
   @Override
-  public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws SQLException {
+  public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws SQLException {
     return rs.getObject(names[0], LocalTime.class);
   }
 
   @Override
-  public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session) throws SQLException {
+  public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws SQLException {
     if (value == null) {
       st.setNull(index, Types.TIME);
     } else {

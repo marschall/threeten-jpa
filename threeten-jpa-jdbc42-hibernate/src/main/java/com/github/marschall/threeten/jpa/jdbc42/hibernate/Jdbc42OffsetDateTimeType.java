@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.OffsetDateTime;
 
-import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
 /**
  * Type for {@link OffsetDateTime}.
@@ -27,7 +27,7 @@ public class Jdbc42OffsetDateTimeType extends AbstractThreeTenTimestampWithTimeZ
   }
 
   @Override
-  public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner) throws SQLException {
+  public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws SQLException {
     return rs.getObject(names[0], OffsetDateTime.class);
   }
 

@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
 /**
  * Abstract base class for all JSR-310 types based on {@code TIMESTAMP WITH TIME ZONE}
@@ -19,7 +19,7 @@ public abstract class AbstractThreeTenTimestampWithTimeZoneType extends Abstract
   }
 
   @Override
-  public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session) throws SQLException {
+  public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws SQLException {
     if (value == null) {
       st.setNull(index, Types.TIMESTAMP_WITH_TIMEZONE);
     } else {
