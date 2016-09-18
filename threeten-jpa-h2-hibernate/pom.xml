@@ -6,8 +6,8 @@
     <version>1.4.2-SNAPSHOT</version>
   </parent>
   <artifactId>threeten-jpa-h2-hibernate</artifactId>
-  <name>ThreeTen-JPA Oracle H2</name>
-  <description>Extensions for Oracle and H2</description>
+  <name>ThreeTen-JPA H2 Hibernate</name>
+  <description>Extensions for H2 and Hibernate</description>
 
   <dependencies>
     <dependency>
