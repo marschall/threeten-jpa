@@ -30,7 +30,7 @@ Usage
 <dependency>
     <groupId>com.github.marschall</groupId>
     <artifactId>threeten-jpa</artifactId>
-    <version>1.4.1</version>
+    <version>1.5.0</version>
 </dependency>
 ```
 
@@ -71,25 +71,25 @@ Databases that support `TIMESTAMP WITH TIME ZONE`:
 
  * Oracle
  * HSQL
+ * H2
  * PostgreSQL
  * SQL Server
 
-Unfortunately the HSQL has a buggy implementations of JDBC 4.2 and therefore can't be supported. In addition PostgreSQL throws the time zone away when storing. To make matters more complicated Oracle does not yet have a JDBC 4.2 driver and supports accessing time zones only through [proprietary APIs](http://docs.oracle.com/cd/E11882_01/appdev.112/e13995/oracle/sql/TIMESTAMPTZ.html).
+Unfortunately the HSQL has a buggy implementations of JDBC 4.2 and therefore can't be supported. In addition PostgreSQL converts to UTC when storing. To make matters more complicated Oracle does not yet have a JDBC 4.2 driver and supports accessing time zones only through [proprietary APIs](http://docs.oracle.com/cd/E11882_01/appdev.112/e13995/oracle/sql/TIMESTAMPTZ.html).
 
 Databases that do *not* support `TIMESTAMP WITH TIME ZONE`:
 
  * DB2
  * Derby
  * Firebird
- * H2
  * MySQL
 
 This results in the following support matrix.
 
-|             | Oracle                          | PostgreSQL                    | SQL Server                    |
-| ----------- | ------------------------------- | ----------------------------- | ----------------------------- |
-| EclipseLink | threeten-jpa-oracle-eclipselink | :x:                           | :x:                           |
-| Hibernate   | threeten-jpa-oracle-hibernate   | threeten-jpa-jdbc42-hibernate | threeten-jpa-jdbc42-hibernate |
+|             | Oracle                          | PostgreSQL                    | H2                        | SQL Server                    |
+| ----------- | ------------------------------- | ----------------------------- | ------------------------- | ----------------------------- |
+| EclipseLink | threeten-jpa-oracle-eclipselink | :x:                           | :x:                       | :x:                           |
+| Hibernate   | threeten-jpa-oracle-hibernate   | threeten-jpa-jdbc42-hibernate | threeten-jpa-h2-hibernate | threeten-jpa-jdbc42-hibernate |
 
 PostgreSQL requires driver 9.4.1208 or later.
 SQL Server support is untested.
@@ -117,6 +117,19 @@ public class SampleEntity {
 
   @Column
   @Type(type = OracleOffsetDateTimeType.NAME)
+  private OffsetDateTime offsetDateTime;
+
+}
+```
+
+`threeten-jpa-h2-hibernate` contains Hibernate user types which need to be used using `@Type`:
+
+```java
+@Entity
+public class SampleEntity {
+
+  @Column
+  @Type(type = H2OffsetDateTimeType.NAME)
   private OffsetDateTime offsetDateTime;
 
 }
@@ -156,7 +169,8 @@ The project includes the following submodule:
 
  * `threeten-jpa` contains portable converters for the conversions above.
  * `threeten-jpa-oracle-eclipselink` contains extensions that work only with Oracle in combination with EclipseLink to map `TIMESTAMP WITH TIMEZONE` to `ZonedDateTime` or `OffsetDateTime`.
- * `threeten-jpa-oracle-hibernate` contains extensions that work only with Oracle in combination with Hibernate to map `TIMESTAMP WITH TIMEZONE` `ZonedDateTime` to `OffsetDateTime`.
+ * `threeten-jpa-oracle-hibernate` contains extensions that work only with Oracle in combination with Hibernate to map `TIMESTAMP WITH TIMEZONE` to `ZonedDateTime` to `OffsetDateTime`.
+ * `threeten-jpa-h2-hibernate` contains extensions that work only with H2 in combination with Hibernate to map `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime`.
  * `threeten-jpa-jdbc42-hibernate` contains extensions that work with any JDBC 4.2 compliant driver in combination with Hibernate to map `TIMESTAMP WITH TIMEZONE` to `ZonedDateTime` or `OffsetDateTime`. Also contains extensions that work with any JDBC 4.2 compliant driver in combination with Hibernate to map `TIMESTAMP [ WITHOUT TIME ZONE ]` to `LocalDateTime` and avoids issues with timestamps that can't be represented in the local time zone.
  * `threeten-jpa-oracle-api` contains stub Oracle classes. These are only used for compilation and not present at runtime.
  * `threeten-jpa-oracle-impl` contains the type conversion code from Oracle types to Java 8 types.

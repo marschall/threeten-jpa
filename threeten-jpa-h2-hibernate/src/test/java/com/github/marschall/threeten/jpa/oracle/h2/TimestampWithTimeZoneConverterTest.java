@@ -35,4 +35,20 @@ public class TimestampWithTimeZoneConverterTest {
     assertEquals(original, actual);
   }
 
+  @Test
+  public void positiveOffset() {
+    OffsetDateTime original = OffsetDateTime.parse("2016-09-12T12:16:54.001000001+02:30");
+
+    OffsetDateTime actual = TimestampWithTimeZoneConverter.timestampWithTimeZoneToOffsetDateTime(TimestampWithTimeZoneConverter.offsetDateTimeToTimestampWithTimeZone(original));
+    assertEquals(original, actual);
+  }
+
+  @Test
+  public void negativeOffset() {
+    OffsetDateTime original = OffsetDateTime.parse("2016-09-12T12:16:54.001000001-02:30");
+
+    OffsetDateTime actual = TimestampWithTimeZoneConverter.timestampWithTimeZoneToOffsetDateTime(TimestampWithTimeZoneConverter.offsetDateTimeToTimestampWithTimeZone(original));
+    assertEquals(original, actual);
+  }
+
 }
