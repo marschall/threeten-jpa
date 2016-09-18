@@ -6,10 +6,10 @@
     <persistence-unit name="threeten-jpa-hibernate-oracle">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-        <class>com.github.marschall.threeten.jpa.oracle.hibernate.OracleJavaTime</class>
+        <class>com.github.marschall.threeten.jpa.oracle.hibernate.JavaTimeWithZone</class>
 
         <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle12cDialect" />
         </properties>
     </persistence-unit>
 

@@ -19,7 +19,7 @@
         <class>com.github.marschall.threeten.jpa.jdbc42.hibernate.JavaTimeWithZone</class>
         
         <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect" />
         </properties>
     </persistence-unit>
 
