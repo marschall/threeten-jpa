@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.github.marschall</groupId>
     <artifactId>threeten-jpa-master</artifactId>
-    <version>1.5.0</version>
+    <version>1.5.1-SNAPSHOT</version>
   </parent>
   <artifactId>threeten-jpa-oracle-eclipselink</artifactId>
   <name>ThreeTen-JPA Oracle EclipseLink</name>
