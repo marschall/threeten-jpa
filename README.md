@@ -30,7 +30,7 @@ Usage
 <dependency>
     <groupId>com.github.marschall</groupId>
     <artifactId>threeten-jpa</artifactId>
-    <version>1.5.0</version>
+    <version>1.5.1</version>
 </dependency>
 ```
 
