@@ -13,11 +13,10 @@ import java.time.ZonedDateTime;
 import java.time.zone.ZoneRulesException;
 import java.util.stream.IntStream;
 
-import oracle.sql.ZONEIDMAP;
-
 import org.junit.Test;
 
 import oracle.sql.TIMESTAMPTZ;
+import oracle.sql.ZONEIDMAP;
 
 public class OracleZonedDateTimeConverterTest {
 

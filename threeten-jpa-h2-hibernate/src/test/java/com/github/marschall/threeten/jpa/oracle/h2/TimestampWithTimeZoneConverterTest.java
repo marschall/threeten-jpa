@@ -1,6 +1,7 @@
 package com.github.marschall.threeten.jpa.oracle.h2;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoField;

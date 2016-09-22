@@ -45,7 +45,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
     ZoneOffset zoneOffset = ZoneOffset.ofHoursMinutes(2, 0);
     OffsetDateTime expectedOffset = OffsetDateTime.of(1997, 1, 31, 9, 26, 56, 660000000, zoneOffset);
     assertEquals(expectedOffset, firstRow.getOffsetDateTime());
-    
+
     ZoneId zoneId = ZoneId.of("US/Pacific");
     ZonedDateTime expectedZone = ZonedDateTime.of(1999, 1, 15, 8, 0, 0, 0, zoneId);
     assertEquals(expectedZone, firstRow.getZonedDateTime());
@@ -61,7 +61,6 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
   }
 
   @Test
-//  @Commit
   public void runTest() {
     // insert a new entity into the database
     BigInteger newId = new BigInteger("3");
@@ -88,7 +87,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
       assertEquals(newId, readBack.getId());
       assertEquals(newOffsetDateTime, readBack.getOffsetDateTime());
       assertEquals(newZonedDateTime, readBack.getZonedDateTime());
-//      entityManager.remove(readBack);
+      entityManager.remove(readBack);
       return null;
     });
   }

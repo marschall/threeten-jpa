@@ -1,6 +1,6 @@
 package com.github.marschall.threeten.jpa.oracle.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.UUID;
 
