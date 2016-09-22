@@ -2,6 +2,7 @@ package com.github.marschall.threeten.jpa.oracle;
 
 import java.math.BigInteger;
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,8 +17,11 @@ public class OracleJavaTime {
   @Column(name = "ID")
   private BigInteger id;
 
-  @Column(name = "TIMESTAMP_WITH_TIMEZONE_COLUMN")
+  @Column(name = "OFFSET_COLUMN")
   private OffsetDateTime offsetDateTime;
+  
+  @Column(name = "ZONE_COLUMN")
+  private ZonedDateTime zonedDateTime;
 
   public BigInteger getId() {
     return id;
@@ -33,6 +37,14 @@ public class OracleJavaTime {
 
   public void setOffsetDateTime(OffsetDateTime offsetDateTime) {
     this.offsetDateTime = offsetDateTime;
+  }
+
+  public ZonedDateTime getZonedDateTime() {
+    return zonedDateTime;
+  }
+
+  public void setZonedDateTime(ZonedDateTime zonedDateTime) {
+    this.zonedDateTime = zonedDateTime;
   }
 
 }

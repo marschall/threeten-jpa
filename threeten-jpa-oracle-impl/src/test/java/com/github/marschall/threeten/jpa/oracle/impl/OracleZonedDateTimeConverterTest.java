@@ -10,6 +10,10 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.zone.ZoneRulesException;
+import java.util.stream.IntStream;
+
+import oracle.sql.ZONEIDMAP;
 
 import org.junit.Test;
 
@@ -102,6 +106,38 @@ public class OracleZonedDateTimeConverterTest {
       int actualValue = bytes[i] & 0xFF;
       assertEquals(expectedValue, actualValue);
     }
+  }
+
+  @Test
+  public void berlinConversion() {
+    byte[] expected = new byte[] {120, 116, 9, 22, 16, 1, 1, 0, 0, 0, 0, -123, -4};
+
+    ZoneId zoneId = ZoneId.of("Europe/Berlin");
+    ZonedDateTime zonedDateTime = ZonedDateTime.of(2016, 9, 22, 17, 0, 0, 0, zoneId);
+    byte[] actual = TimestamptzConverter.zonedDateTimeToTimestamptz(zonedDateTime).toBytes();
+    
+    assertArrayEquals(expected, actual);
+  }
+
+  @Test
+  public void allZones() {
+    LocalDateTime localDateTime = LocalDateTime.of(LocalDate.of(2015, 10, 25), LocalTime.of(1, 45));
+    IntStream.range(0, 8192)
+      .mapToObj(ZONEIDMAP::getRegion)
+      .filter(region -> region != null)
+      .map(region -> {
+        try {
+          return ZoneId.of(region);
+        } catch (ZoneRulesException e) {
+          return null;
+        }
+      })
+      .filter(zoneId -> zoneId != null)
+      .forEach(zoneId -> {
+        ZonedDateTime expected = localDateTime.atZone(zoneId);
+        ZonedDateTime actual = TimestamptzConverter.timestamptzToZonedDateTime(TimestamptzConverter.zonedDateTimeToTimestamptz(expected));
+        assertEquals(expected, actual);
+      });
   }
 
   private static byte[] convert(int[] original) {

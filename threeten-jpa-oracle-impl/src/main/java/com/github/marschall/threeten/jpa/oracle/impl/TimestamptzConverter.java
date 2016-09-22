@@ -132,17 +132,17 @@ public final class TimestamptzConverter {
   }
 
   private static OffsetDateTime extractUtc(byte[] bytes) {
-    int year = ((toUnsignedInt(bytes[0]) - 100) * 100) + (toUnsignedInt(bytes[1]) - 100);
-    int month = bytes[2];
-    int dayOfMonth = bytes[3];
-    int hour = bytes[4] - 1;
-    int minute = bytes[5] - 1;
-    int second = bytes[6] - 1;
-    int nanoOfSecond = toUnsignedInt(bytes[7]) << 24
-        | toUnsignedInt(bytes[8]) << 16
-        | toUnsignedInt(bytes[9]) << 8
-        | toUnsignedInt(bytes[10]);
-    return OffsetDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond, UTC);
+	    int year = ((toUnsignedInt(bytes[0]) - 100) * 100) + (toUnsignedInt(bytes[1]) - 100);
+	    int month = bytes[2];
+	    int dayOfMonth = bytes[3];
+	    int hour = bytes[4] - 1;
+	    int minute = bytes[5] - 1;
+	    int second = bytes[6] - 1;
+	    int nanoOfSecond = toUnsignedInt(bytes[7]) << 24
+	        | toUnsignedInt(bytes[8]) << 16
+	        | toUnsignedInt(bytes[9]) << 8
+	        | toUnsignedInt(bytes[10]);
+	    return OffsetDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond, UTC);
   }
 
   private static boolean isFixedOffset(byte[] bytes) {
@@ -195,8 +195,8 @@ public final class TimestamptzConverter {
   }
 
   private static void writeZoneId(byte[] bytes, int regionCode) {
-    bytes[11] = (byte) (REGIONIDBIT | (regionCode & 0b11111100000) >>> 6);
-    bytes[12] = (byte) ((regionCode & 0b11111) << 2);
+    bytes[11] = (byte) (REGIONIDBIT | (regionCode & 0b1111111000000) >>> 6);
+    bytes[12] = (byte) ((regionCode & 0b111111) << 2);
   }
 
   private TimestamptzConverter() {

@@ -9,6 +9,7 @@
         <class>com.github.marschall.threeten.jpa.oracle.OracleJavaTime</class>
         
         <class>com.github.marschall.threeten.jpa.oracle.OracleOffsetDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.oracle.OracleZonedDateTimeConverter</class>
         
         <properties>
           <property name="eclipselink.target-database" value="Oracle"/>
