@@ -14,7 +14,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,7 +37,6 @@ public class H2HibernateConverterTest extends AbstractTransactionalJUnit4SpringC
     this.template = new TransactionTemplate(txManager);
   }
 
-  @Ignore("bug in H2")
   @Test
   public void read() {
     // read the entity inserted by SQL

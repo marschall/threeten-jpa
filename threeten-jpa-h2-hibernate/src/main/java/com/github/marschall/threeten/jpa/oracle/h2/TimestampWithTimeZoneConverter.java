@@ -1,11 +1,15 @@
 package com.github.marschall.threeten.jpa.oracle.h2;
 
-import java.time.Instant;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 import org.h2.api.TimestampWithTimeZone;
+import org.h2.util.DateTimeUtils;
 
 /**
  * Converts between {@link TimestampWithTimeZone} and java.time times and back.
@@ -27,12 +31,15 @@ final class TimestampWithTimeZoneConverter {
     if (attribute == null) {
       return null;
     }
-    Instant instant = attribute.toInstant();
+    long dateValue = DateTimeUtils.dateValue(attribute.getYear(), attribute.getMonthValue(), attribute.getDayOfMonth());
+
+    OffsetDateTime midnight = attribute.truncatedTo(ChronoUnit.DAYS);
+    long nanos = Duration.between(midnight, attribute).toNanos();
+
     ZoneOffset offset = attribute.getOffset();
-    long timeMillis = instant.getEpochSecond() * 1_000L;
-    int nanos = instant.getNano();
     short timeZoneOffsetMins = (short) TimeUnit.SECONDS.toMinutes(offset.getTotalSeconds());
-    return new TimestampWithTimeZone(timeMillis, nanos, timeZoneOffsetMins);
+
+    return new TimestampWithTimeZone(dateValue, nanos, timeZoneOffsetMins);
   }
 
   /**
@@ -45,12 +52,13 @@ final class TimestampWithTimeZoneConverter {
     if (dbData == null) {
       return null;
     }
-    long epochSecond = dbData.getTime() / 1_000L;
-    int nanoAdjustment = dbData.getNanos();
+    LocalDate localDate = LocalDate.of(dbData.getYear(), dbData.getMonth(), dbData.getDay());
+    LocalDateTime localDateTime = localDate.atStartOfDay().plusNanos(dbData.getNanosSinceMidnight());
+
     short timeZoneOffsetMins = dbData.getTimeZoneOffsetMins();
-    Instant instant = Instant.ofEpochSecond(epochSecond, nanoAdjustment);
     ZoneOffset offset = ZoneOffset.ofTotalSeconds((int) TimeUnit.MINUTES.toSeconds(timeZoneOffsetMins));
-    return OffsetDateTime.ofInstant(instant, offset);
+
+    return OffsetDateTime.of(localDateTime, offset);
   }
 
 }
