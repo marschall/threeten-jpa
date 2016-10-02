@@ -186,5 +186,6 @@ Tested with the following databases:
  * Derby
  * H2
  * HSQL
+ * MySQL 5.7
  * Oracle 11.2g with the 12.1c driver
  * PostgreS 9.5
