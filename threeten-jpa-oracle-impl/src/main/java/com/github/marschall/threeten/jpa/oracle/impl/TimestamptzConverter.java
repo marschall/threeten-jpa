@@ -3,16 +3,18 @@ package com.github.marschall.threeten.jpa.oracle.impl;
 import static java.lang.Byte.toUnsignedInt;
 import static java.time.ZoneOffset.UTC;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
+import oracle.sql.TIMESTAMP;
 import oracle.sql.TIMESTAMPTZ;
 import oracle.sql.ZONEIDMAP;
 
 /**
- * Converts between {@link TIMESTAMPTZ} and java.time times and back.
+ * Converts between {@link TIMESTAMPTZ}/{@link TIMESTAMP} and java.time times and back.
  */
 public final class TimestamptzConverter {
 
@@ -20,6 +22,7 @@ public final class TimestamptzConverter {
 
   // magic
   private static final int SIZE_TIMESTAMPTZ = 13;
+  private static final int SIZE_TIMESTAMP = 11;
   private static final int OFFSET_HOUR = 20;
   private static final int OFFSET_MINUTE = 60;
   private static final byte REGIONIDBIT = (byte) 0b1000_0000; // -128
@@ -49,9 +52,9 @@ public final class TimestamptzConverter {
       return null;
     }
 
-    byte[] bytes = newBuffer();
+    byte[] bytes = newTimestamptzBuffer();
     ZonedDateTime utc = attribute.atZoneSameInstant(UTC);
-    writeDateTime(bytes, utc);
+    writeDateTime(bytes, utc.toLocalDateTime());
 
     ZoneOffset offset = attribute.getOffset();
     writeZoneOffset(bytes, offset);
@@ -92,9 +95,9 @@ public final class TimestamptzConverter {
       return null;
     }
 
-    byte[] bytes = newBuffer();
+    byte[] bytes = newTimestamptzBuffer();
     ZonedDateTime utc = attribute.withZoneSameInstant(UTC);
-    writeDateTime(bytes, utc);
+    writeDateTime(bytes, utc.toLocalDateTime());
 
     String zoneId = attribute.getZone().getId();
     int regionCode = ZONEIDMAP.getID(zoneId);
@@ -131,18 +134,54 @@ public final class TimestamptzConverter {
     }
   }
 
+  /**
+   * Converts {@link LocalDateTime} to {@link TIMESTAMP}.
+   *
+   * @param attribute the value to be converted, possibly {@code null}
+   * @return  the converted data, possibly {@code null}
+   */
+  public static TIMESTAMP localDateTimeToTimestamp(LocalDateTime attribute) {
+    if (attribute == null) {
+      return null;
+    }
+
+    byte[] bytes = newTimestampBuffer();
+    writeDateTime(bytes, attribute);
+
+    return new TIMESTAMP(bytes);
+  }
+
+  /**
+   * Converts {@link TIMESTAMP} to {@link LocalDateTime}.
+   *
+   * @param dbData the data from the database to be converted, possibly {@code null}
+   * @return the converted value, possibly {@code null}
+   */
+  public static LocalDateTime timestamptzToZonedDateTime(TIMESTAMP dbData) {
+    if (dbData == null) {
+      return null;
+    }
+
+    byte[] bytes = dbData.toBytes();
+    return extractLocalDateTime(bytes);
+  }
+
+  private static LocalDateTime extractLocalDateTime(byte[] bytes) {
+    int year = ((toUnsignedInt(bytes[0]) - 100) * 100) + (toUnsignedInt(bytes[1]) - 100);
+    int month = bytes[2];
+    int dayOfMonth = bytes[3];
+    int hour = bytes[4] - 1;
+    int minute = bytes[5] - 1;
+    int second = bytes[6] - 1;
+    int nanoOfSecond = toUnsignedInt(bytes[7]) << 24
+            | toUnsignedInt(bytes[8]) << 16
+            | toUnsignedInt(bytes[9]) << 8
+            | toUnsignedInt(bytes[10]);
+    return LocalDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond);
+  }
+
   private static OffsetDateTime extractUtc(byte[] bytes) {
-	    int year = ((toUnsignedInt(bytes[0]) - 100) * 100) + (toUnsignedInt(bytes[1]) - 100);
-	    int month = bytes[2];
-	    int dayOfMonth = bytes[3];
-	    int hour = bytes[4] - 1;
-	    int minute = bytes[5] - 1;
-	    int second = bytes[6] - 1;
-	    int nanoOfSecond = toUnsignedInt(bytes[7]) << 24
-	        | toUnsignedInt(bytes[8]) << 16
-	        | toUnsignedInt(bytes[9]) << 8
-	        | toUnsignedInt(bytes[10]);
-	    return OffsetDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond, UTC);
+    return OffsetDateTime.of(extractLocalDateTime(bytes), UTC);
   }
 
   private static boolean isFixedOffset(byte[] bytes) {
@@ -166,11 +205,15 @@ public final class TimestamptzConverter {
     return regionCode != INV_ZONEID;
   }
 
-  private static byte[] newBuffer() {
+  private static byte[] newTimestamptzBuffer() {
     return new byte[SIZE_TIMESTAMPTZ];
   }
 
-  private static void writeDateTime(byte[] bytes, ZonedDateTime utc) {
+  private static byte[] newTimestampBuffer() {
+    return new byte[SIZE_TIMESTAMP];
+  }
+
+  private static void writeDateTime(byte[] bytes, LocalDateTime utc) {
     int year = utc.getYear();
     bytes[0] = (byte) (year / 100 + 100);
     bytes[1] = (byte) (year % 100 + 100);
