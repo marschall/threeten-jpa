@@ -35,6 +35,15 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import com.github.marschall.threeten.jpa.configuration.DerbyConfiguration;
+import com.github.marschall.threeten.jpa.configuration.EclipseLinkConfiguration;
+import com.github.marschall.threeten.jpa.configuration.H2Configuration;
+import com.github.marschall.threeten.jpa.configuration.HibernateConfiguration;
+import com.github.marschall.threeten.jpa.configuration.HsqlConfiguration;
+import com.github.marschall.threeten.jpa.configuration.MysqlConfiguration;
+import com.github.marschall.threeten.jpa.configuration.PostgresConfiguration;
+import com.github.marschall.threeten.jpa.configuration.TransactionManagerConfiguration;
+
 @RunWith(Parameterized.class)
 public class ConverterTest {
 
@@ -55,12 +64,14 @@ public class ConverterTest {
     return Arrays.asList(
         new Object[]{DerbyConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-derby"},
         new Object[]{H2Configuration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-h2"},
-        new Object[]{HsqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-hsql"},
+//        new Object[]{HsqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-hsql"},
 //        new Object[]{PostgresConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-postgres"},
+        new Object[]{MysqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-mysql"},
         new Object[]{DerbyConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-derby"},
         new Object[]{H2Configuration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-h2"},
         new Object[]{HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"}
-//        new Object[]{PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres"}
+//        new Object[]{PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres"},
+//        new Object[]{MysqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-mysql"}
         );
   }
 
@@ -98,8 +109,8 @@ public class ConverterTest {
         JavaTime javaTime = (JavaTime) resultList.get(0);
         assertEquals(LocalTime.parse("15:09:02"), javaTime.getLocalTime());
         assertEquals(LocalDate.parse("1988-12-25"), javaTime.getLocalDate());
-        assertEquals(LocalDateTime.parse("1960-01-01T23:03:20"), javaTime.getLocalDateTime());
-        assertEquals(LocalDateTime.parse("1960-01-01T23:03:20").atZone(ZoneId.systemDefault()).toInstant(), javaTime.getInstant());
+        assertEquals(LocalDateTime.parse("1980-01-01T23:03:20"), javaTime.getLocalDateTime());
+        assertEquals(LocalDateTime.parse("1980-01-01T23:03:20").atZone(ZoneId.systemDefault()).toInstant(), javaTime.getInstant());
         return null;
        });
 

@@ -33,6 +33,11 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import com.github.marschall.threeten.jpa.configuration.EclipseLinkConfiguration;
+import com.github.marschall.threeten.jpa.configuration.HibernateConfiguration;
+import com.github.marschall.threeten.jpa.configuration.OracleConfiguration;
+import com.github.marschall.threeten.jpa.configuration.TransactionManagerConfiguration;
+
 @RunWith(Parameterized.class)
 @Ignore("needs an oracle instance running")
 public class OracleConverterTest {

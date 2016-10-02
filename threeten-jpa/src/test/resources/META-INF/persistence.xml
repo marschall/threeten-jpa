@@ -63,6 +63,21 @@
         </properties>
     </persistence-unit>
 
+    <persistence-unit name="threeten-jpa-hibernate-mysql">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        
+        <class>com.github.marschall.threeten.jpa.JavaTime</class>
+        
+        <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.InstantConverter</class>
+        
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57InnoDBDialect" />
+        </properties>
+    </persistence-unit>
+
     <persistence-unit name="threeten-jpa-hibernate-oracle">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         
@@ -72,7 +87,7 @@
         <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
         
         <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle12cDialect" />
         </properties>
     </persistence-unit>
 
@@ -136,6 +151,22 @@
         
         <properties>
           <property name="eclipselink.target-database" value="PostgreSQL"/>
+          <property name="eclipselink.weaving" value="false"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="threeten-jpa-eclipselink-mysql">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        
+        <class>com.github.marschall.threeten.jpa.JavaTime</class>
+        
+        <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
+        <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.InstantConverter</class>
+        
+        <properties>
+          <property name="eclipselink.target-database" value="MySQL"/>
           <property name="eclipselink.weaving" value="false"/>
         </properties>
     </persistence-unit>

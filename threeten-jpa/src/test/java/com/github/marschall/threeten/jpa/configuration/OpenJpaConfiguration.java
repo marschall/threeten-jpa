@@ -1,4 +1,4 @@
-package com.github.marschall.threeten.jpa;
+package com.github.marschall.threeten.jpa.configuration;
 
 import static com.github.marschall.threeten.jpa.Constants.PERSISTENCE_UNIT_NAME;
 

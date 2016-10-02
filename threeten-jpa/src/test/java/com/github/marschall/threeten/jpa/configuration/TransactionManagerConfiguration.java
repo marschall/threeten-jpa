@@ -1,4 +1,4 @@
-package com.github.marschall.threeten.jpa;
+package com.github.marschall.threeten.jpa.configuration;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;

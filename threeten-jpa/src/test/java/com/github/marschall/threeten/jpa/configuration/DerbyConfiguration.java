@@ -1,4 +1,4 @@
-package com.github.marschall.threeten.jpa;
+package com.github.marschall.threeten.jpa.configuration;
 
 import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.DERBY;
 
