@@ -11,9 +11,6 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -37,9 +34,14 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.HibernateConfiguration;
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.HsqlConfiguration;
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.MysqlConfiguration;
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.PostgresConfiguration;
+
 @Ignore("database access")
 @RunWith(Parameterized.class)
-public class ConverterTest {
+public class ConverterWithoutTimeZoneTest {
 
   private final Class<?> datasourceConfiguration;
   private final Class<?> jpaConfiguration;
@@ -47,7 +49,7 @@ public class ConverterTest {
   private AnnotationConfigApplicationContext applicationContext;
   private TransactionTemplate template;
 
-  public ConverterTest(Class<?> datasourceConfiguration, Class<?> jpaConfiguration, String persistenceUnitName) {
+  public ConverterWithoutTimeZoneTest(Class<?> datasourceConfiguration, Class<?> jpaConfiguration, String persistenceUnitName) {
     this.datasourceConfiguration = datasourceConfiguration;
     this.jpaConfiguration = jpaConfiguration;
     this.persistenceUnitName = persistenceUnitName;
@@ -57,6 +59,7 @@ public class ConverterTest {
   public static Collection<Object[]> parameters() {
     return Arrays.asList(
         new Object[]{HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"},
+        new Object[]{MysqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-mysql"},
         new Object[]{PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres"}
         );
   }
@@ -87,20 +90,12 @@ public class ConverterTest {
     try {
       // read the entity inserted by SQL
       this.template.execute((s) -> {
-        Query query = entityManager.createQuery("SELECT t FROM JavaTimeWithZone t");
+        Query query = entityManager.createQuery("SELECT t FROM JavaTime42 t");
         List<?> resultList = query.getResultList();
         assertThat(resultList, hasSize(1));
 
         // validate the entity inserted by SQL
-        JavaTimeWithZone javaTime = (JavaTimeWithZone) resultList.get(0);
-//        assertEquals(ZonedDateTime.parse("1960-01-01T23:03:20-05:00[America/New_York]"), javaTime.getZoned());
-//        assertEquals(OffsetDateTime.parse("1960-01-01T23:03:20+02:00"), javaTime.getOffset());
-        if (persistenceUnitName.contains("postgres")) {
-          // postgres stores in UTC
-          assertEquals(OffsetDateTime.parse("1960-01-01T23:03:20+02:00").withOffsetSameInstant(ZoneOffset.UTC), javaTime.getOffset());
-        } else {
-          assertEquals(OffsetDateTime.parse("1960-01-01T23:03:20+02:00"), javaTime.getOffset());
-        }
+        JavaTime42 javaTime = (JavaTime42) resultList.get(0);
         assertEquals(LocalTime.parse("02:55:00"), javaTime.getLocalTime());
         assertEquals(LocalDate.parse("2016-03-27"), javaTime.getLocalDate());
         assertEquals(LocalDateTime.parse("2016-03-27T02:55:00"), javaTime.getLocalDateTime());
@@ -109,14 +104,16 @@ public class ConverterTest {
 
       // insert a new entity into the database
       BigInteger newId = new BigInteger("2");
-      ZonedDateTime newZoned = ZonedDateTime.now();
-      OffsetDateTime newOffset = OffsetDateTime.now();
+      LocalTime newLocalTime = LocalTime.now();
+      LocalDate newLocalDate = LocalDate.now();
+      LocalDateTime newLocalDateTime = LocalDateTime.now();
 
       this.template.execute((s) -> {
-        JavaTimeWithZone toInsert = new JavaTimeWithZone();
+        JavaTime42 toInsert = new JavaTime42();
         toInsert.setId(newId);
-//        toInsert.setZoned(newZoned);
-        toInsert.setOffset(newOffset);
+        toInsert.setLocalTime(newLocalTime);
+        toInsert.setLocalDate(newLocalDate);
+        toInsert.setLocalDateTime(newLocalDateTime);
         entityManager.persist(toInsert);
         // the transaction should trigger a flush and write to the database
         return null;
@@ -124,11 +121,12 @@ public class ConverterTest {
 
       // validate the new entity inserted into the database
       this.template.execute((s) -> {
-        JavaTimeWithZone readBack = entityManager.find(JavaTimeWithZone.class, newId);
+        JavaTime42 readBack = entityManager.find(JavaTime42.class, newId);
         assertNotNull(readBack);
         assertEquals(newId, readBack.getId());
-//        assertEquals(newZoned, readBack.getZoned());
-        assertEquals(newOffset, readBack.getOffset());
+        assertEquals(newLocalTime, readBack.getLocalTime());
+        assertEquals(newLocalDate, readBack.getLocalDate());
+        assertEquals(newLocalDateTime, readBack.getLocalDateTime());
         entityManager.remove(readBack);
         return null;
       });

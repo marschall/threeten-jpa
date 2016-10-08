@@ -5,9 +5,10 @@
 
     <persistence-unit name="threeten-jpa-hibernate-hsql">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        
-        <class>com.github.marschall.threeten.jpa.jdbc42.hibernate.JavaTimeWithZone</class>
-        
+
+        <class>com.github.marschall.threeten.jpa.jdbc42.hibernate.JavaTime42</class>
+        <class>com.github.marschall.threeten.jpa.jdbc42.hibernate.JavaTime42WithZone</class>
+
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
         </properties>
@@ -15,11 +16,23 @@
 
     <persistence-unit name="threeten-jpa-hibernate-postgres">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        
-        <class>com.github.marschall.threeten.jpa.jdbc42.hibernate.JavaTimeWithZone</class>
-        
+
+        <class>com.github.marschall.threeten.jpa.jdbc42.hibernate.JavaTime42</class>
+        <class>com.github.marschall.threeten.jpa.jdbc42.hibernate.JavaTime42WithZone</class>
+
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect" />
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="threeten-jpa-hibernate-mysql">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        
+        <class>com.github.marschall.threeten.jpa.jdbc42.hibernate.JavaTime42</class>
+        <class>com.github.marschall.threeten.jpa.jdbc42.hibernate.JavaTime42WithZone</class>
+        
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57InnoDBDialect" />
         </properties>
     </persistence-unit>
 

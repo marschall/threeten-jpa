@@ -1,4 +1,4 @@
-package com.github.marschall.threeten.jpa.jdbc42.hibernate;
+package com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration;
 
 import static com.github.marschall.threeten.jpa.jdbc42.hibernate.Constants.PERSISTENCE_UNIT_NAME;
 

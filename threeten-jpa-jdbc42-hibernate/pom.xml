@@ -72,5 +72,10 @@
       <artifactId>postgresql</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>
