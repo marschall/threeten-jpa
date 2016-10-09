@@ -8,6 +8,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigInteger;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,6 +23,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import javax.sql.DataSource;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,6 +35,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
+import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -40,6 +44,8 @@ import com.github.marschall.threeten.jpa.configuration.EclipseLinkConfiguration;
 import com.github.marschall.threeten.jpa.configuration.H2Configuration;
 import com.github.marschall.threeten.jpa.configuration.HibernateConfiguration;
 import com.github.marschall.threeten.jpa.configuration.HsqlConfiguration;
+import com.github.marschall.threeten.jpa.configuration.MysqlConfiguration;
+import com.github.marschall.threeten.jpa.configuration.PostgresConfiguration;
 import com.github.marschall.threeten.jpa.configuration.TransactionManagerConfiguration;
 
 @RunWith(Parameterized.class)
@@ -63,13 +69,13 @@ public class ConverterTest {
         new Object[]{DerbyConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-derby"},
         new Object[]{H2Configuration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-h2"},
         new Object[]{HsqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-hsql"},
-//        new Object[]{PostgresConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-postgres"},
-//        new Object[]{MysqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-mysql"},
+        new Object[]{PostgresConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-postgres"},
+        new Object[]{MysqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-mysql"},
         new Object[]{DerbyConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-derby"},
         new Object[]{H2Configuration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-h2"},
-        new Object[]{HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"}
-//        new Object[]{PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres"},
-//        new Object[]{MysqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-mysql"}
+        new Object[]{HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"},
+        new Object[]{PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres"},
+        new Object[]{MysqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-mysql"}
         );
   }
 
@@ -85,6 +91,20 @@ public class ConverterTest {
 
     PlatformTransactionManager txManager = this.applicationContext.getBean(PlatformTransactionManager.class);
     this.template = new TransactionTemplate(txManager);
+
+
+    this.template.execute(status -> {
+      Map<String, DatabasePopulator> beans = this.applicationContext.getBeansOfType(DatabasePopulator.class);
+      DataSource dataSource = this.applicationContext.getBean(DataSource.class);
+      try (Connection connection = dataSource.getConnection()) {
+        for (DatabasePopulator populator : beans.values()) {
+          populator.populate(connection);
+        }
+      } catch (SQLException e) {
+        throw new RuntimeException("could initialize database", e);
+      }
+      return null;
+    });
   }
 
   @After
