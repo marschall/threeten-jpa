@@ -157,7 +157,7 @@ public final class TimestamptzConverter {
    * @param dbData the data from the database to be converted, possibly {@code null}
    * @return the converted value, possibly {@code null}
    */
-  public static LocalDateTime timestamptzToZonedDateTime(TIMESTAMP dbData) {
+  public static LocalDateTime timestampToLocalDateTime(TIMESTAMP dbData) {
     if (dbData == null) {
       return null;
     }
