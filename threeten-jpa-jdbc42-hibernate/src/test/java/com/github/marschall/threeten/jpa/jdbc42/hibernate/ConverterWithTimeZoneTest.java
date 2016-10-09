@@ -8,21 +8,23 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigInteger;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import javax.sql.DataSource;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -31,14 +33,13 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
+import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.HibernateConfiguration;
-import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.HsqlConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.PostgresConfiguration;
 
-@Ignore("database access")
 @RunWith(Parameterized.class)
 public class ConverterWithTimeZoneTest {
 
@@ -56,8 +57,8 @@ public class ConverterWithTimeZoneTest {
 
   @Parameters(name = "{2}")
   public static Collection<Object[]> parameters() {
-    return Arrays.asList(
-        new Object[]{HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"},
+    return Collections.singleton(
+//        new Object[]{HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"},
         new Object[]{PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres"}
         );
   }
@@ -74,6 +75,19 @@ public class ConverterWithTimeZoneTest {
 
     PlatformTransactionManager txManager = this.applicationContext.getBean(PlatformTransactionManager.class);
     this.template = new TransactionTemplate(txManager);
+
+    this.template.execute(status -> {
+      Map<String, DatabasePopulator> beans = this.applicationContext.getBeansOfType(DatabasePopulator.class);
+      DataSource dataSource = this.applicationContext.getBean(DataSource.class);
+      try (Connection connection = dataSource.getConnection()) {
+        for (DatabasePopulator populator : beans.values()) {
+          populator.populate(connection);
+        }
+      } catch (SQLException e) {
+        throw new RuntimeException("could initialize database", e);
+      }
+      return null;
+    });
   }
 
   @After
