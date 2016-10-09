@@ -92,7 +92,6 @@ public class ConverterTest {
     PlatformTransactionManager txManager = this.applicationContext.getBean(PlatformTransactionManager.class);
     this.template = new TransactionTemplate(txManager);
 
-
     this.template.execute(status -> {
       Map<String, DatabasePopulator> beans = this.applicationContext.getBeansOfType(DatabasePopulator.class);
       DataSource dataSource = this.applicationContext.getBean(DataSource.class);
