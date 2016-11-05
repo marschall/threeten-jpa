@@ -14,6 +14,16 @@
         </properties>
     </persistence-unit>
 
+    <persistence-unit name="threeten-jpa-hibernate-derby">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+        <class>com.github.marschall.threeten.jpa.jdbc42.hibernate.JavaTime42</class>
+        
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyTenSevenDialect" />
+        </properties>
+    </persistence-unit>
+
     <persistence-unit name="threeten-jpa-hibernate-h2">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
