@@ -13,8 +13,8 @@ import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +37,7 @@ import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.H2Configuration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.HibernateConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.PostgresConfiguration;
 
@@ -57,8 +58,9 @@ public class ConverterWithTimeZoneTest {
 
   @Parameters(name = "{2}")
   public static Collection<Object[]> parameters() {
-    return Collections.singleton(
+    return Arrays.asList(
 //        new Object[]{HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"},
+        new Object[]{H2Configuration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-h2"},
         new Object[]{PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres"}
         );
   }

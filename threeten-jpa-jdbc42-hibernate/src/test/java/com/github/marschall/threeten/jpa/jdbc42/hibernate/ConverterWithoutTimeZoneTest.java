@@ -37,8 +37,8 @@ import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.H2Configuration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.HibernateConfiguration;
-import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.HsqlConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.MysqlConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.PostgresConfiguration;
 
@@ -62,6 +62,7 @@ public class ConverterWithoutTimeZoneTest {
     return Arrays.asList(
 //        new Object[]{HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"},
         new Object[]{MysqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-mysql"},
+        new Object[]{H2Configuration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-h2"},
         new Object[]{PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres"}
         );
   }
