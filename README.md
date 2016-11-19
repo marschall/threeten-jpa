@@ -75,7 +75,12 @@ Databases that support `TIMESTAMP WITH TIME ZONE`:
  * PostgreSQL
  * SQL Server
 
-Unfortunately the HSQL has a buggy implementations of JDBC 4.2 and therefore can't be supported. In addition PostgreSQL converts to UTC when storing. To make matters more complicated Oracle does not yet have a JDBC 4.2 driver and supports accessing time zones only through [proprietary APIs](http://docs.oracle.com/cd/E11882_01/appdev.112/e13995/oracle/sql/TIMESTAMPTZ.html).
+Unfortunately the driver situation is not perfect:
+
+ * HSQL has a buggy implementations of JDBC 4.2 and therefore can't be supported.
+ * SQL Server has a buggy implementations of JDBC 4.2 and therefore can't be supported.
+ * PostgreSQL converts to UTC when storing.
+ * Oracle does not yet have a JDBC 4.2 driver and supports accessing time zones only through [proprietary APIs](http://docs.oracle.com/cd/E11882_01/appdev.112/e13995/oracle/sql/TIMESTAMPTZ.html).
 
 Databases that do *not* support `TIMESTAMP WITH TIME ZONE`:
 
@@ -86,13 +91,12 @@ Databases that do *not* support `TIMESTAMP WITH TIME ZONE`:
 
 This results in the following support matrix.
 
-|             | Oracle                          | PostgreSQL                    | H2                            | SQL Server                    |
-| ----------- | ------------------------------- | ----------------------------- | ----------------------------- | ----------------------------- |
-| EclipseLink | threeten-jpa-oracle-eclipselink | :x:                           | :x:                           | :x:                           |
-| Hibernate   | threeten-jpa-oracle-hibernate   | threeten-jpa-jdbc42-hibernate | threeten-jpa-jdbc42-hibernate | threeten-jpa-jdbc42-hibernate |
+|             | Oracle                          | PostgreSQL                    | H2                            |
+| ----------- | ------------------------------- | ----------------------------- | ----------------------------- |
+| EclipseLink | threeten-jpa-oracle-eclipselink | :x:                           | :x:                           |
+| Hibernate   | threeten-jpa-oracle-hibernate   | threeten-jpa-jdbc42-hibernate | threeten-jpa-jdbc42-hibernate |
 
 PostgreSQL requires driver 9.4.1208 or later.
-SQL Server support is untested.
 
 `threeten-jpa-oracle-eclipselink` contains JPA attribute converters which need to be listed in `persistence.xml`
 
