@@ -35,6 +35,18 @@
       <artifactId>org.eclipse.persistence.jpa</artifactId>
       <scope>provided</scope>
     </dependency>
+    <!-- 
+    <dependency>
+      <groupId>org.eclipse.persistence</groupId>
+      <artifactId>org.eclipse.persistence.oracle</artifactId>
+      <scope>provided</scope>
+    </dependency>
+     -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-jpamodelgen</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
@@ -71,19 +83,16 @@
     </dependency>
      -->
   </dependencies>
-
+  
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-shade-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-          </execution>
-        </executions>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>com/github/marschall/threeten/jpa/oracle/OracleJavaTime_.class</exclude>
+          </excludes>
+        </configuration>
       </plugin>
     </plugins>
   </build>

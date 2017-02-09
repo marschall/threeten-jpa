@@ -75,6 +75,11 @@
       </dependency>
       <dependency>
         <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-jpamodelgen</artifactId>
+        <version>${hibernate.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>
         <version>${hibernate.version}</version>
         <exclusions>
@@ -91,6 +96,11 @@
       <dependency>
         <groupId>org.eclipse.persistence</groupId>
         <artifactId>org.eclipse.persistence.jpa</artifactId>
+        <version>2.6.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.persistence</groupId>
+        <artifactId>org.eclipse.persistence.oracle</artifactId>
         <version>2.6.4</version>
       </dependency>
       <dependency>
@@ -334,8 +344,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <spring.version>4.3.3.RELEASE</spring.version>
-    <hibernate.version>5.2.4.Final</hibernate.version>
+    <spring.version>4.3.6.RELEASE</spring.version>
+    <hibernate.version>5.2.7.Final</hibernate.version>
     <java.version>1.8</java.version>
   </properties>
 

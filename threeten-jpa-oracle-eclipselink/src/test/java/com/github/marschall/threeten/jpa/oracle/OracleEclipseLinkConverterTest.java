@@ -12,6 +12,9 @@ import java.time.ZonedDateTime;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -90,6 +93,20 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
       entityManager.remove(readBack);
       return null;
     });
+  }
+
+  @Test
+  public void criteriaApi() {
+    CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+    CriteriaQuery<OracleJavaTime> query = builder.createQuery(OracleJavaTime.class);
+    OffsetDateTime offsetDateTime = OffsetDateTime.parse("1998-01-31T09:26:56.66+02:00");
+    ZonedDateTime zonedDateTime = ZonedDateTime.parse("1998-12-15T08:00:00-08:00[US/Pacific]");
+    Root<OracleJavaTime> root = query.from(OracleJavaTime.class);
+    CriteriaQuery<OracleJavaTime> beforeTwelfeFive = query.where(builder.and(
+            builder.lessThan(root.get(OracleJavaTime_.offsetDateTime), offsetDateTime),
+            builder.greaterThan(root.get(OracleJavaTime_.zonedDateTime), zonedDateTime)));
+    OracleJavaTime oracleJavaTime = this.entityManager.createQuery(beforeTwelfeFive).getSingleResult();
+    assertNotNull(oracleJavaTime);
   }
 
 }
