@@ -23,7 +23,7 @@ public class HibernateConfiguration {
   @Bean
   public LocalContainerEntityManagerFactoryBean entityManager(DataSource dataSource) {
     LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
-    bean.setPersistenceUnitName(environment.getProperty(PERSISTENCE_UNIT_NAME));
+    bean.setPersistenceUnitName(this.environment.getProperty(PERSISTENCE_UNIT_NAME));
     bean.setJpaDialect(jpaDialect());
     bean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
     bean.setDataSource(dataSource);
