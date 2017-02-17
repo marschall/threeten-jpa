@@ -12,10 +12,6 @@ public class TIMESTAMP {
     this.timestamp = timestamp;
   }
 
-  public TIMESTAMP() {
-    this.timestamp = new byte[11];
-  }
-
   public byte[] toBytes() {
     return this.timestamp;
   }

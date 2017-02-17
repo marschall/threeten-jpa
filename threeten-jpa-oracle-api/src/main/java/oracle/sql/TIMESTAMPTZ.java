@@ -3,6 +3,8 @@ package oracle.sql;
 
 /**
  * Dummy {@code TIMESTAMPTZ} interface which avoids a dependency to OJDBC.
+ *
+ * @see <a href="https://docs.oracle.com/database/121/JAJDB/oracle/sql/TIMESTAMPTZ.html">TIMESTAMPTZ</a>
  */
 public class TIMESTAMPTZ {
 
@@ -10,10 +12,6 @@ public class TIMESTAMPTZ {
 
   public TIMESTAMPTZ(byte[] timestamptz) {
     this.timestamptz = timestamptz;
-  }
-
-  public TIMESTAMPTZ() {
-    this.timestamptz = new byte[13];
   }
 
   public byte[] toBytes() {
