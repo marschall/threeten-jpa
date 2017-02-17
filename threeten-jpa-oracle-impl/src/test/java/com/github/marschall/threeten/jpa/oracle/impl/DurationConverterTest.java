@@ -4,15 +4,62 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.Duration;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class DurationConverterTest {
 
   @Test
-  @Ignore("broken")
-  public void convertAndBack() {
-    Duration duration = Duration.parse("P" + "2DT" + "3H" + "4M" + "20.345S");
+  public void convertAndBackAllFields() {
+    Duration duration = Duration.parse("P" + "2D" + "T" + "3H" + "4M" + "20.345S");
+    Duration converted = IntervalConverter.intervaldsToDuration(IntervalConverter.durationToIntervalds(duration));
+    assertEquals(duration, converted);
+  }
+
+  @Test
+  public void nanosOnly() {
+    Duration duration = Duration.parse("P" + "T" + "0.123456789S");
+    Duration converted = IntervalConverter.intervaldsToDuration(IntervalConverter.durationToIntervalds(duration));
+    assertEquals(duration, converted);
+  }
+
+  @Test
+  public void secondsOnly() {
+    Duration duration = Duration.parse("P" + "T" + "20S");
+    Duration converted = IntervalConverter.intervaldsToDuration(IntervalConverter.durationToIntervalds(duration));
+    assertEquals(duration, converted);
+  }
+
+  @Test
+  public void hoursOnly() {
+    Duration duration = Duration.parse("P" + "T" + "3H");
+    Duration converted = IntervalConverter.intervaldsToDuration(IntervalConverter.durationToIntervalds(duration));
+    assertEquals(duration, converted);
+  }
+
+  @Test
+  public void daysOnly() {
+    Duration duration = Duration.parse("P" + "2D");
+    Duration converted = IntervalConverter.intervaldsToDuration(IntervalConverter.durationToIntervalds(duration));
+    assertEquals(duration, converted);
+  }
+
+  @Test
+  public void secondsAndNanos() {
+    Duration duration = Duration.parse("P" + "T" + "20.345S");
+    Duration converted = IntervalConverter.intervaldsToDuration(IntervalConverter.durationToIntervalds(duration));
+    assertEquals(duration, converted);
+  }
+
+  @Test
+  public void secondsAndMinutes() {
+    Duration duration = Duration.parse("P" + "T" + "4M" + "20S");
+    Duration converted = IntervalConverter.intervaldsToDuration(IntervalConverter.durationToIntervalds(duration));
+    assertEquals(duration, converted);
+  }
+
+  @Test
+  public void secondsAndMinutesAndHours() {
+    Duration duration = Duration.parse("P" + "T" + "3H" + "4M" + "20S");
     Duration converted = IntervalConverter.intervaldsToDuration(IntervalConverter.durationToIntervalds(duration));
     assertEquals(duration, converted);
   }

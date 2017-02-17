@@ -114,15 +114,16 @@ public final class IntervalConverter {
     long totalSeconds = attribute.getSeconds();
     // computation happens in UTC
     // lead seconds are sort of an issue
-    long totalMinutes = totalSeconds / 60L;
-    long totalHours = totalMinutes / 60L;
 
-    long day = toIntExact(totalHours / 24L);
-    int hour = (int) (totalHours % 60) + 60;
-    int minute = (int) (totalMinutes % 60) + 60;
-    int second = (int) (totalSeconds % 60) + 60;
+    int day = toIntExact(totalSeconds / 24L / 60L / 60L);
+    int hour = (int) ((totalSeconds / 60L / 60L) - (day * 24L));
+    int minute = (int) ((totalSeconds / 60L) - (day * 24L * 60L) - (hour * 60L));
+    int second = (int) (totalSeconds % 60);
     int nano = attribute.getNano();
 
+    hour += 60;
+    minute += 60;
+    second += 60;
 
     bytes[0] = (byte) (day >> 24);
     bytes[1] = (byte) (day >> 16 & 0xFF);
