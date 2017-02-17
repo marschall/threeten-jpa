@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import oracle.sql.TIMESTAMPTZ;
 
-public class OracleOffsetDateTimeConverterTest {
+public class OffsetDateTimeConverterTest {
 
   @Test
   public void convertToDatabaseColumnPositiveOffset() {

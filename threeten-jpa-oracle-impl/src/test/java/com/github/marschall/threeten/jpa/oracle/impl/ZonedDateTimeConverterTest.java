@@ -18,7 +18,7 @@ import org.junit.Test;
 import oracle.sql.TIMESTAMPTZ;
 import oracle.sql.ZONEIDMAP;
 
-public class OracleZonedDateTimeConverterTest {
+public class ZonedDateTimeConverterTest {
 
   @Test
   public void convertToDatabaseColumnPositiveOffset() {

@@ -45,7 +45,7 @@ public final class TimestamptzConverter {
    * Converts {@link OffsetDateTime} to {@link TIMESTAMPTZ}.
    *
    * @param attribute the value to be converted, possibly {@code null}
-   * @return  the converted data, possibly {@code null}
+   * @return the converted data, possibly {@code null}
    */
   public static TIMESTAMPTZ offsetDateTimeToTimestamptz(OffsetDateTime attribute) {
     if (attribute == null) {
