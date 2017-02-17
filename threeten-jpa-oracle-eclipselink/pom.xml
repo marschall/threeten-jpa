@@ -35,13 +35,11 @@
       <artifactId>org.eclipse.persistence.jpa</artifactId>
       <scope>provided</scope>
     </dependency>
-    <!-- 
     <dependency>
       <groupId>org.eclipse.persistence</groupId>
       <artifactId>org.eclipse.persistence.oracle</artifactId>
       <scope>provided</scope>
     </dependency>
-     -->
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-jpamodelgen</artifactId>

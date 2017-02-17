@@ -17,4 +17,60 @@
         </properties>
     </persistence-unit>
 
+    <persistence-unit name="threeten-jpa-eclipselink-oracle11">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        
+        <class>com.github.marschall.threeten.jpa.oracle.OracleJavaTime</class>
+        
+        <class>com.github.marschall.threeten.jpa.oracle.OracleOffsetDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.oracle.OracleZonedDateTimeConverter</class>
+        
+        <properties>
+          <property name="eclipselink.target-database" value="Oracle11"/>
+          <property name="eclipselink.weaving" value="false"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="threeten-jpa-eclipselink-oracle12">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        
+        <class>com.github.marschall.threeten.jpa.oracle.OracleJavaTime</class>
+        
+        <class>com.github.marschall.threeten.jpa.oracle.OracleOffsetDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.oracle.OracleZonedDateTimeConverter</class>
+        
+        <properties>
+          <property name="eclipselink.target-database" value="Oracle12"/>
+          <property name="eclipselink.weaving" value="false"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="threeten-jpa-eclipselink-oracle11patched">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        
+        <class>com.github.marschall.threeten.jpa.oracle.OracleJavaTime</class>
+        
+        <class>com.github.marschall.threeten.jpa.oracle.OracleOffsetDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.oracle.OracleZonedDateTimeConverter</class>
+        
+        <properties>
+          <property name="eclipselink.target-database" value="com.github.marschall.threeten.jpa.oracle.PatchedOracle11Platform"/>
+          <property name="eclipselink.weaving" value="false"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="threeten-jpa-eclipselink-oracle12patched">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        
+        <class>com.github.marschall.threeten.jpa.oracle.OracleJavaTime</class>
+        
+        <class>com.github.marschall.threeten.jpa.oracle.OracleOffsetDateTimeConverter</class>
+        <class>com.github.marschall.threeten.jpa.oracle.OracleZonedDateTimeConverter</class>
+        
+        <properties>
+          <property name="eclipselink.target-database" value="com.github.marschall.threeten.jpa.oracle.PatchedOracle12Platform"/>
+          <property name="eclipselink.weaving" value="false"/>
+        </properties>
+    </persistence-unit>
+
 </persistence>
