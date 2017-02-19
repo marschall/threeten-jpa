@@ -65,82 +65,7 @@ All the converters have set `Converter#autoApply()` to `true` so they're automat
 Time Zone Support
 -----------------
 
-Supporting time zones needs both database and driver support.
-
-Databases that support `TIMESTAMP WITH TIME ZONE`:
-
- * Oracle
- * HSQL
- * H2
- * PostgreSQL
- * SQL Server
-
-Unfortunately the driver situation is not perfect:
-
- * HSQL has a buggy implementations of JDBC 4.2 and therefore can't be supported.
- * SQL Server has a buggy implementations of JDBC 4.2 and therefore can't be supported.
- * PostgreSQL converts to UTC when storing.
- * Oracle does not yet have a JDBC 4.2 driver and supports accessing time zones only through [proprietary APIs](http://docs.oracle.com/cd/E11882_01/appdev.112/e13995/oracle/sql/TIMESTAMPTZ.html).
-
-Databases that do *not* support `TIMESTAMP WITH TIME ZONE`:
-
- * DB2
- * Derby
- * Firebird
- * MySQL
-
-This results in the following support matrix.
-
-|             | Oracle                          | PostgreSQL                    | H2                            |
-| ----------- | ------------------------------- | ----------------------------- | ----------------------------- |
-| EclipseLink | threeten-jpa-oracle-eclipselink | :x:                           | :x:                           |
-| Hibernate   | threeten-jpa-oracle-hibernate   | threeten-jpa-jdbc42-hibernate | threeten-jpa-jdbc42-hibernate |
-
-PostgreSQL requires driver 9.4.1208 or later.
-
-`threeten-jpa-oracle-eclipselink` contains JPA attribute converters which need to be listed in `persistence.xml`
-
-```xml
-<persistence-unit>
-    …
-    <class>com.github.marschall.threeten.jpa.oracle.OracleOffsetDateTimeConverter</class>
-    <class>com.github.marschall.threeten.jpa.oracle.OracleZonedDateTimeConverter</class>
-    …
-</persistence-unit>
-```
-
-`threeten-jpa-oracle-hibernate` contains Hibernate user types which need to be used using `@Type`:
-
-```java
-@Entity
-public class SampleEntity {
-
-  @Column
-  @Type(type = OracleZonedDateTimeType.NAME)
-  private ZonedDateTime onedDateTime;
-
-  @Column
-  @Type(type = OracleOffsetDateTimeType.NAME)
-  private OffsetDateTime offsetDateTime;
-
-}
-```
-
-`threeten-jpa-jdbc42-hibernate` contains Hibernate user types which need to be used using `@Type`:
-
-```java
-@Entity
-public class SampleEntity {
-
-  @Column
-  @Type(type = Jdbc42OffsetDateTimeType.NAME)
-  private OffsetDateTime offsetDateTime;
-
-}
-```
-
-Note the Oracle driver module has to be visible to the deployment (eg [Class Loading in WildFly](https://docs.jboss.org/author/display/WFLY9/Class+Loading+in+WildFly)).
-
+[Time Zone Support](https://github.com/marschall/threeten-jpa/wiki/Time-Zone-Support) is documented on the wiki.
 
 Hibernate 5
 -----------
@@ -150,7 +75,7 @@ If you use [Hibernate 5.0.0](http://in.relation.to/2015/08/20/hibernate-orm-500-
  * can lead to issues with timestamps not representable with the local time zone
  * does not preserve the time zone from the database
 
-if you're running a JDBC 4.2 compliant driver (like pgjdbc) we would still recommend using `com.github.marschall:threeten-jpa-jdbc42-hibernate` even on Hibernate 5.
+if you're running a JDBC 4.2 compliant driver (like pgjdbc or H2) we would still recommend using `com.github.marschall:threeten-jpa-jdbc42-hibernate` even on Hibernate 5.
 
 Project Structure
 -----------------
