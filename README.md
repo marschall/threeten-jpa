@@ -1,4 +1,4 @@
-ThreeTen JPA [![Build Status](https://travis-ci.org/marschall/threeten-jpa.svg?branch=master)](https://travis-ci.org/marschall/threeten-jpa) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-jpa/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-jpa)
+ThreeTen JPA [![Javadocs](http://www.javadoc.io/badge/com.github.marschall/threeten-jpa.svg)](http://www.javadoc.io/doc/com.github.marschall/threeten-jpa) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-jpa/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-jpa) [![Build Status](https://travis-ci.org/marschall/threeten-jpa.svg?branch=master)](https://travis-ci.org/marschall/threeten-jpa)
 ============
 
 JPA attribute converters for JSR-310 (Java 8) dates and times.
