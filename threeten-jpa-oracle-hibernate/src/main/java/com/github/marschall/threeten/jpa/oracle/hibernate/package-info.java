@@ -15,13 +15,18 @@
  *  <tbody>
  *    <tr>
  *      <td>TIMESTAMP WITH TIMEZONE</td>
- *      <td>ZonedDateTime</td>
+ *      <td>{@link java.time.ZonedDateTime}</td>
  *      <td>{@value com.github.marschall.threeten.jpa.oracle.hibernate.OracleZonedDateTimeType#NAME}</td>
  *    </tr>
  *    <tr>
  *      <td>TIMESTAMP WITH TIMEZONE</td>
- *      <td>OffsetDateTime</td>
+ *      <td>{@link java.time.OffsetDateTime}</td>
  *      <td>{@value com.github.marschall.threeten.jpa.oracle.hibernate.OracleOffsetDateTimeType#NAME}</td>
+ *    </tr>
+ *    <tr>
+ *      <td>TIMESTAMP</td>
+ *      <td>{@link java.time.LocalDateTime}</td>
+ *      <td>{@value com.github.marschall.threeten.jpa.oracle.hibernate.OracleLocalDateTimeType#NAME}</td>
  *    </tr>
  *  </tbody>
  * </table>

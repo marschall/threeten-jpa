@@ -1,4 +1,4 @@
-ThreeTen JPA [![Javadocs](http://www.javadoc.io/badge/com.github.marschall/threeten-jpa.svg)](http://www.javadoc.io/doc/com.github.marschall/threeten-jpa) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-jpa/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-jpa) [![Build Status](https://travis-ci.org/marschall/threeten-jpa.svg?branch=master)](https://travis-ci.org/marschall/threeten-jpa)
+ThreeTen JPA [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-jpa/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-jpa) [![Build Status](https://travis-ci.org/marschall/threeten-jpa.svg?branch=master)](https://travis-ci.org/marschall/threeten-jpa)
 ============
 
 JPA attribute converters for JSR-310 (Java 8) dates and times.
@@ -61,6 +61,16 @@ public class SampleEntity {
 ```
 
 All the converters have set `Converter#autoApply()` to `true` so they're automatically applied to all entities in the same persistence unit.
+
+Converters
+----------
+
+You can find a complete list of all converters in the Javadoc
+
+ * [threeten-jpa](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa/1.5.1)
+ * [threeten-jpa-jdbc42-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-jdbc42-hibernate/1.5.1)
+ * [threeten-jpa-oracle-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-eclipselink/1.5.1)
+ * [threeten-jpa-oracle-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-hibernate/1.5.1)
 
 Time Zone Support
 -----------------

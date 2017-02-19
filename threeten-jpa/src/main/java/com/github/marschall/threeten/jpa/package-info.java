@@ -19,22 +19,22 @@
  *  <tbody>
  *    <tr>
  *      <td>DATE</td>
- *      <td>LocalDate</td>
+ *      <td>{@link java.time.LocalDate}</td>
  *      <td>{@link com.github.marschall.threeten.jpa.LocalDateConverter}</td>
  *    </tr>
  *    <tr>
  *      <td>TIME</td>
- *      <td>LocalTime</td>
+ *      <td>{@link java.time.LocalTime}</td>
  *      <td>{@link com.github.marschall.threeten.jpa.LocalTimeConverter}</td>
  *    </tr>
  *    <tr>
  *      <td>TIMESTAMP</td>
- *      <td>LocalDateTime</td>
+ *      <td>{@link java.time.LocalDateTime}</td>
  *      <td>{@link com.github.marschall.threeten.jpa.LocalDateTimeConverter}</td>
  *    </tr>
  *    <tr>
  *      <td>TIMESTAMP</td>
- *      <td>Instant</td>
+ *      <td>{@link java.time.Instant}</td>
  *      <td>{@link com.github.marschall.threeten.jpa.InstantConverter}</td>
  *    </tr>
  *  </tbody>
