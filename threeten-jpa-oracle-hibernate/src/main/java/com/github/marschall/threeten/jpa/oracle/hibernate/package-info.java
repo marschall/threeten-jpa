@@ -1,30 +1,31 @@
 /**
- * Contains additional user type converters for Oracle.
+ * Contains additional user types for Oracle.
  * <p>
  * The Oracle driver module has to be visible to the deployment
  * (eg <a href="https://docs.jboss.org/author/display/WFLY10/Class+Loading+in+WildFly">Class Loading in WildFly</a>).
+ * </p>
  * <table>
  *  <caption>Supported type conversions</caption>
  *  <thead>
  *    <tr>
  *      <td>ANSI SQL</td>
  *      <td>Java SE 8</td>
- *      <td>Converter</td>
+ *      <td>Name</td>
  *     </tr>
  *  </thead>
  *  <tbody>
  *    <tr>
- *      <td>TIMESTAMP WITH TIMEZONE</td>
+ *      <td><code>TIMESTAMP WITH TIMEZONE</code></td>
  *      <td>{@link java.time.ZonedDateTime}</td>
  *      <td>{@value com.github.marschall.threeten.jpa.oracle.hibernate.OracleZonedDateTimeType#NAME}</td>
  *    </tr>
  *    <tr>
- *      <td>TIMESTAMP WITH TIMEZONE</td>
+ *      <td><code>TIMESTAMP WITH TIMEZONE</code></td>
  *      <td>{@link java.time.OffsetDateTime}</td>
  *      <td>{@value com.github.marschall.threeten.jpa.oracle.hibernate.OracleOffsetDateTimeType#NAME}</td>
  *    </tr>
  *    <tr>
- *      <td>TIMESTAMP</td>
+ *      <td><code>TIMESTAMP</code></td>
  *      <td>{@link java.time.LocalDateTime}</td>
  *      <td>{@value com.github.marschall.threeten.jpa.oracle.hibernate.OracleLocalDateTimeType#NAME}</td>
  *    </tr>
