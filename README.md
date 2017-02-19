@@ -17,7 +17,7 @@ We take inspiration from the JDBC 4.2 and currently support the following conver
 
  (*) Converting `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime` or `ZonedDateTime` requires special extensions.
 
-Not supported is converting `TIME WITH TIMEZONE` to `OffsetTime` because it seems [not very useful](http://www.postgresql.org/docs/9.4/static/datatype-datetime.html#DATATYPE-TIMEZONES).
+Not supported is converting `TIME WITH TIMEZONE` to `OffsetTime` because it seems [not very useful](https://www.postgresql.org/docs/current/static/datatype-datetime.html#DATATYPE-TIMEZONES).
 
 This project requires Java SE 8 (for the date and time classes) and JPA 2.1 (for the attribute converters).
 
@@ -70,7 +70,7 @@ Time Zone Support
 JDBC 4.2
 --------
 
-If your driver supports JDBC 4.2 we strongly [recommend](https://github.com/marschall/threeten-jpa/wiki/JDBC-4.2) using the UserTypes from the `threeten-jpa-jdbc42-hibernate` subproject instead of the ones from the `threeten-jpa` subproject.
+If your driver supports JDBC 4.2 and you use Hibernate we strongly [recommend](https://github.com/marschall/threeten-jpa/wiki/JDBC-4.2) using the UserTypes from the `threeten-jpa-jdbc42-hibernate` subproject instead of the ones from the `threeten-jpa` subproject.
 
 Hibernate 5
 -----------
