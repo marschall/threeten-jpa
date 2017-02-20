@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -70,6 +71,9 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
     Map<String, Object> source = singletonMap(PERSISTENCE_UNIT_NAME, this.persistenceUnitName);
     propertySources.addFirst(new MapPropertySource("persistence unit name", source));
     this.applicationContext.refresh();
+
+    EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
+    this.entityManager = factory.createEntityManager();
 
     this.txManager = this.applicationContext.getBean(PlatformTransactionManager.class);
     this.template = new TransactionTemplate(txManager);
