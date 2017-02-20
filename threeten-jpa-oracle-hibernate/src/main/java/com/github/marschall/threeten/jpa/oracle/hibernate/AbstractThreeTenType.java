@@ -8,7 +8,7 @@ import org.hibernate.usertype.UserType;
 /**
  * Abstract base class for all JSR-310 types.
  */
-public abstract class AbstractThreeTenType implements UserType {
+abstract class AbstractThreeTenType implements UserType {
 
   @Override
   public boolean equals(Object x, Object y) {

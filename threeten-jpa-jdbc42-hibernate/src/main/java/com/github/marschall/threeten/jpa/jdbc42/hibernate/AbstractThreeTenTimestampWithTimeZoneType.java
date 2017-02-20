@@ -9,7 +9,7 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 /**
  * Abstract base class for all JSR-310 types based on {@code TIMESTAMP WITH TIME ZONE}
  */
-public abstract class AbstractThreeTenTimestampWithTimeZoneType extends AbstractThreeTenType {
+abstract class AbstractThreeTenTimestampWithTimeZoneType extends AbstractThreeTenType {
 
   private static final int[] SQL_TYPES = new int[]{Types.TIMESTAMP_WITH_TIMEZONE};
 
