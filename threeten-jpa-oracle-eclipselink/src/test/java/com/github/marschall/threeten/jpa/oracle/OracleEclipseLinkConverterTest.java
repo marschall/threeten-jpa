@@ -82,6 +82,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
   @Test
   public void read() {
     OracleJavaTime firstRow = this.entityManager.find(OracleJavaTime.class, new BigInteger("1"));
+
     ZoneOffset zoneOffset = ZoneOffset.ofHoursMinutes(2, 0);
     OffsetDateTime expectedOffset = OffsetDateTime.of(1997, 1, 31, 9, 26, 56, 660000000, zoneOffset);
     assertEquals(expectedOffset, firstRow.getOffsetDateTime());
@@ -101,7 +102,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
   }
 
   @Test
-  public void runTest() {
+  public void insert() {
     // insert a new entity into the database
     BigInteger newId = new BigInteger("3");
     ZoneOffset offset = ZoneOffset.ofHoursMinutes(2, 0);
@@ -145,6 +146,17 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
           builder.greaterThan(root.get(OracleJavaTime_.zonedDateTime), zonedDateTime)));
       OracleJavaTime oracleJavaTime = this.entityManager.createQuery(beforeTwelfeFive).getSingleResult();
       assertNotNull(oracleJavaTime);
+
+      assertEquals(new BigInteger("1"), oracleJavaTime.getId());
+
+      ZoneOffset zoneOffset = ZoneOffset.ofHoursMinutes(2, 0);
+      OffsetDateTime expectedOffset = OffsetDateTime.of(1997, 1, 31, 9, 26, 56, 660000000, zoneOffset);
+      assertEquals(expectedOffset, oracleJavaTime.getOffsetDateTime());
+
+      ZoneId zoneId = ZoneId.of("US/Pacific");
+      ZonedDateTime expectedZone = ZonedDateTime.of(1999, 1, 15, 8, 0, 0, 0, zoneId);
+      assertEquals(expectedZone, oracleJavaTime.getZonedDateTime());
+
       return null;
     });
   }
