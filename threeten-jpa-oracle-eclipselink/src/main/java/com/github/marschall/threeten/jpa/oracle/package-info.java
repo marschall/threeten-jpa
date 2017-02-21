@@ -31,5 +31,31 @@
  *    </tr>
  *  </tbody>
  * </table>
+ *
+ * In addition as a work around for
+ * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=511999">Bug 511999</a>
+ * we also provide the following platforms.
+ *
+ * <table>
+ *  <caption>EclipseLink Platforms</caption>
+ *  <thead>
+ *    <tr>
+ *      <td>Oracle Version</td>
+ *      <td>Platform</td>
+ *     </tr>
+ *  </thead>
+ *  <tbody>
+ *    <tr>
+ *      <td>11g</td>
+ *      <td>{@link com.github.marschall.threeten.jpa.oracle.PatchedOracle11Platform}</td>
+ *    </tr>
+ *    <tr>
+ *      <td>12c</td>
+ *      <td>{@link com.github.marschall.threeten.jpa.oracle.PatchedOracle12Platform}</td>
+ *    </tr>
+ *  </tbody>
+ * </table>
+ *
+ *
  */
 package com.github.marschall.threeten.jpa.oracle;
