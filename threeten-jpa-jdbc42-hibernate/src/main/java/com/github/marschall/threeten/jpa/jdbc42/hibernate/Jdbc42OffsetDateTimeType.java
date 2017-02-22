@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.time.OffsetDateTime;
 
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.usertype.UserType;
 
 /**
  * Type for {@link OffsetDateTime}.
@@ -12,9 +13,9 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 public class Jdbc42OffsetDateTimeType extends AbstractThreeTenTimestampWithTimeZoneType {
 
   /**
-   * Singleton access
+   * Singleton access.
    */
-  public static final Jdbc42OffsetDateTimeType INSTANCE = new Jdbc42OffsetDateTimeType();
+  public static final UserType INSTANCE = new Jdbc42OffsetDateTimeType();
 
   /**
    * Name of the type.

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.time.ZonedDateTime;
 
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.usertype.UserType;
 
 /**
  * Type for {@link ZonedDateTime}.
@@ -12,9 +13,9 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 public class Jdbc42ZonedDateTimeType extends AbstractThreeTenTimestampWithTimeZoneType {
 
   /**
-   * Singleton access
+   * Singleton access.
    */
-  public static final Jdbc42ZonedDateTimeType INSTANCE = new Jdbc42ZonedDateTimeType();
+  public static final UserType INSTANCE = new Jdbc42ZonedDateTimeType();
 
   /**
    * Name of the type.

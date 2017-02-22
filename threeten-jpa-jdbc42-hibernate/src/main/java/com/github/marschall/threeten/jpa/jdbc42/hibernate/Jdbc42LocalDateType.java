@@ -7,6 +7,7 @@ import java.sql.Types;
 import java.time.LocalDate;
 
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.usertype.UserType;
 
 /**
  * Type for {@link LocalDate}.
@@ -14,9 +15,9 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 public class Jdbc42LocalDateType extends AbstractThreeTenType {
 
   /**
-   * Singleton access
+   * Singleton access.
    */
-  public static final Jdbc42LocalDateType INSTANCE = new Jdbc42LocalDateType();
+  public static final UserType INSTANCE = new Jdbc42LocalDateType();
 
   /**
    * Name of the type.

@@ -5,7 +5,7 @@ import org.hibernate.boot.model.TypeContributor;
 import org.hibernate.service.ServiceRegistry;
 
 /**
- * TypeContributor for adding Oracle TIMESTAMP specific Type implementations
+ * TypeContributor for adding Oracle TIMESTAMP specific Type implementations.
  */
 public class OracleTimestampTypeContributor implements TypeContributor {
 

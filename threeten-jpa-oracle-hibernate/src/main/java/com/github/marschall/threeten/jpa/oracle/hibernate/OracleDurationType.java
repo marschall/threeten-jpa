@@ -3,22 +3,22 @@ package com.github.marschall.threeten.jpa.oracle.hibernate;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
-import java.time.LocalDateTime;
+import java.time.Duration;
 
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
 
-import com.github.marschall.threeten.jpa.oracle.impl.TimestamptzConverter;
+import com.github.marschall.threeten.jpa.oracle.impl.IntervalConverter;
 
 import oracle.jdbc.OraclePreparedStatement;
 import oracle.jdbc.OracleResultSet;
-import oracle.sql.TIMESTAMP;
+import oracle.jdbc.OracleTypes;
+import oracle.sql.INTERVALDS;
 
 /**
- * Type mapping {@link LocalDateTime} to {@code TIMESTAMP}
+ * Type mapping {@link Duration} to {@code INTERVALDS}.
  */
-public class OracleLocalDateTimeType extends AbstractThreeTenType {
+public class OracleDurationType extends AbstractThreeTenType {
 
   /**
    * Singleton access.
@@ -28,9 +28,9 @@ public class OracleLocalDateTimeType extends AbstractThreeTenType {
   /**
    * Name of the type.
    */
-  public static final String NAME = "OracleLocalDateTimeType";
+  public static final String NAME = "OracleDurationType";
 
-  private static final int[] SQL_TYPES = new int []{Types.TIMESTAMP};
+  private static final int[] SQL_TYPES = new int []{OracleTypes.INTERVALDS};
 
   @Override
   public int[] sqlTypes() {
@@ -39,17 +39,17 @@ public class OracleLocalDateTimeType extends AbstractThreeTenType {
 
   @Override
   public Class<?> returnedClass() {
-    return LocalDateTime.class;
+    return Duration.class;
   }
 
   @Override
   public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws SQLException {
     OracleResultSet oracleResultSet = rs.unwrap(OracleResultSet.class);
-    TIMESTAMP timestamp = oracleResultSet.getTIMESTAMP(names[0]);
-    if (timestamp == null) {
+    INTERVALDS intervalds = oracleResultSet.getINTERVALDS(names[0]);
+    if (intervalds == null) {
       return null;
     } else {
-      return TimestamptzConverter.timestampToLocalDateTime(timestamp);
+      return IntervalConverter.intervaldsToDuration(intervalds);
     }
   }
 
@@ -57,10 +57,10 @@ public class OracleLocalDateTimeType extends AbstractThreeTenType {
   public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws SQLException {
     OraclePreparedStatement oraclePreparedStatement = st.unwrap(OraclePreparedStatement.class);
     if (value == null) {
-      oraclePreparedStatement.setTIMESTAMP(index, null);
+      oraclePreparedStatement.setINTERVALDS(index, null);
     } else {
-      TIMESTAMP timestamp = TimestamptzConverter.localDateTimeToTimestamp((LocalDateTime) value);
-      oraclePreparedStatement.setTIMESTAMP(index, timestamp);
+      INTERVALDS intervalds = IntervalConverter.durationToIntervalds((Duration) value);
+      oraclePreparedStatement.setINTERVALDS(index, intervalds);
     }
   }
 

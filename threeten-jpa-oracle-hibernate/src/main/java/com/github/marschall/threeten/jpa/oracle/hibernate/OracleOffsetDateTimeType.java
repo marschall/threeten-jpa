@@ -2,19 +2,21 @@ package com.github.marschall.threeten.jpa.oracle.hibernate;
 
 import java.time.OffsetDateTime;
 
+import org.hibernate.usertype.UserType;
+
 import com.github.marschall.threeten.jpa.oracle.impl.TimestamptzConverter;
 
 import oracle.sql.TIMESTAMPTZ;
 
 /**
- * Type for {@link OffsetDateTime}.
+ * Type mapping {@link OffsetDateTime} to {@code TIMESTAMPTZ}.
  */
 public class OracleOffsetDateTimeType extends AbstractTimestamptzType {
 
   /**
-   * Singleton access
+   * Singleton access.
    */
-  public static final OracleOffsetDateTimeType INSTANCE = new OracleOffsetDateTimeType();
+  public static final UserType INSTANCE = new OracleOffsetDateTimeType();
 
   /**
    * Name of the type.

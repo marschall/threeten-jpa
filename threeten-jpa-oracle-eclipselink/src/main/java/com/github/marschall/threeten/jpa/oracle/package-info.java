@@ -1,5 +1,8 @@
 /**
- * Contains additional type converters for Oracle that currently only
+ * Contains additional classed for Oracle and EclipseLink.
+ *
+ * <h3>Attribute Converters</h3>
+ * Contains additional attribute converters for Oracle that currently only
  * work with EclipseLink.
  * <p>
  * All the converters have set
@@ -32,6 +35,7 @@
  *  </tbody>
  * </table>
  *
+ * <h3>EclipseLink Platforms</h3>
  * In addition as a work around for
  * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=511999">Bug 511999</a>
  * we also provide the following platforms.

@@ -2,19 +2,21 @@ package com.github.marschall.threeten.jpa.oracle.hibernate;
 
 import java.time.ZonedDateTime;
 
+import org.hibernate.usertype.UserType;
+
 import com.github.marschall.threeten.jpa.oracle.impl.TimestamptzConverter;
 
 import oracle.sql.TIMESTAMPTZ;
 
 /**
- * Type for {@link ZonedDateTime}.
+ * Type mapping {@link ZonedDateTime} to {@code TIMESTAMPTZ}.
  */
 public class OracleZonedDateTimeType extends AbstractTimestamptzType {
 
   /**
-   * Singleton access
+   * Singleton access.
    */
-  public static final OracleZonedDateTimeType INSTANCE = new OracleZonedDateTimeType();
+  public static final UserType INSTANCE = new OracleZonedDateTimeType();
 
   /**
    * Name of the type.
