@@ -32,6 +32,16 @@
  *      <td>{@link java.time.OffsetDateTime}</td>
  *      <td>{@link com.github.marschall.threeten.jpa.oracle.OracleOffsetDateTimeConverter}</td>
  *    </tr>
+ *    <tr>
+ *      <td><code>INTERVAL YEAR TO MONTH</code></td>
+ *      <td>{@link java.time.Period}</td>
+ *      <td>{@link com.github.marschall.threeten.jpa.oracle.OraclePeriodConverter}</td>
+ *    </tr>
+ *    <tr>
+ *      <td><code>INTERVAL DAY TO SECOND</code></td>
+ *      <td>{@link java.time.Duration}</td>
+ *      <td>{@link com.github.marschall.threeten.jpa.oracle.OracleDurationConverter}</td>
+ *    </tr>
  *  </tbody>
  * </table>
  *
