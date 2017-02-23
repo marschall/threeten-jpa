@@ -29,6 +29,16 @@
  *      <td>{@link java.time.LocalDateTime}</td>
  *      <td>{@value com.github.marschall.threeten.jpa.oracle.hibernate.OracleLocalDateTimeType#NAME}</td>
  *    </tr>
+ *    <tr>
+ *      <td><code>INTERVAL YEAR TO MONTH</code></td>
+ *      <td>{@link java.time.Period}</td>
+ *      <td>{@link com.github.marschall.threeten.jpa.oracle.hibernate.OraclePeriodType#NAME}</td>
+ *    </tr>
+ *    <tr>
+ *      <td><code>INTERVAL DAY TO SECOND</code></td>
+ *      <td>{@link java.time.Duration}</td>
+ *      <td>{@link com.github.marschall.threeten.jpa.oracle.hibernate.OracleDurationType#NAME}</td>
+ *    </tr>
  *  </tbody>
  * </table>
  */

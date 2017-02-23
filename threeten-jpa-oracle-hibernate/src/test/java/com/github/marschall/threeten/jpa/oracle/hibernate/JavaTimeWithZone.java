@@ -1,7 +1,9 @@
 package com.github.marschall.threeten.jpa.oracle.hibernate;
 
 import java.math.BigInteger;
+import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
@@ -27,6 +29,14 @@ public class JavaTimeWithZone {
   @Type(type = OracleOffsetDateTimeType.NAME)
   private OffsetDateTime offset;
 
+  @Column(name = "YEAR_TO_MONTH_COLUMN")
+  @Type(type = OraclePeriodType.NAME)
+  private Period period;
+
+  @Column(name = "DAY_TO_SECOND_COLUMN")
+  @Type(type = OracleDurationType.NAME)
+  private Duration duration;
+
   public BigInteger getId() {
     return id;
   }
@@ -49,6 +59,22 @@ public class JavaTimeWithZone {
 
   public void setOffset(OffsetDateTime offset) {
     this.offset = offset;
+  }
+
+  public Period getPeriod() {
+    return period;
+  }
+
+  public void setPeriod(Period period) {
+    this.period = period;
+  }
+
+  public Duration getDuration() {
+    return duration;
+  }
+
+  public void setDuration(Duration duration) {
+    this.duration = duration;
   }
 
 }

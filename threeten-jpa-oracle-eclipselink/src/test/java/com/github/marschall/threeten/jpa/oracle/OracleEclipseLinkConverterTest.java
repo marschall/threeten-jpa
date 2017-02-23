@@ -6,8 +6,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.math.BigInteger;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -80,7 +82,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
   }
 
   @Test
-  public void read() {
+  public void readFirstRow() {
     OracleJavaTime firstRow = this.entityManager.find(OracleJavaTime.class, new BigInteger("1"));
 
     ZoneOffset zoneOffset = ZoneOffset.ofHoursMinutes(2, 0);
@@ -91,14 +93,25 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
     ZonedDateTime expectedZone = ZonedDateTime.of(1999, 1, 15, 8, 0, 0, 0, zoneId);
     assertEquals(expectedZone, firstRow.getZonedDateTime());
 
+    assertEquals(Period.of(123, 2, 0), firstRow.getPeriod());
+    assertEquals(Duration.parse("P4T5H12M10.222S"), firstRow.getDuration());
+  }
+
+
+  @Test
+  public void readSecondRow() {
+    // 2nd row
     OracleJavaTime secondRow = this.entityManager.find(OracleJavaTime.class, new BigInteger("2"));
-    zoneOffset = ZoneOffset.ofHoursMinutes(-3, -30);
-    expectedOffset = OffsetDateTime.of(1999, 1, 15, 8, 26, 56, 660000000, zoneOffset);
+    ZoneOffset zoneOffset = ZoneOffset.ofHoursMinutes(-3, -30);
+    OffsetDateTime expectedOffset = OffsetDateTime.of(1999, 1, 15, 8, 26, 56, 660000000, zoneOffset);
     assertEquals(expectedOffset, secondRow.getOffsetDateTime());
 
-    zoneId = ZoneId.of("Europe/Berlin");
-    expectedZone = ZonedDateTime.of(2016, 9, 22, 17, 0, 0, 0, zoneId);
+    ZoneId zoneId = ZoneId.of("Europe/Berlin");
+    ZonedDateTime expectedZone = ZonedDateTime.of(2016, 9, 22, 17, 0, 0, 0, zoneId);
     assertEquals(expectedZone, secondRow.getZonedDateTime());
+
+    assertEquals(Period.of(123, 2, 0), secondRow.getPeriod());
+    assertEquals(Duration.parse("P4T5H12M10.222S"), secondRow.getDuration());
   }
 
   @Test

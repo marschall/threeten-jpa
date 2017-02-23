@@ -6,7 +6,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigInteger;
+import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -52,12 +54,15 @@ public class OracleHibernateConverterTest extends AbstractTransactionalJUnit4Spr
       JavaTimeWithZone javaTime = (JavaTimeWithZone) resultList.get(0);
       assertEquals(ZonedDateTime.parse("1960-01-01T23:03:20-05:00[America/New_York]"), javaTime.getZoned());
       assertEquals(OffsetDateTime.parse("1960-01-01T23:03:20+02:00"), javaTime.getOffset());
+
+      assertEquals(Period.of(123, 2, 0), javaTime.getPeriod());
+      assertEquals(Duration.parse("P4T5H12M10.222S"), javaTime.getDuration());
       return null;
     });
   }
 
   @Test
-  public void runTest() {
+  public void insert() {
     try {
 
       // insert a new entity into the database
