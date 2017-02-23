@@ -101,7 +101,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
       assertEquals(expectedZone, firstRow.getZonedDateTime());
 
       assertEquals(Period.of(123, 2, 0), firstRow.getPeriod());
-      assertEquals(Duration.parse("P4T5H12M10.222S"), firstRow.getDuration());
+      assertEquals(Duration.parse("P4DT5H12M10.222S"), firstRow.getDuration());
       return null;
     });
   }
@@ -120,7 +120,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
       assertEquals(expectedZone, secondRow.getZonedDateTime());
 
       assertEquals(Period.of(123, 2, 0), secondRow.getPeriod());
-      assertEquals(Duration.parse("P4T5H12M10.222S"), secondRow.getDuration());
+      assertEquals(Duration.parse("P4DT5H12M10.222S"), secondRow.getDuration());
       return null;
     });
   }

@@ -56,7 +56,7 @@ public class OracleHibernateConverterTest extends AbstractTransactionalJUnit4Spr
       assertEquals(OffsetDateTime.parse("1960-01-01T23:03:20+02:00"), javaTime.getOffset());
 
       assertEquals(Period.of(123, 2, 0), javaTime.getPeriod());
-      assertEquals(Duration.parse("P4T5H12M10.222S"), javaTime.getDuration());
+      assertEquals(Duration.parse("P4DT5H12M10.222S"), javaTime.getDuration());
       return null;
     });
   }
@@ -69,12 +69,16 @@ public class OracleHibernateConverterTest extends AbstractTransactionalJUnit4Spr
       BigInteger newId = new BigInteger("2");
       ZonedDateTime newZoned = ZonedDateTime.now();
       OffsetDateTime newOffset = OffsetDateTime.now();
+      Period newPeriod = Period.of(123_567_789, 11, 0);
+      Duration newDuration = Duration.parse("P321456789DT23H55M10.123456789S");
 
       this.template.execute(status -> {
         JavaTimeWithZone toInsert = new JavaTimeWithZone();
         toInsert.setId(newId);
         toInsert.setZoned(newZoned);
         toInsert.setOffset(newOffset);
+        toInsert.setPeriod(newPeriod);
+        toInsert.setDuration(newDuration);
         entityManager.persist(toInsert);
         // the transaction should trigger a flush and write to the database
         return null;
@@ -87,6 +91,8 @@ public class OracleHibernateConverterTest extends AbstractTransactionalJUnit4Spr
         assertEquals(newId, readBack.getId());
         assertEquals(newZoned, readBack.getZoned());
         assertEquals(newOffset, readBack.getOffset());
+        assertEquals(newPeriod, readBack.getPeriod());
+        assertEquals(newDuration, readBack.getDuration());
         entityManager.remove(readBack);
         return null;
       });
