@@ -107,7 +107,7 @@ public class ConverterWithoutTimeZoneTest {
     EntityManager entityManager = factory.createEntityManager();
     try {
       // read the entity inserted by SQL
-      this.template.execute((s) -> {
+      this.template.execute(status -> {
         Query query = entityManager.createQuery("SELECT t FROM JavaTime42 t");
         List<?> resultList = query.getResultList();
         assertThat(resultList, hasSize(1));
@@ -126,7 +126,7 @@ public class ConverterWithoutTimeZoneTest {
       LocalDate newLocalDate = LocalDate.now();
       LocalDateTime newLocalDateTime = LocalDateTime.now();
 
-      this.template.execute((s) -> {
+      this.template.execute(status -> {
         JavaTime42 toInsert = new JavaTime42();
         toInsert.setId(newId);
         toInsert.setLocalTime(newLocalTime);
@@ -138,7 +138,7 @@ public class ConverterWithoutTimeZoneTest {
       });
 
       // validate the new entity inserted into the database
-      this.template.execute((s) -> {
+      this.template.execute(status -> {
         JavaTime42 readBack = entityManager.find(JavaTime42.class, newId);
         assertNotNull(readBack);
         assertEquals(newId, readBack.getId());
