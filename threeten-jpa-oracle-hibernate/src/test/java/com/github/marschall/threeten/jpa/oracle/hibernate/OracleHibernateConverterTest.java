@@ -45,7 +45,7 @@ public class OracleHibernateConverterTest extends AbstractTransactionalJUnit4Spr
   @Test
   public void read() {
     // read the entity inserted by SQL
-    this.template.execute((s) -> {
+    this.template.execute(status -> {
       Query query = entityManager.createQuery("SELECT t FROM JavaTimeWithZone t");
       List<?> resultList = query.getResultList();
       assertThat(resultList, hasSize(1));
@@ -70,7 +70,7 @@ public class OracleHibernateConverterTest extends AbstractTransactionalJUnit4Spr
       ZonedDateTime newZoned = ZonedDateTime.now();
       OffsetDateTime newOffset = OffsetDateTime.now();
 
-      this.template.execute((s) -> {
+      this.template.execute(status -> {
         JavaTimeWithZone toInsert = new JavaTimeWithZone();
         toInsert.setId(newId);
         toInsert.setZoned(newZoned);
@@ -81,7 +81,7 @@ public class OracleHibernateConverterTest extends AbstractTransactionalJUnit4Spr
       });
 
       // validate the new entity inserted into the database
-      this.template.execute((s) -> {
+      this.template.execute(status -> {
         JavaTimeWithZone readBack = entityManager.find(JavaTimeWithZone.class, newId);
         assertNotNull(readBack);
         assertEquals(newId, readBack.getId());

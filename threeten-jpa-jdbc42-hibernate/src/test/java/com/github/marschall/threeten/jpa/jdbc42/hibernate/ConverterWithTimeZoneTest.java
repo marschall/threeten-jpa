@@ -103,15 +103,13 @@ public class ConverterWithTimeZoneTest {
     EntityManager entityManager = factory.createEntityManager();
     try {
       // read the entity inserted by SQL
-      this.template.execute((s) -> {
+      this.template.execute(status -> {
         Query query = entityManager.createQuery("SELECT t FROM JavaTime42WithZone t");
         List<?> resultList = query.getResultList();
         assertThat(resultList, hasSize(1));
 
         // validate the entity inserted by SQL
         JavaTime42WithZone javaTime = (JavaTime42WithZone) resultList.get(0);
-//        assertEquals(ZonedDateTime.parse("1960-01-01T23:03:20-05:00[America/New_York]"), javaTime.getZoned());
-//        assertEquals(OffsetDateTime.parse("1960-01-01T23:03:20+02:00"), javaTime.getOffset());
         OffsetDateTime inserted = OffsetDateTime.parse("1960-01-01T23:03:20+02:00");
         if (persistenceUnitName.contains("postgres")) {
           // postgres stores in UTC
@@ -127,7 +125,7 @@ public class ConverterWithTimeZoneTest {
       BigInteger newId = new BigInteger("2");
       OffsetDateTime newOffset = OffsetDateTime.now();
 
-      this.template.execute((s) -> {
+      this.template.execute(status -> {
         JavaTime42WithZone toInsert = new JavaTime42WithZone();
         toInsert.setId(newId);
         toInsert.setOffset(newOffset);
@@ -137,7 +135,7 @@ public class ConverterWithTimeZoneTest {
       });
 
       // validate the new entity inserted into the database
-      this.template.execute((s) -> {
+      this.template.execute(status -> {
         JavaTime42WithZone readBack = entityManager.find(JavaTime42WithZone.class, newId);
         assertNotNull(readBack);
         assertEquals(newId, readBack.getId());
