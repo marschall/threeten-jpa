@@ -5,11 +5,14 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.Period;
 import java.time.ZonedDateTime;
+import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "JAVA_TIME")
@@ -24,6 +27,10 @@ public class OracleJavaTime {
 
   @Column(name = "ZONE_COLUMN")
   private ZonedDateTime zonedDateTime;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "CALENDAR_COLUMN")
+  private Calendar calendar;
 
   @Column(name = "YEAR_TO_MONTH_COLUMN")
   private Period period;
@@ -53,6 +60,14 @@ public class OracleJavaTime {
 
   public void setZonedDateTime(ZonedDateTime zonedDateTime) {
     this.zonedDateTime = zonedDateTime;
+  }
+
+  public Calendar getCalendar() {
+    return calendar;
+  }
+
+  public void setCalendar(Calendar calendar) {
+    this.calendar = calendar;
   }
 
   public Period getPeriod() {

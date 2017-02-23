@@ -11,10 +11,6 @@ import org.eclipse.persistence.platform.database.oracle.Oracle12Platform;
  */
 public class PatchedOracle12Platform extends Oracle12Platform {
 
-  public PatchedOracle12Platform() {
-    super();
-  }
-
   @Override
   public Object getTIMESTAMPTZFromResultSet(ResultSet resultSet, int columnNumber, int type, AbstractSession session)
       throws SQLException {

@@ -14,6 +14,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Map;
 
@@ -100,6 +101,8 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
       ZonedDateTime expectedZone = ZonedDateTime.of(1999, 1, 15, 8, 0, 0, 0, zoneId);
       assertEquals(expectedZone, firstRow.getZonedDateTime());
 
+      assertNotNull(firstRow.getCalendar());
+
       assertEquals(Period.of(123, 2, 0), firstRow.getPeriod());
       assertEquals(Duration.parse("P4DT5H12M10.222S"), firstRow.getDuration());
       return null;
@@ -119,6 +122,8 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
       ZonedDateTime expectedZone = ZonedDateTime.of(2016, 9, 22, 17, 0, 0, 0, zoneId);
       assertEquals(expectedZone, secondRow.getZonedDateTime());
 
+      assertNotNull(secondRow.getCalendar());
+
       assertEquals(Period.of(123, 2, 0), secondRow.getPeriod());
       assertEquals(Duration.parse("P4DT5H12M10.222S"), secondRow.getDuration());
       return null;
@@ -134,12 +139,18 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
     LocalDateTime localDateTime = LocalDateTime.of(2014, 4, 27, 22, 24, 30, 0);
     OffsetDateTime newOffsetDateTime = OffsetDateTime.of(localDateTime, offset);
     ZonedDateTime newZonedDateTime = ZonedDateTime.of(localDateTime, zoneId);
+    Calendar newCalendar = Calendar.getInstance();
+    Period newPeriod = Period.of(123_567_789, 11, 0);
+    Duration newDuration = Duration.parse("P321456789DT23H55M10.123456789S");
 
     this.template.execute(status -> {
       OracleJavaTime toInsert = new OracleJavaTime();
       toInsert.setId(newId);
       toInsert.setOffsetDateTime(newOffsetDateTime);
       toInsert.setZonedDateTime(newZonedDateTime);
+      toInsert.setCalendar(newCalendar);
+      toInsert.setPeriod(newPeriod);
+      toInsert.setDuration(newDuration);
       entityManager.persist(toInsert);
       // the transaction should trigger a flush and write to the database
       return null;
@@ -152,6 +163,9 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
       assertEquals(newId, readBack.getId());
       assertEquals(newOffsetDateTime, readBack.getOffsetDateTime());
       assertEquals(newZonedDateTime, readBack.getZonedDateTime());
+      assertEquals(newCalendar, readBack.getCalendar());
+      assertEquals(newPeriod, readBack.getPeriod());
+      assertEquals(newDuration, readBack.getDuration());
       entityManager.remove(readBack);
       return null;
     });
