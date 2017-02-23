@@ -23,6 +23,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -55,7 +56,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
     this.persistenceUnitName = persistenceUnitName;
   }
 
-  @Parameters(name = "{2}")
+  @Parameters(name = "{1}")
   public static Collection<Object[]> parameters() {
     return Arrays.asList(
             new Object[]{"threeten-jpa-eclipselink-oracle"},
@@ -79,6 +80,11 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
 
     this.txManager = this.applicationContext.getBean(PlatformTransactionManager.class);
     this.template = new TransactionTemplate(txManager);
+  }
+
+  @After
+  public void tearDown() {
+    this.entityManager.close();
   }
 
   @Test
