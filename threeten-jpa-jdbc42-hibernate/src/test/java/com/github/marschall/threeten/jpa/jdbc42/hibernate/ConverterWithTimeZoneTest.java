@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -126,13 +125,11 @@ public class ConverterWithTimeZoneTest {
 
       // insert a new entity into the database
       BigInteger newId = new BigInteger("2");
-      ZonedDateTime newZoned = ZonedDateTime.now();
       OffsetDateTime newOffset = OffsetDateTime.now();
 
       this.template.execute((s) -> {
         JavaTime42WithZone toInsert = new JavaTime42WithZone();
         toInsert.setId(newId);
-//        toInsert.setZoned(newZoned);
         toInsert.setOffset(newOffset);
         entityManager.persist(toInsert);
         // the transaction should trigger a flush and write to the database
@@ -144,7 +141,6 @@ public class ConverterWithTimeZoneTest {
         JavaTime42WithZone readBack = entityManager.find(JavaTime42WithZone.class, newId);
         assertNotNull(readBack);
         assertEquals(newId, readBack.getId());
-//        assertEquals(newZoned, readBack.getZoned());
         assertEquals(newOffset, readBack.getOffset());
         entityManager.remove(readBack);
         return null;
