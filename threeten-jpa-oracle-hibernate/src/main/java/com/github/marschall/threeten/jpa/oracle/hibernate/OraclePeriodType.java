@@ -23,7 +23,7 @@ public class OraclePeriodType extends AbstractThreeTenType {
   /**
    * Singleton access.
    */
-  public static final UserType INSTANCE = new OracleLocalDateTimeType();
+  public static final UserType INSTANCE = new OraclePeriodType();
 
   /**
    * Name of the type.

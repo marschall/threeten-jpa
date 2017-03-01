@@ -23,7 +23,7 @@ public class OracleDurationType extends AbstractThreeTenType {
   /**
    * Singleton access.
    */
-  public static final UserType INSTANCE = new OracleLocalDateTimeType();
+  public static final UserType INSTANCE = new OracleDurationType();
 
   /**
    * Name of the type.
