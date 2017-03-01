@@ -57,7 +57,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
     this.persistenceUnitName = persistenceUnitName;
   }
 
-  @Parameters(name = "{1}")
+  @Parameters(name = "{0}")
   public static Collection<Object[]> parameters() {
     return Arrays.asList(
             new Object[]{"threeten-jpa-eclipselink-oracle"},
