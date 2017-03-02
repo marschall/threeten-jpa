@@ -34,6 +34,7 @@ public final class IntervalConverter {
             | toUnsignedInt(bytes[1]) << 16
             | toUnsignedInt(bytes[2]) << 8
             | toUnsignedInt(bytes[3]);
+    year -= Integer.MIN_VALUE;
     int month = toUnsignedInt(bytes[4]) - 60;
     return Period.of(year, month, 0);
   }
@@ -56,7 +57,7 @@ public final class IntervalConverter {
     }
     byte[] bytes = newIntervalymBuffer();
 
-    int year = attribute.getYears();
+    int year = attribute.getYears() + Integer.MIN_VALUE;
     bytes[0] = (byte) (year >> 24);
     bytes[1] = (byte) (year >> 16 & 0xFF);
     bytes[2] = (byte) (year >> 8 & 0xFF);
@@ -88,6 +89,7 @@ public final class IntervalConverter {
             | toUnsignedInt(bytes[1]) << 16
             | toUnsignedInt(bytes[2]) << 8
             | toUnsignedInt(bytes[3]);
+    day -= Integer.MIN_VALUE;
     int hour = toUnsignedInt(bytes[4]) - 60;
     int minute = toUnsignedInt(bytes[5]) - 60;
     int second = toUnsignedInt(bytes[6]) - 60;
@@ -95,6 +97,7 @@ public final class IntervalConverter {
             | toUnsignedInt(bytes[8]) << 16
             | toUnsignedInt(bytes[9]) << 8
             | toUnsignedInt(bytes[10]);
+    nano -= Integer.MIN_VALUE;
     return Duration.ofDays(day)
             .plusHours(hour)
             .plusMinutes(minute)
@@ -125,7 +128,8 @@ public final class IntervalConverter {
     int hour = (int) ((totalSeconds / 60L / 60L) - (day * 24L));
     int minute = (int) ((totalSeconds / 60L) - (day * 24L * 60L) - (hour * 60L));
     int second = (int) (totalSeconds % 60);
-    int nano = attribute.getNano();
+    int nano = attribute.getNano() + Integer.MIN_VALUE;
+    day += Integer.MIN_VALUE;
 
     hour += 60;
     minute += 60;

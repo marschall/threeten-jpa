@@ -1,5 +1,6 @@
 package com.github.marschall.threeten.jpa.oracle.impl;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -7,6 +8,8 @@ import static org.junit.Assert.fail;
 import java.time.Duration;
 
 import org.junit.Test;
+
+import oracle.sql.INTERVALDS;
 
 public class DurationConverterTest {
 
@@ -76,6 +79,14 @@ public class DurationConverterTest {
     } catch (IllegalArgumentException e) {
       // should reach here
     }
+  }
+
+  @Test
+  public void reference() {
+    byte[] data = new byte[] {-128, 0, 0, 4, 65, 72, 70, -115, 59, 115, -128};
+    Duration attribute = Duration.parse("P4DT5H12M10.222S");
+    assertEquals(attribute, IntervalConverter.intervaldsToDuration(new INTERVALDS(data)));
+    assertArrayEquals(data, IntervalConverter.durationToIntervalds(attribute).toBytes());
   }
 
 }

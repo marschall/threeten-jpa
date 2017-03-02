@@ -1,5 +1,6 @@
 package com.github.marschall.threeten.jpa.oracle.impl;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -7,6 +8,8 @@ import java.time.Period;
 import java.time.ZonedDateTime;
 
 import org.junit.Test;
+
+import oracle.sql.INTERVALYM;
 
 public class PeriodConverterTest {
 
@@ -49,6 +52,14 @@ public class PeriodConverterTest {
 
     zoned = ZonedDateTime.parse("2016-02-29T11:52:47.971+01:00[Europe/Zurich]");
     assertEquals(ZonedDateTime.parse("2017-02-28T11:52:47.971+01:00[Europe/Zurich]"), zoned.plusYears(1L));
+  }
+
+  @Test
+  public void reference() {
+    byte[] data = new byte[] {-128, 0, 0, 123, 62};
+    Period attribute = Period.of(123, 2, 0);
+    assertEquals(attribute, IntervalConverter.intervalymToPeriod(new INTERVALYM(data)));
+    assertArrayEquals(data, IntervalConverter.periodToIntervalym(attribute).toBytes());
   }
 
 }
