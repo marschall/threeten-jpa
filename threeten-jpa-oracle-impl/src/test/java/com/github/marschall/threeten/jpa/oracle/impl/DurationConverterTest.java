@@ -2,8 +2,6 @@ package com.github.marschall.threeten.jpa.oracle.impl;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.time.Duration;
 
@@ -70,23 +68,23 @@ public class DurationConverterTest {
   }
 
   @Test
-  public void negative() {
-    Duration duration = Duration.parse("-P" + "2D");
-    assertTrue(duration.isNegative());
-    try {
-      IntervalConverter.durationToIntervalds(duration);
-      fail("negative durations not allowed");
-    } catch (IllegalArgumentException e) {
-      // should reach here
-    }
-  }
-
-  @Test
   public void reference() {
     byte[] data = new byte[] {-128, 0, 0, 4, 65, 72, 70, -115, 59, 115, -128};
     Duration attribute = Duration.parse("P4DT5H12M10.222S");
     assertEquals(attribute, IntervalConverter.intervaldsToDuration(new INTERVALDS(data)));
     assertArrayEquals(data, IntervalConverter.durationToIntervalds(attribute).toBytes());
+  }
+
+  @Test
+  public void negativeReference() {
+    byte[] data = new byte[] {127, -1, -1, -4, 55, 48, 50, 114, -60, -116, -128};
+    Duration attribute = Duration.parse("P4DT5H12M10.222S").negated();
+    assertEquals(attribute, IntervalConverter.intervaldsToDuration(new INTERVALDS(data)));
+    assertArrayEquals(data, IntervalConverter.durationToIntervalds(attribute).toBytes());
+    // TODO just negative hour
+    // TODO just negative minute
+    // TODO just negative second
+    // TODO just negative nano
   }
 
 }

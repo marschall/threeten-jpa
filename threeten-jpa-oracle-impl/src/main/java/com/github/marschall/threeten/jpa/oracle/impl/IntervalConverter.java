@@ -114,12 +114,12 @@ public final class IntervalConverter {
     if (attribute == null) {
       return null;
     }
-    if (attribute.isNegative()) {
-      throw new IllegalArgumentException("negative durations not allowed");
-    }
     byte[] bytes = newIntervaldsBuffer();
 
     long totalSeconds = attribute.getSeconds();
+    if (attribute.isNegative()) {
+      totalSeconds += 1L;
+    }
     // computation happens in UTC
     // lead seconds are sort of an issue
 
@@ -127,7 +127,13 @@ public final class IntervalConverter {
     int hour = (int) ((totalSeconds / 60L / 60L) - (day * 24L));
     int minute = (int) ((totalSeconds / 60L) - (day * 24L * 60L) - (hour * 60L));
     int second = (int) (totalSeconds % 60);
-    int nano = attribute.getNano() + Integer.MIN_VALUE;
+    int nano;
+    if (attribute.isNegative()) {
+      nano = -(1_000_000_000 - attribute.getNano());
+    } else {
+      nano = attribute.getNano();
+    }
+    nano ^= HIGH_BIT_FLAG;
     day ^= HIGH_BIT_FLAG;
 
     hour += 60;
