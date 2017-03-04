@@ -21,17 +21,6 @@ public class PeriodConverterTest {
   }
 
   @Test
-  public void negative() {
-    Period period = Period.of(-100, 10, 0);
-    try {
-      IntervalConverter.periodToIntervalym(period);
-      fail("negative periods not allowed");
-    } catch (IllegalArgumentException e) {
-      // should reach here
-    }
-  }
-
-  @Test
   public void day() {
     Period period = Period.ofDays(1);
     try {
@@ -68,6 +57,7 @@ public class PeriodConverterTest {
     Period attribute = Period.of(123, 2, 0).negated();
     assertEquals(attribute, IntervalConverter.intervalymToPeriod(new INTERVALYM(data)));
     assertArrayEquals(data, IntervalConverter.periodToIntervalym(attribute).toBytes());
+    // TODO just negative day
   }
 
 }
