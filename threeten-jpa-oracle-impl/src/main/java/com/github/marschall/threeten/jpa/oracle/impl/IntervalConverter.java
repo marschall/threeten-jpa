@@ -18,6 +18,8 @@ public final class IntervalConverter {
   private static final int SIZE_INTERVALYM = 5;
   private static final int SIZE_INTERVALDS = 11;
 
+  private static final int HIGH_BIT_FLAG = 0x80000000;
+
   /**
    * Converts {@link INTERVALYM} to {@link Period}.
    *
@@ -34,7 +36,7 @@ public final class IntervalConverter {
             | toUnsignedInt(bytes[1]) << 16
             | toUnsignedInt(bytes[2]) << 8
             | toUnsignedInt(bytes[3]);
-    year -= Integer.MIN_VALUE;
+    year ^= HIGH_BIT_FLAG;
     int month = toUnsignedInt(bytes[4]) - 60;
     return Period.of(year, month, 0);
   }
@@ -57,7 +59,7 @@ public final class IntervalConverter {
     }
     byte[] bytes = newIntervalymBuffer();
 
-    int year = attribute.getYears() + Integer.MIN_VALUE;
+    int year = attribute.getYears() ^ HIGH_BIT_FLAG;
     bytes[0] = (byte) (year >> 24);
     bytes[1] = (byte) (year >> 16 & 0xFF);
     bytes[2] = (byte) (year >> 8 & 0xFF);
@@ -89,7 +91,7 @@ public final class IntervalConverter {
             | toUnsignedInt(bytes[1]) << 16
             | toUnsignedInt(bytes[2]) << 8
             | toUnsignedInt(bytes[3]);
-    day -= Integer.MIN_VALUE;
+    day ^= HIGH_BIT_FLAG;
     int hour = toUnsignedInt(bytes[4]) - 60;
     int minute = toUnsignedInt(bytes[5]) - 60;
     int second = toUnsignedInt(bytes[6]) - 60;
@@ -97,7 +99,7 @@ public final class IntervalConverter {
             | toUnsignedInt(bytes[8]) << 16
             | toUnsignedInt(bytes[9]) << 8
             | toUnsignedInt(bytes[10]);
-    nano -= Integer.MIN_VALUE;
+    nano ^= HIGH_BIT_FLAG;
     return Duration.ofDays(day)
             .plusHours(hour)
             .plusMinutes(minute)
@@ -129,7 +131,7 @@ public final class IntervalConverter {
     int minute = (int) ((totalSeconds / 60L) - (day * 24L * 60L) - (hour * 60L));
     int second = (int) (totalSeconds % 60);
     int nano = attribute.getNano() + Integer.MIN_VALUE;
-    day += Integer.MIN_VALUE;
+    day ^= HIGH_BIT_FLAG;
 
     hour += 60;
     minute += 60;
