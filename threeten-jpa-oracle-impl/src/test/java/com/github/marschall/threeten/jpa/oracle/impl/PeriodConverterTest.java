@@ -62,4 +62,12 @@ public class PeriodConverterTest {
     assertArrayEquals(data, IntervalConverter.periodToIntervalym(attribute).toBytes());
   }
 
+  @Test
+  public void negativeReference() {
+    byte[] data = new byte[] {127, -1, -1, -123, 58};
+    Period attribute = Period.of(123, 2, 0).negated();
+    assertEquals(attribute, IntervalConverter.intervalymToPeriod(new INTERVALYM(data)));
+    assertArrayEquals(data, IntervalConverter.periodToIntervalym(attribute).toBytes());
+  }
+
 }

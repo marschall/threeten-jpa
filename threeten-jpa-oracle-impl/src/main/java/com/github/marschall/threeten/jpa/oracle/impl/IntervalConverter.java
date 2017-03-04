@@ -54,9 +54,6 @@ public final class IntervalConverter {
     if (attribute.getDays() != 0) {
       throw new IllegalArgumentException("days are not supported");
     }
-    if (attribute.isNegative()) {
-      throw new IllegalArgumentException("negative periods not allowed");
-    }
     byte[] bytes = newIntervalymBuffer();
 
     int year = attribute.getYears() ^ HIGH_BIT_FLAG;
