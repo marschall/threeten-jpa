@@ -81,10 +81,6 @@ public class DurationConverterTest {
     Duration attribute = Duration.parse("P4DT5H12M10.222S").negated();
     assertEquals(attribute, IntervalConverter.intervaldsToDuration(new INTERVALDS(data)));
     assertArrayEquals(data, IntervalConverter.durationToIntervalds(attribute).toBytes());
-    // TODO just negative hour
-    // TODO just negative minute
-    // TODO just negative second
-    // TODO just negative nano
   }
 
 }

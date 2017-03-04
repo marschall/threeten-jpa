@@ -57,7 +57,6 @@ public class PeriodConverterTest {
     Period attribute = Period.of(123, 2, 0).negated();
     assertEquals(attribute, IntervalConverter.intervalymToPeriod(new INTERVALYM(data)));
     assertArrayEquals(data, IntervalConverter.periodToIntervalym(attribute).toBytes());
-    // TODO just negative day
   }
 
 }

@@ -118,6 +118,7 @@ public final class IntervalConverter {
 
     long totalSeconds = attribute.getSeconds();
     if (attribute.isNegative()) {
+      //
       totalSeconds += 1L;
     }
     // computation happens in UTC
@@ -129,6 +130,12 @@ public final class IntervalConverter {
     int second = (int) (totalSeconds % 60);
     int nano;
     if (attribute.isNegative()) {
+      // Java represents -10.1 seconds as
+      //  -11 seconds
+      //  +900000000 nanoseconds
+      // Oracle wants -10.1 seconds as
+      //  -10 seconds
+      //  -100000000 nanoseconds
       nano = -(1_000_000_000 - attribute.getNano());
     } else {
       nano = attribute.getNano();
