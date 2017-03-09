@@ -28,10 +28,6 @@ public class JavaTime {
   @Column(name = "TIMESTAMP_COLUMN")
   private LocalDateTime localDateTime;
 
-  @Column(name = "TIMESTAMP_COLUMN_2")
-  private Instant instant;
-
-
   public BigInteger getId() {
     return id;
   }
@@ -62,14 +58,6 @@ public class JavaTime {
 
   public void setLocalDateTime(LocalDateTime localDateTime) {
     this.localDateTime = localDateTime;
-  }
-
-  public Instant getInstant() {
-    return instant;
-  }
-
-  public void setInstant(Instant instant) {
-    this.instant = instant;
   }
 
 }

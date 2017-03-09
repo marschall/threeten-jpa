@@ -10,11 +10,9 @@ import static org.junit.Assert.assertThat;
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -129,7 +127,6 @@ public class ConverterTest {
         assertEquals(LocalTime.parse("15:09:02"), javaTime.getLocalTime());
         assertEquals(LocalDate.parse("1988-12-25"), javaTime.getLocalDate());
         assertEquals(LocalDateTime.parse("1980-01-01T23:03:20"), javaTime.getLocalDateTime());
-        assertEquals(LocalDateTime.parse("1980-01-01T23:03:20").atZone(ZoneId.systemDefault()).toInstant(), javaTime.getInstant());
         return null;
        });
 
@@ -138,7 +135,6 @@ public class ConverterTest {
       LocalTime newTime = LocalTime.now();
       LocalDate newDate = LocalDate.now();
       LocalDateTime newDateTime = LocalDateTime.now();
-      Instant newInstant = Instant.now();
 
       this.template.execute((s) -> {
         JavaTime toInsert = new JavaTime();
@@ -146,7 +142,6 @@ public class ConverterTest {
         toInsert.setLocalDate(newDate);
         toInsert.setLocalTime(newTime);
         toInsert.setLocalDateTime(newDateTime);
-        toInsert.setInstant(newInstant);
         entityManager.persist(toInsert);
         // the transaction should trigger a flush and write to the database
         return null;
@@ -160,7 +155,6 @@ public class ConverterTest {
         assertEquals(newTime, readBack.getLocalTime());
         assertEquals(newDate, readBack.getLocalDate());
         assertEquals(newDateTime, readBack.getLocalDateTime());
-        assertEquals(newInstant, readBack.getInstant());
         entityManager.remove(readBack);
         return null;
       });
