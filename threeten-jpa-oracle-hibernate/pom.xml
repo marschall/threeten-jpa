@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.github.marschall</groupId>
     <artifactId>threeten-jpa-master</artifactId>
-    <version>1.7.0</version>
+    <version>1.8.0-SNAPSHOT</version>
   </parent>
   <artifactId>threeten-jpa-oracle-hibernate</artifactId>
   <name>ThreeTen-JPA Oracle Hibernate</name>
