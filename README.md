@@ -11,11 +11,13 @@ We take inspiration from the JDBC 4.2 and currently support the following conver
 | DATE                    | LocalDate         |
 | TIME                    | LocalTime         |
 | TIMESTAMP               | LocalDateTime     |
-| TIMESTAMP               | Instant           |
 | TIMESTAMP WITH TIMEZONE | OffsetTime (*)    |
 | TIMESTAMP WITH TIMEZONE | ZonedDateTime (*) |
+| INTERVAL YEAR TO MONTH  | Period  (**)      |
+| INTERVAL DAY TO SECOND  | Duration (**)     |
 
  (*) Converting `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime` or `ZonedDateTime` requires special extensions.
+ (**) requires special Oracle extension.
 
 Not supported is converting `TIME WITH TIMEZONE` to `OffsetTime` because it seems [not very useful](https://www.postgresql.org/docs/current/static/datatype-datetime.html#DATATYPE-TIMEZONES).
 
@@ -30,7 +32,7 @@ Usage
 <dependency>
     <groupId>com.github.marschall</groupId>
     <artifactId>threeten-jpa</artifactId>
-    <version>1.6.0</version>
+    <version>1.7.0</version>
 </dependency>
 ```
 
@@ -67,10 +69,10 @@ Converters
 
 You can find a complete list of all converters in the Javadoc
 
- * [threeten-jpa](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa/1.6.0)
- * [threeten-jpa-jdbc42-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-jdbc42-hibernate/1.6.0)
- * [threeten-jpa-oracle-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-eclipselink/1.6.0)
- * [threeten-jpa-oracle-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-hibernate/1.6.0)
+ * [threeten-jpa](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa/1.7.0)
+ * [threeten-jpa-jdbc42-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-jdbc42-hibernate/1.7.0)
+ * [threeten-jpa-oracle-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-eclipselink/1.7.0)
+ * [threeten-jpa-oracle-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-hibernate/1.7.0)
 
 Time Zone Support
 -----------------
