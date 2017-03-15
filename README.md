@@ -17,6 +17,7 @@ We take inspiration from the JDBC 4.2 and currently support the following conver
 | INTERVAL DAY TO SECOND  | Duration (**)     |
 
  (*) Converting `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime` or `ZonedDateTime` requires special extensions.
+
  (**) requires special Oracle extension.
 
 Not supported is converting `TIME WITH TIMEZONE` to `OffsetTime` because it seems [not very useful](https://www.postgresql.org/docs/current/static/datatype-datetime.html#DATATYPE-TIMEZONES).
@@ -77,7 +78,7 @@ You can find a complete list of all converters in the Javadoc
 Time Zone Support
 -----------------
 
-[Time Zone Support](https://github.com/marschall/threeten-jpa/wiki/Time-Zone-Support) is documented on the wiki.
+[Time Zone Support](Time-Zone-Support) is documented on the wiki.
 
 JDBC 4.2
 --------
