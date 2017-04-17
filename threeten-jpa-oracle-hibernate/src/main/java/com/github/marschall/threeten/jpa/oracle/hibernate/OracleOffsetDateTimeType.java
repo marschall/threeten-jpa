@@ -9,8 +9,11 @@ import com.github.marschall.threeten.jpa.oracle.impl.TimestamptzConverter;
 import oracle.sql.TIMESTAMPTZ;
 
 /**
- * Type mapping {@link OffsetDateTime} to {@code TIMESTAMPTZ}.
+ * Type mapping from {@link OffsetDateTime} to {@code TIMESTAMPTZ}.
+ *
+ * @deprecated use ojdbc8 12.2.0.1 and Jdbc42OffsetDateTimeType from threeten-jpa-jdbc42-hibernate
  */
+@Deprecated
 public class OracleOffsetDateTimeType extends AbstractTimestamptzType {
 
   /**

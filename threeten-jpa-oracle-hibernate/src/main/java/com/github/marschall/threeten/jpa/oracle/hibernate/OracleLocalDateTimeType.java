@@ -16,8 +16,11 @@ import oracle.jdbc.OracleResultSet;
 import oracle.sql.TIMESTAMP;
 
 /**
- * Type mapping {@link LocalDateTime} to {@code TIMESTAMP}
+ * Type mapping from {@link LocalDateTime} to {@code TIMESTAMP}.
+ *
+ * @deprecated use ojdbc8 12.2.0.1 and Jdbc42LocalDateTimeType from threeten-jpa-jdbc42-hibernate
  */
+@Deprecated
 public class OracleLocalDateTimeType extends AbstractThreeTenType {
 
   /**

@@ -13,7 +13,7 @@ We take inspiration from the JDBC 4.2 and currently support the following conver
 | TIMESTAMP               | LocalDateTime     |
 | TIMESTAMP WITH TIMEZONE | OffsetTime (*)    |
 | TIMESTAMP WITH TIMEZONE | ZonedDateTime (*) |
-| INTERVAL YEAR TO MONTH  | Period  (*)       |
+| INTERVAL YEAR TO MONTH  | Period (*)        |
 | INTERVAL DAY TO SECOND  | Duration (*)      |
 
  (*) requires special extensions, see below
