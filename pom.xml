@@ -49,6 +49,7 @@
     <module>threeten-jpa-oracle-api</module>
     <module>threeten-jpa-jdbc42-hibernate</module>
     <module>threeten-jpa-oracle-impl</module>
+    <module>threeten-jpa-h2-eclipselink</module>
   </modules>
   
   <dependencyManagement>
