@@ -23,12 +23,12 @@
  *  </thead>
  *  <tbody>
  *    <tr>
- *      <td><code>TIMESTAMP WITH TIMEZONE</code></td>
+ *      <td><code>TIMESTAMP WITH TIME ZONE</code></td>
  *      <td>{@link java.time.ZonedDateTime}</td>
  *      <td>{@link com.github.marschall.threeten.jpa.oracle.OracleZonedDateTimeConverter}</td>
  *    </tr>
  *    <tr>
- *      <td><code>TIMESTAMP WITH TIMEZONE</code></td>
+ *      <td><code>TIMESTAMP WITH TIME ZONE</code></td>
  *      <td>{@link java.time.OffsetDateTime}</td>
  *      <td>{@link com.github.marschall.threeten.jpa.oracle.OracleOffsetDateTimeConverter}</td>
  *    </tr>
