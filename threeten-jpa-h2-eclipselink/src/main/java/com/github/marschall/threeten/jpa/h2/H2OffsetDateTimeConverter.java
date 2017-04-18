@@ -35,7 +35,6 @@ public class H2OffsetDateTimeConverter implements AttributeConverter<OffsetDateT
     int day = localDate.getDayOfMonth();
     long dateValue = DateTimeUtils.dateValue(year, month, day);
 
-
     LocalDateTime midnight = localDateTime.truncatedTo(ChronoUnit.DAYS);
     Duration duration = Duration.between(midnight, localDateTime);
     long timeNanos = duration.toNanos();
@@ -72,10 +71,10 @@ public class H2OffsetDateTimeConverter implements AttributeConverter<OffsetDateT
     long timeNanos = dbData.getNanosSinceMidnight();
     LocalDateTime localDateTime = localDate.atStartOfDay().plusNanos(timeNanos);
 
-
     short timeZoneOffsetMins = dbData.getTimeZoneOffsetMins();
     int offsetSeconds = Math.toIntExact(TimeUnit.MINUTES.toSeconds(timeZoneOffsetMins));
     ZoneOffset offset = ZoneOffset.ofTotalSeconds(offsetSeconds);
+
     return OffsetDateTime.of(localDateTime, offset);
   }
 
