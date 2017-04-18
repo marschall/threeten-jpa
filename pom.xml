@@ -353,7 +353,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <spring.version>4.3.7.RELEASE</spring.version>
-    <hibernate.version>5.2.8.Final</hibernate.version>
+    <hibernate.version>5.2.10.Final</hibernate.version>
     <java.version>1.8</java.version>
     <eclipselink.version>2.6.4</eclipselink.version>
   </properties>
