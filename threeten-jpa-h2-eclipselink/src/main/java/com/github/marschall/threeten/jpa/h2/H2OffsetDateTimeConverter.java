@@ -41,9 +41,19 @@ public class H2OffsetDateTimeConverter implements AttributeConverter<OffsetDateT
     long timeNanos = duration.toNanos();
 
     int totalSeconds = zoneOffset.getTotalSeconds();
-    short timeZoneOffsetMins = (short) TimeUnit.SECONDS.toMinutes(totalSeconds);
+    short timeZoneOffsetMins = toShortExact(TimeUnit.SECONDS.toMinutes(totalSeconds));
 
     return new TimestampWithTimeZone(dateValue, timeNanos, timeZoneOffsetMins);
+  }
+
+  private static short toShortExact(long l) {
+    if (l > Short.MAX_VALUE) {
+      throw new AssertionError();
+    }
+    if (l < Short.MIN_VALUE) {
+      throw new AssertionError();
+    }
+    return (short) l;
   }
 
   @Override
