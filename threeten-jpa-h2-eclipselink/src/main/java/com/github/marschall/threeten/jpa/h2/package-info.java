@@ -30,5 +30,13 @@
  *  </tbody>
  * </table>
  *
+ * <h3>EclipseLink Platforms</h3>
+ * In addition as a work around for
+ * <a href="https://github.com/h2database/h2database/pull/496">H2#496</a>
+ * we also provide the following platforms.
+ *
+ * <ul>
+ *   <li>{@link com.github.marschall.threeten.jpa.h2.PatchedH2Platform}</li>
+ * </Ul>
  */
 package com.github.marschall.threeten.jpa.h2;

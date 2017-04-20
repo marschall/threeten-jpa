@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.OffsetDateTime;
 
+import org.h2.api.TimestampWithTimeZone;
+
 public class H2Repro {
 
   public static void main(String[] args) throws SQLException {
@@ -32,10 +34,12 @@ public class H2Repro {
 
       try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT ID"
               + " FROM TIMESTAMP_TZ_COMPARE"
-              + " WHERE OFFSET_TIME < ?")) {
+              + " WHERE (OFFSET_TIME < ?)")) {
 
         OffsetDateTime offsetDateTime = OffsetDateTime.parse("1998-01-31T09:26:56.66+02:00");
-        preparedStatement.setObject(1, offsetDateTime);
+//        TimestampWithTimeZone dbValue = new H2OffsetDateTimeConverter().convertToDatabaseColumn(offsetDateTime);
+        TimestampWithTimeZone dbValue = new TimestampWithTimeZone(1023039L, 34016660000000L, (short) 120);
+        preparedStatement.setObject(1, dbValue);
 
         try (ResultSet resultSet = preparedStatement.executeQuery()) {
           while (resultSet.next()) {
