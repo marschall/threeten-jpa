@@ -82,7 +82,7 @@ Time Zone Support
 Interval Support
 ----------------
 
-[Oracle-Interval-Support](https://github.com/marschall/threeten-jpa/wiki/Oracle-Interval-Support) is documented on the wiki.
+[Oracle Interval Support](https://github.com/marschall/threeten-jpa/wiki/Oracle-Interval-Support) is documented on the wiki.
 
 JDBC 4.2
 --------
