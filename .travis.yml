@@ -4,7 +4,6 @@ sudo: false
 language: java
 jdk:
   - oraclejdk8
-
 services:
   - mysql
   - postgresql
@@ -15,9 +14,7 @@ directories:
 - '$HOME/.m2/repository'
 
 before_script:
-#  - mysql -e 'create database travis;'
+  - mysql -e 'create database travis;'
   - psql -c 'create database travis;' -U postgres
-  - docker pull microsoft/mssql-server-linux
-  - docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Cent-Quick-Space-Bath-8' -p 1433:1433 -d microsoft/mssql-server-linux
 
 install: /bin/true
