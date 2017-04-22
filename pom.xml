@@ -50,6 +50,7 @@
     <module>threeten-jpa-jdbc42-hibernate</module>
     <module>threeten-jpa-oracle-impl</module>
     <module>threeten-jpa-h2-eclipselink</module>
+    <module>threeten-jpa-mssql-eclipselink</module>
   </modules>
   
   <dependencyManagement>
