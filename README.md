@@ -31,7 +31,7 @@ Usage
 <dependency>
     <groupId>com.github.marschall</groupId>
     <artifactId>threeten-jpa</artifactId>
-    <version>1.8.1</version>
+    <version>1.9.0</version>
 </dependency>
 ```
 
@@ -68,11 +68,12 @@ Converters
 
 You can find a complete list of all converters in the Javadoc
 
- * [threeten-jpa](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa/1.8.1)
- * [threeten-jpa-jdbc42-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-jdbc42-hibernate/1.8.1)
- * [threeten-jpa-oracle-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-eclipselink/1.8.1)
- * [threeten-jpa-h2-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-h2-eclipselink/1.8.1)
- * [threeten-jpa-oracle-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-hibernate/1.8.1)
+ * [threeten-jpa](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa/1.9.0)
+ * [threeten-jpa-jdbc42-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-jdbc42-hibernate/1.9.0)
+ * [threeten-jpa-oracle-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-hibernate/1.9.0)
+ * [threeten-jpa-oracle-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-eclipselink/1.9.0)
+ * [threeten-jpa-h2-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-h2-eclipselink/1.9.0)
+ * [threeten-jpa-mssql-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-mssql-eclipselink/1.9.0)
 
 Time Zone Support
 -----------------
@@ -102,6 +103,7 @@ The project includes the following submodule:
  * `threeten-jpa` contains portable converters.
  * `threeten-jpa-oracle-eclipselink` contains extensions that work only with Oracle in combination with EclipseLink to map `TIMESTAMP WITH TIMEZONE` to `ZonedDateTime` or `OffsetDateTime`.
  * `threeten-jpa-h2-eclipselink` contains extensions that work only with H2 in combination with EclipseLink to map `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime`.
+ * `threeten-jpa-mssql-eclipselink` contains extensions that work only with SQL Server in combination with EclipseLink to map `DATETIMEOFFSET` to `OffsetDateTime`.
  * `threeten-jpa-oracle-hibernate` contains extensions that work only with Oracle in combination with Hibernate to map `TIMESTAMP WITH TIMEZONE` to `ZonedDateTime` to `OffsetDateTime`.
  * `threeten-jpa-jdbc42-hibernate` contains extensions that work with any JDBC 4.2 compliant driver in combination with Hibernate. They map
   * `TIMESTAMP WITH TIMEZONE` to `ZonedDateTime` or `OffsetDateTime`
