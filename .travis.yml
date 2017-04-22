@@ -4,10 +4,10 @@ sudo: false
 language: java
 jdk:
   - oraclejdk8
+
 services:
   - mysql
   - postgresql
-  - docker
 
 cache:
 directories:
