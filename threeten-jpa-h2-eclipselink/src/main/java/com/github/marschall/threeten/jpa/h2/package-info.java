@@ -2,7 +2,7 @@
  * Contains additional classed for H2 and EclipseLink.
  *
  * <h3>Attribute Converters</h3>
- * Contains additional attribute converters for Oracle that currently only
+ * Contains additional attribute converters for H2 that currently only
  * work with EclipseLink.
  * <p>
  * All the converters have set
@@ -37,6 +37,6 @@
  *
  * <ul>
  *   <li>{@link com.github.marschall.threeten.jpa.h2.PatchedH2Platform}</li>
- * </Ul>
+ * </ul>
  */
 package com.github.marschall.threeten.jpa.h2;
