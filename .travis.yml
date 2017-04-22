@@ -1,6 +1,5 @@
-# docker requires sudo
-# https://docs.travis-ci.com/user/docker/
-sudo: required
+# Use docker-based build environment (instead of openvz)
+sudo: false
 
 language: java
 jdk:
@@ -9,11 +8,10 @@ jdk:
 services:
   - mysql
   - postgresql
-  - docker
 
 cache:
-directories:
-- '$HOME/.m2/repository'
+  directories:
+  - '$HOME/.m2/repository'
 
 before_script:
   - mysql -e 'create database travis;'
