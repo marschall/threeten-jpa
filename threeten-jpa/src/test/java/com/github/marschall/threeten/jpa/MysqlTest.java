@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javax.sql.DataSource;
 
@@ -42,6 +45,18 @@ public class MysqlTest extends AbstractTransactionalJUnit4SpringContextTests {
           System.out.println(resultSet.getBoolean(3));
         }
       }
+
+      preparedStatement.setObject(1, LocalDate.parse("1988-12-25"));
+      preparedStatement.setObject(2, LocalTime.parse("15:09:02"));
+      preparedStatement.setObject(3, LocalDateTime.parse("1980-01-01T23:03:20"));
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        while (resultSet.next()) {
+          System.out.println(resultSet.getBoolean(1));
+          System.out.println(resultSet.getBoolean(2));
+          System.out.println(resultSet.getBoolean(3));
+        }
+      }
+
       try (Statement statement = connection.createStatement();
           ResultSet resultSet = statement.executeQuery("SELECT VERSION()")) {
         while (resultSet.next()) {
