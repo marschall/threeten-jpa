@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigInteger;
 import java.sql.Connection;
@@ -13,6 +14,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -113,6 +116,9 @@ public class ConverterTest {
 
   @Test
   public void runTest() {
+    if (this.persistenceUnitName.contains("mysql")) {
+      assertTrue(ZoneId.systemDefault().equals(ZoneOffset.UTC));
+    }
     EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
     EntityManager entityManager = factory.createEntityManager();
     try {
