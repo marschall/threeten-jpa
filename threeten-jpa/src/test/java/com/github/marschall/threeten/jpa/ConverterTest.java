@@ -2,11 +2,12 @@ package com.github.marschall.threeten.jpa;
 
 import static com.github.marschall.threeten.jpa.Constants.PERSISTENCE_UNIT_NAME;
 import static java.util.Collections.singletonMap;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeThat;
 
 import java.math.BigInteger;
 import java.sql.Connection;
@@ -15,7 +16,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -126,7 +126,7 @@ public class ConverterTest {
       if (systemTimeZone.equals("Etc/UTC")) {
         systemTimeZone = "UTC";
       }
-      assertEquals(systemTimeZone, serverTimeZone);
+      assumeThat(serverTimeZone, equalTo(systemTimeZone));
     }
   }
 
