@@ -117,11 +117,16 @@ public class ConverterTest {
   }
 
   private void mysqlHack() {
+    // http://stackoverflow.com/questions/43560374/mysql-client-vs-server-time-zone
     if (this.persistenceUnitName.contains("mysql")) {
       DataSource dataSource = this.applicationContext.getBean(DataSource.class);
       JdbcOperations jdbcOperations = new JdbcTemplate(dataSource);
       String serverTimeZone = jdbcOperations.queryForObject("SELECT @@system_time_zone", String.class);
-      assertEquals(ZoneId.systemDefault().getId(), serverTimeZone);
+      String systemTimeZone = ZoneId.systemDefault().getId();
+      if (systemTimeZone.equals("Etc/UTC")) {
+        systemTimeZone = "UTC";
+      }
+      assertEquals(systemTimeZone, serverTimeZone);
     }
   }
 
