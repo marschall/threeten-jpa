@@ -36,6 +36,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
+import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -114,11 +116,18 @@ public class ConverterTest {
     this.applicationContext.close();
   }
 
+  private void mysqlHack() {
+    if (this.persistenceUnitName.contains("mysql")) {
+      DataSource dataSource = this.applicationContext.getBean(DataSource.class);
+      JdbcOperations jdbcOperations = new JdbcTemplate(dataSource);
+      String serverTimeZone = jdbcOperations.queryForObject("SELECT @@system_time_zone", String.class);
+      assertEquals(ZoneId.systemDefault().getId(), serverTimeZone);
+    }
+  }
+
   @Test
   public void runTest() {
-    if (this.persistenceUnitName.contains("mysql")) {
-      assertTrue(ZoneId.systemDefault().equals(ZoneOffset.UTC));
-    }
+    mysqlHack();
     EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
     EntityManager entityManager = factory.createEntityManager();
     try {
