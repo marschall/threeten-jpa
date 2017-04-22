@@ -1,12 +1,14 @@
 package com.github.marschall.threeten.jpa.h2;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.temporal.ChronoUnit;
-import java.util.concurrent.TimeUnit;
 
 import org.h2.api.TimestampWithTimeZone;
 import org.h2.util.DateTimeUtils;
@@ -31,12 +33,12 @@ final class TimestampWithTimeZoneConverter {
     int day = localDate.getDayOfMonth();
     long dateValue = DateTimeUtils.dateValue(year, month, day);
 
-    LocalDateTime midnight = localDateTime.truncatedTo(ChronoUnit.DAYS);
+    LocalDateTime midnight = localDateTime.truncatedTo(DAYS);
     Duration duration = Duration.between(midnight, localDateTime);
     long timeNanos = duration.toNanos();
 
     int totalSeconds = zoneOffset.getTotalSeconds();
-    short timeZoneOffsetMins = toShortExact(TimeUnit.SECONDS.toMinutes(totalSeconds));
+    short timeZoneOffsetMins = toShortExact(SECONDS.toMinutes(totalSeconds));
 
     return new TimestampWithTimeZone(dateValue, timeNanos, timeZoneOffsetMins);
   }
@@ -57,7 +59,7 @@ final class TimestampWithTimeZoneConverter {
     LocalDateTime localDateTime = localDate.atStartOfDay().plusNanos(timeNanos);
 
     short timeZoneOffsetMins = dbData.getTimeZoneOffsetMins();
-    int offsetSeconds = Math.toIntExact(TimeUnit.MINUTES.toSeconds(timeZoneOffsetMins));
+    int offsetSeconds = Math.toIntExact(MINUTES.toSeconds(timeZoneOffsetMins));
     ZoneOffset offset = ZoneOffset.ofTotalSeconds(offsetSeconds);
 
     return OffsetDateTime.of(localDateTime, offset);
