@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.github.marschall</groupId>
     <artifactId>threeten-jpa-master</artifactId>
-    <version>1.9.0</version>
+    <version>1.9.1-SNAPSHOT</version>
   </parent>
   <artifactId>threeten-jpa-jdbc42-hibernate</artifactId>
   <name>ThreeTen-JPA JDBC 4.2 Hibernate</name>
