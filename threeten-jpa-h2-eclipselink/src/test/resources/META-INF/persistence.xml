@@ -12,7 +12,7 @@
         <class>com.github.marschall.threeten.jpa.h2.H2OffsetDateTimeConverter</class>
 
         <properties>
-          <property name="eclipselink.target-database" value="com.github.marschall.threeten.jpa.h2.PatchedH2Platform"/>
+          <property name="eclipselink.target-database" value="org.eclipse.persistence.platform.database.H2Platform"/>
           <property name="eclipselink.weaving" value="false"/>
         </properties>
     </persistence-unit>
