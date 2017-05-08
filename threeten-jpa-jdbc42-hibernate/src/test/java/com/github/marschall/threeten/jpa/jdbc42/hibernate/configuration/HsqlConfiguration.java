@@ -14,7 +14,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 public class HsqlConfiguration {
 
   private static final AtomicInteger COUNT = new AtomicInteger();
-  
+
   @Bean
   public DataSource dataSource() {
     return new EmbeddedDatabaseBuilder()

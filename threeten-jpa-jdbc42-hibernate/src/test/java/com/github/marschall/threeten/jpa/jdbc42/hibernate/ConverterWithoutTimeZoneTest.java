@@ -39,6 +39,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.H2Configuration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.HibernateConfiguration;
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.HsqlConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.MysqlConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.PostgresConfiguration;
 
@@ -60,7 +61,7 @@ public class ConverterWithoutTimeZoneTest {
   @Parameters(name = "{2}")
   public static Collection<Object[]> parameters() {
     return Arrays.asList(
-//        new Object[]{HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"},
+        new Object[]{HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"},
         new Object[]{MysqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-mysql"},
         new Object[]{H2Configuration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-h2"},
 //        new Object[]{DerbyConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-derby"},

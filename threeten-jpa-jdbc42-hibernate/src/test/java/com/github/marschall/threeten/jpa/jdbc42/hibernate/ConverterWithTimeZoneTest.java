@@ -38,6 +38,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.H2Configuration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.HibernateConfiguration;
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.HsqlConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.PostgresConfiguration;
 
 @RunWith(Parameterized.class)
@@ -58,8 +59,9 @@ public class ConverterWithTimeZoneTest {
   @Parameters(name = "{2}")
   public static Collection<Object[]> parameters() {
     return Arrays.asList(
-            //new Object[]{HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"},
+            new Object[]{HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"},
             //new Object[]{SqlServerConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-sqlserver"},
+//            new Object[]{DerbyConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-derby"},
             new Object[]{H2Configuration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-h2"},
             new Object[]{PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres"}
             );
@@ -98,7 +100,7 @@ public class ConverterWithTimeZoneTest {
   }
 
   @Test
-  public void runTest() {
+  public void read() {
     EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
     EntityManager entityManager = factory.createEntityManager();
     try {
@@ -119,8 +121,18 @@ public class ConverterWithTimeZoneTest {
           assertEquals(inserted, javaTime.getOffset());
         }
         return null;
-       });
+      });
+    } finally {
+      entityManager.close();
+      // EntityManagerFactory should be closed by spring.
+    }
+  }
 
+  @Test
+  public void write() {
+    EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
+    EntityManager entityManager = factory.createEntityManager();
+    try {
       // insert a new entity into the database
       BigInteger newId = new BigInteger("2");
       OffsetDateTime newOffset = OffsetDateTime.now();
