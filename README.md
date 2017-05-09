@@ -31,7 +31,7 @@ Usage
 <dependency>
     <groupId>com.github.marschall</groupId>
     <artifactId>threeten-jpa</artifactId>
-    <version>1.9.0</version>
+    <version>1.9.1</version>
 </dependency>
 ```
 
@@ -68,12 +68,12 @@ Converters
 
 You can find a complete list of all converters in the Javadoc
 
- * [threeten-jpa](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa/1.9.0)
- * [threeten-jpa-jdbc42-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-jdbc42-hibernate/1.9.0)
- * [threeten-jpa-oracle-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-hibernate/1.9.0)
- * [threeten-jpa-oracle-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-eclipselink/1.9.0)
- * [threeten-jpa-h2-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-h2-eclipselink/1.9.0)
- * [threeten-jpa-mssql-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-mssql-eclipselink/1.9.0)
+ * [threeten-jpa](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa/1.9.1)
+ * [threeten-jpa-jdbc42-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-jdbc42-hibernate/1.9.1)
+ * [threeten-jpa-oracle-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-hibernate/1.9.1)
+ * [threeten-jpa-oracle-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-eclipselink/1.9.1)
+ * [threeten-jpa-h2-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-h2-eclipselink/1.9.1)
+ * [threeten-jpa-mssql-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-mssql-eclipselink/1.9.1)
 
 Time Zone Support
 -----------------
@@ -125,7 +125,7 @@ Tested with the following databases:
  * HSQL
  * MySQL 5.7
  * Oracle 12.1c with the 12.1c driver
- * PostgreS 9.5
+ * PostgreS 9.6
 
 License
 -------
