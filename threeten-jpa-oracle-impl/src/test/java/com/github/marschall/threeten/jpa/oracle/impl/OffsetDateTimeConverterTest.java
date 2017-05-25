@@ -41,6 +41,19 @@ public class OffsetDateTimeConverterTest {
   }
 
   @Test
+  public void convertToDatabaseColumnJulianDate() {
+    ZoneOffset offset = ZoneOffset.ofHoursMinutes(11, 11);
+    LocalDate date = LocalDate.of(1111, 11, 11);
+    LocalTime time = LocalTime.of(11, 11, 11, 110_000_000);
+    OffsetDateTime attribute = OffsetDateTime.of(date, time, offset);
+
+    TIMESTAMPTZ timestamptz = TimestamptzConverter.offsetDateTimeToTimestamptz(attribute);
+    byte[] actual = timestamptz.toBytes();
+    byte[] expected = new byte[]{111, 111, 11, 11, 1, 1, 12, 6, -114, 119, -128, 31, 71};
+    assertArrayEquals(expected, actual);
+  }
+
+  @Test
   public void convertToEntityAttributePositiveOffset() {
     byte[] timestamptz = new byte[]{119, -59, 1, 31, 8, 27, 57, 39, 86, -51, 0, 22, 60};
     TIMESTAMPTZ dbData = new TIMESTAMPTZ(timestamptz);
@@ -74,6 +87,19 @@ public class OffsetDateTimeConverterTest {
     ZoneOffset offset = ZoneOffset.ofHours(-8);
     LocalDate date = LocalDate.of(1999, 1, 15);
     LocalTime time = LocalTime.of(8, 0, 0);
+    OffsetDateTime exptected = OffsetDateTime.of(date, time, offset);
+    OffsetDateTime actual = TimestamptzConverter.timestamptzToOffsetDateTime(dbData);
+    assertEquals(exptected, actual);
+  }
+
+  @Test
+  public void convertToEntityAttributeJulianDate() {
+    byte[] timestamptz = new byte[]{111, 111, 11, 11, 1, 1, 12, 6, -114, 119, -128, 31, 71};
+    TIMESTAMPTZ dbData = new TIMESTAMPTZ(timestamptz);
+
+    ZoneOffset offset = ZoneOffset.ofHoursMinutes(11, 11);
+    LocalDate date = LocalDate.of(1111, 11, 11);
+    LocalTime time = LocalTime.of(11, 11, 11, 110_000_000);
     OffsetDateTime exptected = OffsetDateTime.of(date, time, offset);
     OffsetDateTime actual = TimestamptzConverter.timestamptzToOffsetDateTime(dbData);
     assertEquals(exptected, actual);
