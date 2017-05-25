@@ -38,7 +38,6 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.H2Configuration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.HibernateConfiguration;
-import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.HsqlConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.PostgresConfiguration;
 
 @RunWith(Parameterized.class)
