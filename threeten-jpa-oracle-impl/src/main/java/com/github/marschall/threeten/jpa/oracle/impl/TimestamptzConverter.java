@@ -189,7 +189,12 @@ public final class TimestamptzConverter {
   }
 
   private static ZoneOffset extractOffset(byte[] bytes) {
-    return ZoneOffset.ofHoursMinutes(bytes[11] - 20, bytes[12] - 60);
+    int hours = bytes[11] - 20;
+    int minutes = bytes[12] - 60;
+    if (hours == 0 && minutes == 0) {
+      return ZoneOffset.UTC;
+    }
+    return ZoneOffset.ofHoursMinutes(hours, minutes);
   }
 
   private static ZoneId extractZoneId(byte[] bytes) {
