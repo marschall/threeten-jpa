@@ -32,8 +32,8 @@ public class HsqlTest extends AbstractTransactionalJUnit4SpringContextTests {
   public void getObject() throws SQLException {
     try (Connection connection = this.dataSource.getConnection();
          PreparedStatement preparedStatement = connection.prepareStatement(
-//                 "SELECT TIMESTAMP '1960-01-01 23:03:20+02:00' "
-                 "SELECT CAST('1960-01-01 23:03:20+05:00' AS TIMESTAMP WITH TIME ZONE) + INTERVAL '5:00' HOUR TO MINUTE "
+                 "SELECT TIMESTAMP '1960-01-01 23:03:20+05:00' "
+//                 "SELECT CAST('1960-01-01 23:03:20+05:00' AS TIMESTAMP WITH TIME ZONE) + INTERVAL '5:00' HOUR TO MINUTE "
 //                 "SELECT CAST('1960-01-01 23:03:20+05:00' AS TIMESTAMP WITH TIME ZONE) + TIMEZONE() "
 //                 "SELECT TIMESTAMP_WITH_ZONE(TIMESTAMP '1960-01-01 23:03:20') "
 //                 "SELECT TIMESTAMP '1960-01-01 23:03:20' AT TIME ZONE INTERVAL '2:00' HOUR TO MINUTE "
