@@ -1,7 +1,6 @@
 package com.github.marschall.threeten.jpa;
 
 import java.math.BigInteger;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
