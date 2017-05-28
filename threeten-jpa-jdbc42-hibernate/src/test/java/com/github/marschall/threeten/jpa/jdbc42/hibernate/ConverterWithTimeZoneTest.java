@@ -105,9 +105,9 @@ public class ConverterWithTimeZoneTest {
     try {
       // read the entity inserted by SQL
       this.template.execute(status -> {
-        Query query = entityManager.createQuery("SELECT t FROM JavaTime42WithZone t");
+        Query query = entityManager.createQuery("SELECT t FROM JavaTime42WithZone t order by t.id");
         List<?> resultList = query.getResultList();
-        assertThat(resultList, hasSize(1));
+        assertThat(resultList, hasSize(2));
 
         // validate the entity inserted by SQL
         JavaTime42WithZone javaTime = (JavaTime42WithZone) resultList.get(0);

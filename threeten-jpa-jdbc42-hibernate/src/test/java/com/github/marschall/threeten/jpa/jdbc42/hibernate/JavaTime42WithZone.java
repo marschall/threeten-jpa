@@ -20,7 +20,7 @@ public class JavaTime42WithZone {
 
 //  ZonedDateTime unsupported by jdbc spec
 
-  @Column(name = "OFFSET_TIME")
+  @Column(name = "OFFSET_TIME", columnDefinition = "TIMESTAMP WITH TIME ZONE")
   @Type(type = Jdbc42OffsetDateTimeType.NAME)
   private OffsetDateTime offset;
 
