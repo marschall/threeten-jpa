@@ -1,4 +1,4 @@
-package com.github.marschall.threeten.jpa.mssql.configuration;
+package com.github.marschall.threeten.jpa.mssql.eclipselink.configuration;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;

@@ -25,9 +25,9 @@
  *    <tr>
  *      <td><code>DATETIMEOFFSET</code></td>
  *      <td>{@link java.time.OffsetDateTime}</td>
- *      <td>{@link com.github.marschall.threeten.jpa.mssql.MssqlOffsetDateTimeConverter}</td>
+ *      <td>{@link com.github.marschall.threeten.jpa.mssql.eclipselink.MssqlOffsetDateTimeConverter}</td>
  *    </tr>
  *  </tbody>
  * </table>
  */
-package com.github.marschall.threeten.jpa.mssql;
+package com.github.marschall.threeten.jpa.mssql.eclipselink;

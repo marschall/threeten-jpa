@@ -1,4 +1,4 @@
-package com.github.marschall.threeten.jpa.mssql;
+package com.github.marschall.threeten.jpa.mssql.eclipselink;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,7 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
-import com.github.marschall.threeten.jpa.mssql.configuration.MssqlConfiguration;
+import com.github.marschall.threeten.jpa.mssql.eclipselink.configuration.MssqlConfiguration;
 
 @ContextConfiguration(classes = MssqlConfiguration.class)
 @Sql("classpath:sqlserver-schema.sql")

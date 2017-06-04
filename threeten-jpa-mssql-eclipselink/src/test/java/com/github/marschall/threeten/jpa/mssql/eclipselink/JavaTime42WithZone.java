@@ -1,4 +1,4 @@
-package com.github.marschall.threeten.jpa.mssql;
+package com.github.marschall.threeten.jpa.mssql.eclipselink;
 
 import java.math.BigInteger;
 import java.time.OffsetDateTime;

@@ -83,7 +83,7 @@
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <excludes>
-            <exclude>com/github/marschall/threeten/jpa.mssql/JavaTime42WithZone_.class</exclude>
+            <exclude>com/github/marschall/threeten/jpa/mssql/eclipselink/JavaTime42WithZone_.class</exclude>
           </excludes>
         </configuration>
       </plugin>

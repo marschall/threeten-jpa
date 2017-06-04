@@ -1,4 +1,4 @@
-package com.github.marschall.threeten.jpa.mssql;
+package com.github.marschall.threeten.jpa.mssql.eclipselink;
 
 import static java.time.ZoneOffset.UTC;
 import static java.util.concurrent.TimeUnit.MINUTES;
