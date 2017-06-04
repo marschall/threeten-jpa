@@ -1,3 +1,5 @@
+# try to get MySQL 5.6 instead of 5.5
+dist: trusty
 # Use docker-based build environment (instead of openvz)
 sudo: false
 
