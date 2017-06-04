@@ -1,15 +1,11 @@
 package com.github.marschall.threeten.jpa.mssql.eclipselink;
 
-import static java.time.ZoneOffset.UTC;
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.sql.Timestamp;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+
+import com.github.marschall.threeten.jpa.mssql.impl.DateTimeOffsetConverter;
 
 import microsoft.sql.DateTimeOffset;
 
@@ -21,26 +17,12 @@ public class MssqlOffsetDateTimeConverter implements AttributeConverter<OffsetDa
 
   @Override
   public DateTimeOffset convertToDatabaseColumn(OffsetDateTime attribute) {
-    if (attribute == null) {
-      return null;
-    }
-
-    Timestamp timestamp = Timestamp.from(attribute.toInstant());
-    int offsetSeconds = attribute.getOffset().getTotalSeconds();
-    return DateTimeOffset.valueOf(timestamp, Math.toIntExact(SECONDS.toMinutes(offsetSeconds)));
+    return DateTimeOffsetConverter.offsetDateTimeToDateTimeOffset(attribute);
   }
 
   @Override
   public OffsetDateTime convertToEntityAttribute(DateTimeOffset dbData) {
-    if (dbData == null) {
-      return null;
-    }
-
-    OffsetDateTime utc = OffsetDateTime.ofInstant(dbData.getTimestamp().toInstant(), UTC);
-    int offsetSeconds = Math.toIntExact(MINUTES.toSeconds(dbData.getMinutesOffset()));
-    ZoneOffset offset = ZoneOffset.ofTotalSeconds(offsetSeconds);
-
-    return utc.withOffsetSameInstant(offset);
+    return DateTimeOffsetConverter.dateTimeOffsetToOffsetDateTime(dbData);
   }
 
 }

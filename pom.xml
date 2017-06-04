@@ -51,6 +51,8 @@
     <module>threeten-jpa-oracle-impl</module>
     <module>threeten-jpa-h2-eclipselink</module>
     <module>threeten-jpa-mssql-eclipselink</module>
+    <module>threeten-jpa-mssql-hibernate</module>
+    <module>threeten-jpa-mssql-impl</module>
   </modules>
   
   <dependencyManagement>

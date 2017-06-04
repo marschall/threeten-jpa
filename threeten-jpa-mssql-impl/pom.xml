@@ -5,15 +5,14 @@
     <artifactId>threeten-jpa-master</artifactId>
     <version>1.9.2-SNAPSHOT</version>
   </parent>
-  <artifactId>threeten-jpa-oracle-impl</artifactId>
-  <name>ThreeTen-JPA Oracle Implementation</name>
-  <description>Oracle timestamp conversion classes.</description>
+  <artifactId>threeten-jpa-mssql-impl</artifactId>
+  <name>ThreeTen-JPA SQL Server Implementation</name>
+  <description>SQL Server timestamp conversion classes.</description>
 
   <dependencies>
     <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>threeten-jpa-oracle-api</artifactId>
-      <version>${project.version}</version>
+      <groupId>com.microsoft.sqlserver</groupId>
+      <artifactId>mssql-jdbc</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -22,4 +21,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
 </project>
