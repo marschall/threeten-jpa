@@ -12,6 +12,12 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>threeten-jpa-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>threeten-jpa-mssql-impl</artifactId>
       <version>${project.version}</version>
     </dependency>

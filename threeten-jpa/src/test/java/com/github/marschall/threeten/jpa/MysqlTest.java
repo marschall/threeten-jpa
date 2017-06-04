@@ -11,6 +11,7 @@ import java.time.LocalTime;
 
 import javax.sql.DataSource;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,7 @@ import com.github.marschall.threeten.jpa.MysqlTest.LocalConfiguration;
 import com.github.marschall.threeten.jpa.test.configuration.MysqlConfiguration;
 
 @ContextConfiguration(classes = {MysqlConfiguration.class, LocalConfiguration.class})
+@Ignore
 public class MysqlTest extends AbstractTransactionalJUnit4SpringContextTests {
 
   @Autowired

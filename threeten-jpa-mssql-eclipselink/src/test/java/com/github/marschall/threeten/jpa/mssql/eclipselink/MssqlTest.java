@@ -19,9 +19,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
-import com.github.marschall.threeten.jpa.mssql.eclipselink.configuration.MssqlConfiguration;
+import com.github.marschall.threeten.jpa.mssql.eclipselink.configuration.LocalSqlServerConfiguration;
 
-@ContextConfiguration(classes = MssqlConfiguration.class)
+@ContextConfiguration(classes = LocalSqlServerConfiguration.class)
 @Sql("classpath:sqlserver-schema.sql")
 @Sql("classpath:sqlserver-data.sql")
 @Ignore("needs database")
@@ -42,7 +42,7 @@ public class MssqlTest extends AbstractTransactionalJUnit4SpringContextTests {
   @Test
   public void readSecondRow() {
     JavaTime42WithZone secondRow = this.entityManager.find(JavaTime42WithZone.class, new BigInteger("2"));
-    ZoneOffset zoneOffset = ZoneOffset.ofHoursMinutes(-2, -30);
+    ZoneOffset zoneOffset = ZoneOffset.ofHoursMinutes(-5, -30);
     OffsetDateTime expectedOffset = OffsetDateTime.of(1999, 1, 23, 8, 26, 56, 123456700, zoneOffset);
     assertEquals(expectedOffset, secondRow.getOffsetDateTime());
   }

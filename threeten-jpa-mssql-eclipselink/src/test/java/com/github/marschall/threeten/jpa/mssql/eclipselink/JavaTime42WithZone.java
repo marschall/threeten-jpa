@@ -16,7 +16,7 @@ public class JavaTime42WithZone {
   @Column(name = "ID")
   private BigInteger id;
 
-  @Column(name = "OFFSET_DATE_TIME")
+  @Column(name = "OFFSET_TIME")
   private OffsetDateTime offsetDateTime;
 
   public BigInteger getId() {
