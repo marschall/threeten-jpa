@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.UUID;
 
 import javax.sql.DataSource;
 
@@ -43,6 +45,26 @@ public class SqlServerTest extends AbstractTransactionalJUnit4SpringContextTests
         Object dateTimeOffset = resultSet.getObject(1);
         assertEquals("microsoft.sql.DateTimeOffset", dateTimeOffset.getClass().getName());
         System.out.println(dateTimeOffset);
+      }
+    }
+  }
+
+  @Test
+  public void setUUid() throws SQLException {
+    try (Connection connection = this.dataSource.getConnection();
+         Statement statement = connection.createStatement()) {
+      statement.execute("DROP TABLE IF EXISTS UUID_TEST");
+      statement.execute("CREATE TABLE UUID_TEST(UUID_COLUMN uniqueidentifier)");
+      UUID uuid = UUID.fromString("6F9619FF-8B86-D011-B42D-00C04FC964FF");
+      try (PreparedStatement insert = connection.prepareStatement("INSERT INTO UUID_TEST(UUID_COLUMN) VALUES(?)")) {
+        insert.setObject(1, uuid);
+        assertEquals(1, insert.executeUpdate());
+      }
+      try (PreparedStatement select = connection.prepareStatement("SELECT UUID_COLUMN FROM UUID_TEST");
+           ResultSet resultSet = select.executeQuery()) {
+        while (resultSet.next()) {
+          assertEquals(uuid.toString().toUpperCase(), resultSet.getString(1));
+        }
       }
     }
   }

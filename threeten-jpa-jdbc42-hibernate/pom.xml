@@ -8,7 +8,7 @@
   <artifactId>threeten-jpa-jdbc42-hibernate</artifactId>
   <name>ThreeTen-JPA JDBC 4.2 Hibernate</name>
   <description>Extensions for JDBC 4.2 and Hibernate</description>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.hibernate</groupId>
@@ -60,7 +60,7 @@
       <artifactId>spring-test</artifactId>
       <scope>test</scope>
     </dependency>
-    
+
     <!-- databases -->
     <dependency>
       <groupId>org.hsqldb</groupId>
@@ -92,7 +92,7 @@
       <artifactId>mssql-jdbc</artifactId>
       <scope>test</scope>
     </dependency>
-     
+
      <!-- logging -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>

@@ -6,7 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import javax.sql.DataSource;
 
@@ -44,6 +46,28 @@ public class HsqlTest extends AbstractTransactionalJUnit4SpringContextTests {
       while (resultSet.next()) {
         assertEquals(expected, resultSet.getObject(1, OffsetDateTime.class));
 //        assertEquals("1960-01-01 23:03:20+02:00", resultSet.getObject(1, String.class));
+      }
+    }
+  }
+
+  @Test
+  public void setUUid() throws SQLException {
+    try (Connection connection = this.dataSource.getConnection();
+         Statement statement = connection.createStatement()) {
+      statement.execute("DROP TABLE IF EXISTS UUID_TEST");
+      statement.execute("CREATE TABLE UUID_TEST(UUID_COLUMN UUID)");
+      UUID uuid = UUID.fromString("6F9619FF-8B86-D011-B42D-00C04FC964FF");
+      try (PreparedStatement insert = connection.prepareStatement("INSERT INTO UUID_TEST(UUID_COLUMN) VALUES(?)")) {
+        insert.setObject(1, uuid);
+        assertEquals(1, insert.executeUpdate());
+      }
+      try (PreparedStatement select = connection.prepareStatement("SELECT UUID_COLUMN FROM UUID_TEST");
+           ResultSet resultSet = select.executeQuery()) {
+        while (resultSet.next()) {
+//          assertEquals(uuid, resultSet.getObject(1, UUID.class));
+          assertEquals(uuid.toString(), resultSet.getString(1));
+//          assertEquals(uuid.toString(), resultSet.getBytes(1));
+        }
       }
     }
   }
