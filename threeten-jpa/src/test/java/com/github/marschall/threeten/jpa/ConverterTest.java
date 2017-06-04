@@ -152,6 +152,9 @@ public class ConverterTest {
           assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123457"), javaTime.getLocalDateTime());
         } else if (this.datasourceConfiguration.getName().contains("SqlServer")) {
           assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.1234568"), javaTime.getLocalDateTime());
+        } else if (this.datasourceConfiguration.getName().contains("Mysql")) {
+          // version in Travis is older than the sin
+          assertEquals(LocalDateTime.parse("1980-01-01T23:03:20"), javaTime.getLocalDateTime());
         } else {
           assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123456789"), javaTime.getLocalDateTime());
         }
