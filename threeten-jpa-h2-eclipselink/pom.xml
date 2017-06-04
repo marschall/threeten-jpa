@@ -8,7 +8,7 @@
   <artifactId>threeten-jpa-h2-eclipselink</artifactId>
   <name>ThreeTen-JPA H2 EclipseLink</name>
   <description>Extensions for H2 and EclipseLink</description>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.eclipse.persistence</groupId>
@@ -56,7 +56,7 @@
       <artifactId>hamcrest-junit</artifactId>
       <scope>test</scope>
     </dependency>
-     
+
      <!-- logging -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
@@ -78,7 +78,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  
+
   <build>
     <plugins>
       <plugin>
@@ -91,5 +91,5 @@
       </plugin>
     </plugins>
   </build>
-  
+
 </project>

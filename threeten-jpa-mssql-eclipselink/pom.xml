@@ -6,7 +6,9 @@
     <version>1.9.2-SNAPSHOT</version>
   </parent>
   <artifactId>threeten-jpa-mssql-eclipselink</artifactId>
-  
+  <name>ThreeTen-JPA SQL Server EclipseLink</name>
+  <description>Extensions for SQL Server and EclipseLink</description>
+
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -59,7 +61,7 @@
       <artifactId>hamcrest-junit</artifactId>
       <scope>test</scope>
     </dependency>
-     
+
      <!-- logging -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
@@ -81,7 +83,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  
+
   <build>
     <plugins>
       <plugin>
@@ -94,5 +96,5 @@
       </plugin>
     </plugins>
   </build>
-  
+
 </project>

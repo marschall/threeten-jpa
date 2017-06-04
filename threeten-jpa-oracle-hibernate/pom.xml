@@ -8,7 +8,7 @@
   <artifactId>threeten-jpa-oracle-hibernate</artifactId>
   <name>ThreeTen-JPA Oracle Hibernate</name>
   <description>Extensions for Oracle and Hibernate</description>
-  
+
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -36,7 +36,7 @@
       <artifactId>javax.transaction-api</artifactId>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
@@ -69,7 +69,7 @@
       <scope>test</scope>
     </dependency>
      -->
-     
+
      <!-- logging -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>

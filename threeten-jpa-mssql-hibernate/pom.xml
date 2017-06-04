@@ -5,8 +5,10 @@
     <artifactId>threeten-jpa-master</artifactId>
     <version>1.9.2-SNAPSHOT</version>
   </parent>
-
   <artifactId>threeten-jpa-mssql-hibernate</artifactId>
+  <name>ThreeTen-JPA SQL Server Hibernate</name>
+  <description>Extensions for SQL Server and Hibernate</description>
+
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -63,14 +65,14 @@
       <artifactId>spring-test</artifactId>
       <scope>test</scope>
     </dependency>
-    
+
     <!-- databases -->
     <dependency>
       <groupId>com.microsoft.sqlserver</groupId>
       <artifactId>mssql-jdbc</artifactId>
       <scope>provided</scope>
     </dependency>
-     
+
      <!-- logging -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
