@@ -69,7 +69,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
   @Before
   public void setUp() {
     this.applicationContext = new AnnotationConfigApplicationContext();
-    this.applicationContext.register(OracleConfiguration.class);
+    this.applicationContext.register(LocalOracleConfiguration.class);
     ConfigurableEnvironment environment = this.applicationContext.getEnvironment();
     MutablePropertySources propertySources = environment.getPropertySources();
     Map<String, Object> source = singletonMap(PERSISTENCE_UNIT_NAME, this.persistenceUnitName);

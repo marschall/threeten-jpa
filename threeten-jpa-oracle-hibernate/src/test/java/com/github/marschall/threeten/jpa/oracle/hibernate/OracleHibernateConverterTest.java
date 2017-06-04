@@ -25,7 +25,7 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-@ContextConfiguration(classes = OracleConfiguration.class)
+@ContextConfiguration(classes = LocalOracleConfiguration.class)
 @Ignore("needs oracle database")
 public class OracleHibernateConverterTest extends AbstractTransactionalJUnit4SpringContextTests {
 

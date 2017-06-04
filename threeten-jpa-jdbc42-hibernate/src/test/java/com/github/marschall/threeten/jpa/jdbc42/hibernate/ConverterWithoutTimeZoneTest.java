@@ -101,7 +101,15 @@ public class ConverterWithoutTimeZoneTest {
         JavaTime42 javaTime = (JavaTime42) resultList.get(1);
         assertEquals(LocalTime.parse("02:55:00"), javaTime.getLocalTime());
         assertEquals(LocalDate.parse("2016-03-27"), javaTime.getLocalDate());
-        assertEquals(LocalDateTime.parse("2016-03-27T02:55:00"), javaTime.getLocalDateTime());
+        if (this.jpaConfiguration.getName().contains("Hsql")) {
+          assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123456"), javaTime.getLocalDateTime());
+        } else if (this.jpaConfiguration.getName().contains("Postgres")) {
+          assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123457"), javaTime.getLocalDateTime());
+        } else if (this.jpaConfiguration.getName().contains("Mysql")) {
+          assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123457"), javaTime.getLocalDateTime());
+        } else {
+          assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123456789"), javaTime.getLocalDateTime());
+        }
         return null;
        });
 

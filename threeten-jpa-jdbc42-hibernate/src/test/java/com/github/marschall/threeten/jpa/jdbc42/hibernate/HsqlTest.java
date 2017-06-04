@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import javax.sql.DataSource;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.SqlServerTest.LocalConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalHsqlConfiguration;
 
+@Ignore
 @ContextConfiguration(classes = {LocalHsqlConfiguration.class, LocalConfiguration.class})
 public class HsqlTest extends AbstractTransactionalJUnit4SpringContextTests {
 

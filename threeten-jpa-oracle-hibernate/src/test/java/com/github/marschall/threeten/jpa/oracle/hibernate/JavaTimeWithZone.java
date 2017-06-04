@@ -25,7 +25,7 @@ public class JavaTimeWithZone {
   @Type(type = OracleZonedDateTimeType.NAME)
   private ZonedDateTime zoned;
 
-  @Column(name = "OFFSET_TIME")
+  @Column(name = "OFFSET_DATE_TIME_COLUMN")
   @Type(type = OracleOffsetDateTimeType.NAME)
   private OffsetDateTime offset;
 

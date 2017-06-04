@@ -1,5 +1,7 @@
 package com.github.marschall.threeten.jpa;
 
+import static org.junit.Assert.assertEquals;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,6 +32,20 @@ public class MysqlTest extends AbstractTransactionalJUnit4SpringContextTests {
 
   @Autowired
   private DataSource dataSource;
+
+  @Test
+  public void testPrecision() throws SQLException {
+    try (Connection connection = this.dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(
+            "SELECT TIMESTAMP '1980-01-01 23:03:20.123456'")) {
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        LocalDateTime expected = LocalDateTime.parse("1980-01-01T23:03:20.123456");
+        while (resultSet.next()) {
+          assertEquals(expected, resultSet.getObject(1, LocalDateTime.class));
+        }
+      }
+    }
+  }
 
   @Test
   public void getObject() throws SQLException {

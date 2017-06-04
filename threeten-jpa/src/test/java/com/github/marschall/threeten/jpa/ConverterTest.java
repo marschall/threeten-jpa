@@ -49,7 +49,6 @@ import com.github.marschall.threeten.jpa.test.configuration.H2Configuration;
 import com.github.marschall.threeten.jpa.test.configuration.HsqlConfiguration;
 import com.github.marschall.threeten.jpa.test.configuration.MysqlConfiguration;
 import com.github.marschall.threeten.jpa.test.configuration.PostgresConfiguration;
-import com.github.marschall.threeten.jpa.test.configuration.SqlServerConfiguration;
 import com.github.marschall.threeten.jpa.test.configuration.TransactionManagerConfiguration;
 
 @RunWith(Parameterized.class)
@@ -147,7 +146,15 @@ public class ConverterTest {
         JavaTime javaTime = (JavaTime) resultList.get(0);
         assertEquals(LocalTime.parse("15:09:02"), javaTime.getLocalTime());
         assertEquals(LocalDate.parse("1988-12-25"), javaTime.getLocalDate());
-        assertEquals(LocalDateTime.parse("1980-01-01T23:03:20"), javaTime.getLocalDateTime());
+        if (this.datasourceConfiguration.getName().contains("Hsql")) {
+          assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123456"), javaTime.getLocalDateTime());
+        } else if (this.datasourceConfiguration.getName().contains("Postgres")) {
+          assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123457"), javaTime.getLocalDateTime());
+        } else if (this.datasourceConfiguration.getName().contains("SqlServer")) {
+          assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.1234568"), javaTime.getLocalDateTime());
+        } else {
+          assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123456789"), javaTime.getLocalDateTime());
+        }
         return null;
        });
 

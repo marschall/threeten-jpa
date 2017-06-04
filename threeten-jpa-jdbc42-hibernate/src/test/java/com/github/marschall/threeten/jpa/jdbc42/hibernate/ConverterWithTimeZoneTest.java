@@ -97,19 +97,19 @@ public class ConverterWithTimeZoneTest {
 
         // validate the entity inserted by SQL
         JavaTime42WithZone javaTime = (JavaTime42WithZone) resultList.get(0);
-        OffsetDateTime inserted = OffsetDateTime.parse("1960-01-01T23:03:20+02:00");
+        OffsetDateTime inserted = OffsetDateTime.parse("1960-01-01T23:03:20.123456789+02:30");
         if (this.jpaConfiguration.getName().contains("Postgres")) {
           // postgres stores in UTC
-          OffsetDateTime inUtc = inserted.withOffsetSameInstant(ZoneOffset.UTC);
+          OffsetDateTime inUtc = OffsetDateTime.parse("1960-01-01T23:03:20.123457+02:30").withOffsetSameInstant(ZoneOffset.UTC);
           assertEquals(inUtc, javaTime.getOffset());
         } else {
           assertEquals(inserted, javaTime.getOffset());
         }
         javaTime = (JavaTime42WithZone) resultList.get(1);
-        inserted = OffsetDateTime.parse("1960-01-01T23:03:20-05:00");
+        inserted = OffsetDateTime.parse("1999-01-23T08:26:56.123456789-05:30");
         if (this.jpaConfiguration.getName().contains("Postgres")) {
           // postgres stores in UTC
-          OffsetDateTime inUtc = inserted.withOffsetSameInstant(ZoneOffset.UTC);
+          OffsetDateTime inUtc = OffsetDateTime.parse("1999-01-23T08:26:56.123457-05:30").withOffsetSameInstant(ZoneOffset.UTC);
           assertEquals(inUtc, javaTime.getOffset());
         } else {
           assertEquals(inserted, javaTime.getOffset());
