@@ -1,7 +1,7 @@
 ThreeTen JPA [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-jpa/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-jpa) [![Build Status](https://travis-ci.org/marschall/threeten-jpa.svg?branch=master)](https://travis-ci.org/marschall/threeten-jpa)
 ============
 
-JPA attribute converters for JSR-310 (Java 8) dates and times.
+JPA attribute converters for [JSR-310](https://jcp.org/en/jsr/detail?id=310) (Java 8) dates and times.
 This is stop gap measure until [JPA_SPEC-63](https://github.com/javaee/jpa-spec/issues/63) is fixed in JPA 2.2.
 
 We take inspiration from the JDBC 4.2 and currently support the following conversions:
