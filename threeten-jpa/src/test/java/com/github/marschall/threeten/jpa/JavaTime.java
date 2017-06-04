@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "JAVA_TIME")
+@Table(name = "JAVA_TIME_42")
 public class JavaTime {
 
   @Id

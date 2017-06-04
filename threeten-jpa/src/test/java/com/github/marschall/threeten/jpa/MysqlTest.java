@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.github.marschall.threeten.jpa.MysqlTest.LocalConfiguration;
-import com.github.marschall.threeten.jpa.configuration.MysqlConfiguration;
+import com.github.marschall.threeten.jpa.test.configuration.MysqlConfiguration;
 
 @ContextConfiguration(classes = {MysqlConfiguration.class, LocalConfiguration.class})
 public class MysqlTest extends AbstractTransactionalJUnit4SpringContextTests {

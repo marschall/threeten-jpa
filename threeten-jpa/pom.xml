@@ -8,8 +8,14 @@
   </parent>
   <artifactId>threeten-jpa</artifactId>
   <name>ThreeTen-JPA</name>
-  
+
   <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>threeten-jpa-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

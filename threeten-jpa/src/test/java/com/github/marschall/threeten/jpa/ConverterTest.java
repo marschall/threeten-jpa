@@ -42,14 +42,15 @@ import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import com.github.marschall.threeten.jpa.configuration.DerbyConfiguration;
 import com.github.marschall.threeten.jpa.configuration.EclipseLinkConfiguration;
-import com.github.marschall.threeten.jpa.configuration.H2Configuration;
 import com.github.marschall.threeten.jpa.configuration.HibernateConfiguration;
-import com.github.marschall.threeten.jpa.configuration.HsqlConfiguration;
-import com.github.marschall.threeten.jpa.configuration.MysqlConfiguration;
-import com.github.marschall.threeten.jpa.configuration.PostgresConfiguration;
 import com.github.marschall.threeten.jpa.configuration.TransactionManagerConfiguration;
+import com.github.marschall.threeten.jpa.test.configuration.DerbyConfiguration;
+import com.github.marschall.threeten.jpa.test.configuration.H2Configuration;
+import com.github.marschall.threeten.jpa.test.configuration.HsqlConfiguration;
+import com.github.marschall.threeten.jpa.test.configuration.MysqlConfiguration;
+import com.github.marschall.threeten.jpa.test.configuration.PostgresConfiguration;
+import com.github.marschall.threeten.jpa.test.configuration.SqlServerConfiguration;
 
 @RunWith(Parameterized.class)
 public class ConverterTest {
@@ -74,12 +75,12 @@ public class ConverterTest {
         new Object[]{HsqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-hsql"},
         new Object[]{MysqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-mysql"},
         new Object[]{PostgresConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-postgres"},
-//        new Object[]{SqlServerConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-sqlserver"},
+        new Object[]{SqlServerConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-sqlserver"},
         new Object[]{DerbyConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-derby"},
         new Object[]{H2Configuration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-h2"},
         new Object[]{HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"},
         new Object[]{MysqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-mysql"},
-//        new Object[]{SqlServerConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-sqlserver"},
+        new Object[]{SqlServerConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-sqlserver"},
         new Object[]{PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres"}
         );
   }
@@ -138,9 +139,9 @@ public class ConverterTest {
     try {
       // read the entity inserted by SQL
       this.template.execute((s) -> {
-        Query query = entityManager.createQuery("SELECT t FROM JavaTime t");
+        Query query = entityManager.createQuery("SELECT t FROM JavaTime t ORDER BY t.id ASC");
         List<?> resultList = query.getResultList();
-        assertThat(resultList, hasSize(1));
+        assertThat(resultList, hasSize(2));
 
         // validate the entity inserted by SQL
         JavaTime javaTime = (JavaTime) resultList.get(0);
@@ -151,7 +152,7 @@ public class ConverterTest {
        });
 
       // insert a new entity into the database
-      BigInteger newId = new BigInteger("2");
+      BigInteger newId = new BigInteger("3");
       LocalTime newTime = LocalTime.now();
       LocalDate newDate = LocalDate.now();
       LocalDateTime newDateTime = LocalDateTime.now();

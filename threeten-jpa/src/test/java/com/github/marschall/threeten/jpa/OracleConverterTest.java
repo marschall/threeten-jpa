@@ -35,8 +35,8 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.github.marschall.threeten.jpa.configuration.EclipseLinkConfiguration;
 import com.github.marschall.threeten.jpa.configuration.HibernateConfiguration;
-import com.github.marschall.threeten.jpa.configuration.OracleConfiguration;
 import com.github.marschall.threeten.jpa.configuration.TransactionManagerConfiguration;
+import com.github.marschall.threeten.jpa.test.configuration.OracleConfiguration;
 
 @RunWith(Parameterized.class)
 @Ignore("needs an oracle instance running")

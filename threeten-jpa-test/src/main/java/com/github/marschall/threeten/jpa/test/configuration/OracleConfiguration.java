@@ -1,4 +1,4 @@
-package com.github.marschall.threeten.jpa.configuration;
+package com.github.marschall.threeten.jpa.test.configuration;
 
 import javax.sql.DataSource;
 

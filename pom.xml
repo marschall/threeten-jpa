@@ -53,6 +53,7 @@
     <module>threeten-jpa-mssql-eclipselink</module>
     <module>threeten-jpa-mssql-hibernate</module>
     <module>threeten-jpa-mssql-impl</module>
+    <module>threeten-jpa-test</module>
   </modules>
   
   <dependencyManagement>
