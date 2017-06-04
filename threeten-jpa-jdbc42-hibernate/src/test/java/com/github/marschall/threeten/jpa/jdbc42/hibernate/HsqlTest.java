@@ -22,9 +22,9 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.SqlServerTest.LocalConfiguration;
-import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.HsqlConfiguration;
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalHsqlConfiguration;
 
-@ContextConfiguration(classes = {HsqlConfiguration.class, LocalConfiguration.class})
+@ContextConfiguration(classes = {LocalHsqlConfiguration.class, LocalConfiguration.class})
 public class HsqlTest extends AbstractTransactionalJUnit4SpringContextTests {
 
   @Autowired

@@ -44,13 +44,13 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.github.marschall.threeten.jpa.configuration.EclipseLinkConfiguration;
 import com.github.marschall.threeten.jpa.configuration.HibernateConfiguration;
-import com.github.marschall.threeten.jpa.configuration.TransactionManagerConfiguration;
 import com.github.marschall.threeten.jpa.test.configuration.DerbyConfiguration;
 import com.github.marschall.threeten.jpa.test.configuration.H2Configuration;
 import com.github.marschall.threeten.jpa.test.configuration.HsqlConfiguration;
 import com.github.marschall.threeten.jpa.test.configuration.MysqlConfiguration;
 import com.github.marschall.threeten.jpa.test.configuration.PostgresConfiguration;
 import com.github.marschall.threeten.jpa.test.configuration.SqlServerConfiguration;
+import com.github.marschall.threeten.jpa.test.configuration.TransactionManagerConfiguration;
 
 @RunWith(Parameterized.class)
 public class ConverterTest {

@@ -1,7 +1,5 @@
 package com.github.marschall.threeten.jpa.jdbc42.hibernate;
 
-import static com.github.marschall.threeten.jpa.jdbc42.hibernate.Constants.PERSISTENCE_UNIT_NAME;
-import static java.util.Collections.singletonMap;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -29,51 +27,39 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.MapPropertySource;
-import org.springframework.core.env.MutablePropertySources;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.H2Configuration;
-import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.HibernateConfiguration;
-import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.PostgresConfiguration;
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalH2Configuration;
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalPostgresConfiguration;
 
 @RunWith(Parameterized.class)
 public class ConverterWithTimeZoneTest {
 
-  private final Class<?> datasourceConfiguration;
   private final Class<?> jpaConfiguration;
-  private final String persistenceUnitName;
   private AnnotationConfigApplicationContext applicationContext;
   private TransactionTemplate template;
 
-  public ConverterWithTimeZoneTest(Class<?> datasourceConfiguration, Class<?> jpaConfiguration, String persistenceUnitName) {
-    this.datasourceConfiguration = datasourceConfiguration;
+  public ConverterWithTimeZoneTest(Class<?> jpaConfiguration, String persistenceUnitName) {
     this.jpaConfiguration = jpaConfiguration;
-    this.persistenceUnitName = persistenceUnitName;
   }
 
-  @Parameters(name = "{2}")
+  @Parameters(name = "{1}")
   public static Collection<Object[]> parameters() {
     return Arrays.asList(
-//            new Object[]{HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"},
-            //new Object[]{SqlServerConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-sqlserver"},
-//            new Object[]{DerbyConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-derby"},
-            new Object[]{H2Configuration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-h2"},
-            new Object[]{PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres"}
+//            new Object[]{LocalHsqlConfiguration.class, "threeten-jpa-hibernate-hsql"},
+//            new Object[]{LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver"},
+//            new Object[]{LocalDerbyConfiguration.class, "threeten-jpa-hibernate-derby"},
+            new Object[]{LocalH2Configuration.class, "threeten-jpa-hibernate-h2"},
+            new Object[]{LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres"}
             );
   }
 
   @Before
   public void setUp() {
     this.applicationContext = new AnnotationConfigApplicationContext();
-    this.applicationContext.register(this.datasourceConfiguration, TransactionManagerConfiguration.class, this.jpaConfiguration);
-    ConfigurableEnvironment environment = this.applicationContext.getEnvironment();
-    MutablePropertySources propertySources = environment.getPropertySources();
-    Map<String, Object> source = singletonMap(PERSISTENCE_UNIT_NAME, this.persistenceUnitName);
-    propertySources.addFirst(new MapPropertySource("persistence unit name", source));
+    this.applicationContext.register(this.jpaConfiguration);
     this.applicationContext.refresh();
 
     PlatformTransactionManager txManager = this.applicationContext.getBean(PlatformTransactionManager.class);
@@ -105,14 +91,23 @@ public class ConverterWithTimeZoneTest {
     try {
       // read the entity inserted by SQL
       this.template.execute(status -> {
-        Query query = entityManager.createQuery("SELECT t FROM JavaTime42WithZone t order by t.id");
+        Query query = entityManager.createQuery("SELECT t FROM JavaTime42WithZone t ORDER BY t.id ASC");
         List<?> resultList = query.getResultList();
         assertThat(resultList, hasSize(2));
 
         // validate the entity inserted by SQL
         JavaTime42WithZone javaTime = (JavaTime42WithZone) resultList.get(0);
         OffsetDateTime inserted = OffsetDateTime.parse("1960-01-01T23:03:20+02:00");
-        if (persistenceUnitName.contains("postgres")) {
+        if (this.jpaConfiguration.getName().contains("Postgres")) {
+          // postgres stores in UTC
+          OffsetDateTime inUtc = inserted.withOffsetSameInstant(ZoneOffset.UTC);
+          assertEquals(inUtc, javaTime.getOffset());
+        } else {
+          assertEquals(inserted, javaTime.getOffset());
+        }
+        javaTime = (JavaTime42WithZone) resultList.get(1);
+        inserted = OffsetDateTime.parse("1960-01-01T23:03:20-05:00");
+        if (this.jpaConfiguration.getName().contains("Postgres")) {
           // postgres stores in UTC
           OffsetDateTime inUtc = inserted.withOffsetSameInstant(ZoneOffset.UTC);
           assertEquals(inUtc, javaTime.getOffset());
@@ -133,7 +128,7 @@ public class ConverterWithTimeZoneTest {
     EntityManager entityManager = factory.createEntityManager();
     try {
       // insert a new entity into the database
-      BigInteger newId = new BigInteger("2");
+      BigInteger newId = new BigInteger("3");
       OffsetDateTime newOffset = OffsetDateTime.now();
 
       this.template.execute(status -> {

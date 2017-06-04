@@ -23,10 +23,10 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.SqlServerTest.LocalConfiguration;
-import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.SqlServerConfiguration;
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalSqlServerConfiguration;
 
 @Ignore
-@ContextConfiguration(classes = {SqlServerConfiguration.class, LocalConfiguration.class})
+@ContextConfiguration(classes = {LocalSqlServerConfiguration.class, LocalConfiguration.class})
 @Sql("classpath:sqlserver-schema.sql")
 @Sql("classpath:sqlserver-data.sql")
 public class SqlServerTest extends AbstractTransactionalJUnit4SpringContextTests {
