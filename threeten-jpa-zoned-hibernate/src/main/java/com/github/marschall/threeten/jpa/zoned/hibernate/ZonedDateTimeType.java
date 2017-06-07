@@ -20,8 +20,11 @@ import org.hibernate.type.Type;
 import org.hibernate.usertype.CompositeUserType;
 
 /**
+ * Emulates {@link ZonedDateTime} supported by storing a timestamp in a
+ * <code>TIMESTAMP WITH TIME ZONE</code> column and a time zone id in a
+ * <code>VARCHAR</code> column.
  *
- * The timestamp value is always converted to UTC.
+ * <p>The timestamp value is always converted to UTC.</p>
  *
  * <h2>Ordering</h2>
  * Ordering is always done by the timestamp value first and the zone name second.
