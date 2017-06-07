@@ -25,7 +25,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.SqlServerTest.LocalConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalHsqlConfiguration;
 
-@Ignore
+//@Ignore
 @ContextConfiguration(classes = {LocalHsqlConfiguration.class, LocalConfiguration.class})
 public class HsqlTest extends AbstractTransactionalJUnit4SpringContextTests {
 
@@ -72,6 +72,11 @@ public class HsqlTest extends AbstractTransactionalJUnit4SpringContextTests {
         }
       }
     }
+  }
+
+  @Test
+  public void constant() {
+    System.out.println(org.hsqldb.persist.HsqlDatabaseProperties.THIS_VERSION);
   }
 
   @Configuration

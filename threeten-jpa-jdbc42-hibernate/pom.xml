@@ -41,6 +41,12 @@
       <artifactId>javax.transaction-api</artifactId>
       <scope>provided</scope>
     </dependency>
+    <!-- EclipseLink modelgen does not work -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-jpamodelgen</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
@@ -116,4 +122,19 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>com/github/marschall/threeten/jpa/jdbc42/hibernate/JavaTime42_.class</exclude>
+            <exclude>com/github/marschall/threeten/jpa/jdbc42/hibernate/JavaTime42WithZone_.class</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
