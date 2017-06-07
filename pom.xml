@@ -54,6 +54,7 @@
     <module>threeten-jpa-mssql-hibernate</module>
     <module>threeten-jpa-mssql-impl</module>
     <module>threeten-jpa-test</module>
+    <module>threeten-jpa-zoned-hibernate</module>
   </modules>
   
   <dependencyManagement>
