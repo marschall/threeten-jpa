@@ -17,7 +17,7 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.junit.After;
 import org.junit.Before;
@@ -51,7 +51,7 @@ public class OracleConverterTest {
     this.jpaConfiguration = jpaConfiguration;
     this.persistenceUnitName = persistenceUnitName;
   }
-  
+
   @Parameters(name = "{1}")
   public static Collection<Object[]> parameters() {
     return Arrays.asList(
@@ -59,7 +59,7 @@ public class OracleConverterTest {
         new Object[]{HibernateConfiguration.class, "threeten-jpa-hibernate-oracle"}
         );
   }
-  
+
   @Before
   public void setUp() {
     this.applicationContext = new AnnotationConfigApplicationContext();
@@ -69,16 +69,16 @@ public class OracleConverterTest {
     Map<String, Object> source = singletonMap(PERSISTENCE_UNIT_NAME, this.persistenceUnitName);
     propertySources.addFirst(new MapPropertySource("persistence unit name", source));
     this.applicationContext.refresh();
-    
+
     PlatformTransactionManager txManager = this.applicationContext.getBean(PlatformTransactionManager.class);
     this.template = new TransactionTemplate(txManager);
   }
-  
+
   @After
   public void tearDown() {
     this.applicationContext.close();
   }
-  
+
   @Test
   public void runTest() {
     EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
@@ -86,12 +86,12 @@ public class OracleConverterTest {
     try {
       // read the entity inserted by SQL
       this.template.execute((s) -> {
-        Query query = entityManager.createQuery("SELECT t FROM OracleJavaTime t");
-        List<?> resultList = query.getResultList();
+        TypedQuery<OracleJavaTime> query = entityManager.createQuery("SELECT t FROM OracleJavaTime t", OracleJavaTime.class);
+        List<OracleJavaTime> resultList = query.getResultList();
         assertThat(resultList, hasSize(1));
-        
+
         // validate the entity inserted by SQL
-        OracleJavaTime javaTime = (OracleJavaTime) resultList.get(0);
+        OracleJavaTime javaTime = resultList.get(0);
         assertEquals(LocalDate.parse("1988-12-25"), javaTime.getLocalDate());
         assertEquals(LocalDateTime.parse("1960-01-01T23:03:20"), javaTime.getLocalDateTime());
         return null;
@@ -101,7 +101,7 @@ public class OracleConverterTest {
       BigInteger newId = new BigInteger("2");
       LocalDate newDate = LocalDate.now();
       LocalDateTime newDateTime = LocalDateTime.now();
-      
+
       this.template.execute((s) -> {
         OracleJavaTime toInsert = new OracleJavaTime();
         toInsert.setId(newId);

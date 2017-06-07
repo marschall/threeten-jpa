@@ -17,7 +17,7 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.sql.DataSource;
 
 import org.junit.After;
@@ -91,12 +91,13 @@ public class UserTypeWithTimeZoneTest {
     try {
       // read the entity inserted by SQL
       this.template.execute(status -> {
-        Query query = entityManager.createQuery("SELECT t FROM JavaTime42WithZone t ORDER BY t.id ASC");
-        List<?> resultList = query.getResultList();
+        TypedQuery<JavaTime42WithZone> query = entityManager.createQuery(
+                "SELECT t FROM JavaTime42WithZone t ORDER BY t.id ASC", JavaTime42WithZone.class);
+        List<JavaTime42WithZone> resultList = query.getResultList();
         assertThat(resultList, hasSize(2));
 
         // validate the entity inserted by SQL
-        JavaTime42WithZone javaTime = (JavaTime42WithZone) resultList.get(0);
+        JavaTime42WithZone javaTime = resultList.get(0);
         OffsetDateTime inserted = OffsetDateTime.parse("1960-01-01T23:03:20.123456789+02:30");
         if (this.jpaConfiguration.getName().contains("Postgres")) {
           // postgres stores in UTC
@@ -105,7 +106,7 @@ public class UserTypeWithTimeZoneTest {
         } else {
           assertEquals(inserted, javaTime.getOffset());
         }
-        javaTime = (JavaTime42WithZone) resultList.get(1);
+        javaTime = resultList.get(1);
         inserted = OffsetDateTime.parse("1999-01-23T08:26:56.123456789-05:30");
         if (this.jpaConfiguration.getName().contains("Postgres")) {
           // postgres stores in UTC

@@ -134,9 +134,10 @@ public class ZonedDateTimeTypeTest {
         ZonedDateTime inserted = getInsertedValue();
         ZonedDateTime earlier = inserted.withZoneSameInstant(ZoneId.of("Europe/Moscow"))
                 .minusHours(1L);
-        Query query = entityManager.createQuery("SELECT t FROM JavaTime42Zoned t WHERE t.zonedDateTime < :value");
+        TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
+                "SELECT t FROM JavaTime42Zoned t WHERE t.zonedDateTime < :value", JavaTime42Zoned.class);
         query.setParameter("value", earlier);
-        List<?> result = query.getResultList();
+        List<JavaTime42Zoned> result = query.getResultList();
 
         assertThat(result, empty());
 
@@ -160,7 +161,8 @@ public class ZonedDateTimeTypeTest {
         ZonedDateTime inserted = getInsertedValue();
         ZonedDateTime earlier = inserted.withZoneSameInstant(ZoneId.of("Europe/Moscow"))
                 .minusHours(1L);
-        Query query = entityManager.createNativeQuery("SELECT * FROM JAVA_TIME_42_ZONED t WHERE t.timestamp_utc < ?1");
+        Query query = entityManager.createNativeQuery("SELECT * FROM JAVA_TIME_42_ZONED t WHERE t.timestamp_utc < ?1",
+                JavaTime42Zoned.class);
         query.setParameter(1, earlier.toOffsetDateTime().atZoneSameInstant(ZoneOffset.UTC));
         List<?> result = query.getResultList();
 

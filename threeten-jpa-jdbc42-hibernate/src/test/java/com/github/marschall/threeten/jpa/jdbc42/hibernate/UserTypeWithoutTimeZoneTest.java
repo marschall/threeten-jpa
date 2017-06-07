@@ -18,7 +18,7 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.sql.DataSource;
 
 import org.junit.After;
@@ -93,12 +93,12 @@ public class UserTypeWithoutTimeZoneTest {
     try {
       // read the entity inserted by SQL
       this.template.execute(status -> {
-        Query query = entityManager.createQuery("SELECT t FROM JavaTime42 t ORDER BY t.id ASC");
-        List<?> resultList = query.getResultList();
+        TypedQuery<JavaTime42> query = entityManager.createQuery("SELECT t FROM JavaTime42 t ORDER BY t.id ASC", JavaTime42.class);
+        List<JavaTime42> resultList = query.getResultList();
         assertThat(resultList, hasSize(2));
 
         // validate the entity inserted by SQL
-        JavaTime42 javaTime = (JavaTime42) resultList.get(1);
+        JavaTime42 javaTime = resultList.get(1);
         assertEquals(LocalTime.parse("02:55:00"), javaTime.getLocalTime());
         assertEquals(LocalDate.parse("2016-03-27"), javaTime.getLocalDate());
         if (this.jpaConfiguration.getName().contains("Hsql")) {

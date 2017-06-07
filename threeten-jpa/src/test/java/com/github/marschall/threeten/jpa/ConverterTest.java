@@ -23,7 +23,7 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.sql.DataSource;
 
 import org.junit.After;
@@ -138,12 +138,12 @@ public class ConverterTest {
     try {
       // read the entity inserted by SQL
       this.template.execute((s) -> {
-        Query query = entityManager.createQuery("SELECT t FROM JavaTime t ORDER BY t.id ASC");
-        List<?> resultList = query.getResultList();
+        TypedQuery<JavaTime> query = entityManager.createQuery("SELECT t FROM JavaTime t ORDER BY t.id ASC", JavaTime.class);
+        List<JavaTime> resultList = query.getResultList();
         assertThat(resultList, hasSize(2));
 
         // validate the entity inserted by SQL
-        JavaTime javaTime = (JavaTime) resultList.get(0);
+        JavaTime javaTime = resultList.get(0);
         assertEquals(LocalTime.parse("15:09:02"), javaTime.getLocalTime());
         assertEquals(LocalDate.parse("1988-12-25"), javaTime.getLocalDate());
         if (this.datasourceConfiguration.getName().contains("Hsql")) {
