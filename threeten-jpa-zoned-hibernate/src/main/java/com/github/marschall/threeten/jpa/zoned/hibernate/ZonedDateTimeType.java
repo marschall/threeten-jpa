@@ -19,6 +19,22 @@ import org.hibernate.type.StringType;
 import org.hibernate.type.Type;
 import org.hibernate.usertype.CompositeUserType;
 
+/**
+ *
+ * The timestamp value is always converted to UTC.
+ *
+ * <h2>Ordering</h2>
+ * Ordering is always done by the timestamp value first and the zone name second.
+ *
+ * <h2>Comparing</h2>
+ * <ul>
+ *  <li>Equality comparisons (=) always consider the name of the time zone.</li>
+ *  <li>Non-equality comparisons (!=) always consider the name of the time zone.</li>
+ *  <li>Other comparisons (&lt;, &lt;=, &gt;=, &gt;) are not supported.</li>
+ * </ul>
+ *
+ * @see <a href="https://hibernate.atlassian.net/browse/HHH-7302">HHH-7302</a>
+ */
 public class ZonedDateTimeType implements CompositeUserType {
 
   /**
@@ -71,7 +87,7 @@ public class ZonedDateTimeType implements CompositeUserType {
 
   @Override
   public Class<?> returnedClass() {
-    return ZonedDateTimeType.class;
+    return ZonedDateTime.class;
   }
 
   @Override

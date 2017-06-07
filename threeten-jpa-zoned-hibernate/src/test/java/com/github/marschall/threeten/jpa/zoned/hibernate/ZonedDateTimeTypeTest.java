@@ -1,13 +1,17 @@
 package com.github.marschall.threeten.jpa.zoned.hibernate;
 
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assume.assumeTrue;
 
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,10 +21,12 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.sql.DataSource;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -83,6 +89,15 @@ public class ZonedDateTimeTypeTest {
     this.applicationContext.close();
   }
 
+  private ZonedDateTime getInsertedValue() {
+    if (jpaConfiguration.getName().contains("Postgres")) {
+      return ZonedDateTime.parse("1999-01-23T03:26:56.123457000-05:00[America/New_York]");
+    } else if (jpaConfiguration.getName().contains("Hsql")) {
+      return ZonedDateTime.parse("1999-01-23T03:26:56.123456000-05:00[America/New_York]");
+    }
+    return ZonedDateTime.parse("1999-01-23T03:26:56.123456789-05:00[America/New_York]");
+  }
+
   @Test
   public void read() {
     EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
@@ -90,19 +105,114 @@ public class ZonedDateTimeTypeTest {
     try {
       // read the entity inserted by SQL
       this.template.execute(status -> {
-        Query query = entityManager.createQuery("SELECT t FROM JavaTime42Zoned t ORDER BY t.id ASC");
-        List<?> resultList = query.getResultList();
+        TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
+                "SELECT t FROM JavaTime42Zoned t ORDER BY t.id ASC", JavaTime42Zoned.class);
+        List<JavaTime42Zoned> resultList = query.getResultList();
         assertThat(resultList, hasSize(1));
 
         // validate the entity inserted by SQL
-        JavaTime42Zoned javaTime = (JavaTime42Zoned) resultList.get(0);
-        ZonedDateTime inserted = ZonedDateTime.parse("1999-01-23T03:26:56.123456789-05:00[America/New_York]");
-        if (jpaConfiguration.getName().contains("Postgres")) {
-          inserted = ZonedDateTime.parse("1999-01-23T03:26:56.123457000-05:00[America/New_York]");
-        } else if (jpaConfiguration.getName().contains("Hsql")) {
-          inserted = ZonedDateTime.parse("1999-01-23T03:26:56.123456000-05:00[America/New_York]");
-        }
+        JavaTime42Zoned javaTime = resultList.get(0);
+        ZonedDateTime inserted = getInsertedValue();
         assertEquals(inserted, javaTime.getZonedDateTime());
+        return null;
+      });
+    } finally {
+      entityManager.close();
+      // EntityManagerFactory should be closed by spring.
+    }
+  }
+
+  @Test
+  @Ignore("HHH-7302")
+  public void readJpqlLessThan() {
+    // https://hibernate.atlassian.net/browse/HHH-7302
+    EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
+    EntityManager entityManager = factory.createEntityManager();
+    try {
+      // read the entity inserted by SQL
+      this.template.execute(status -> {
+        ZonedDateTime inserted = getInsertedValue();
+        ZonedDateTime earlier = inserted.withZoneSameInstant(ZoneId.of("Europe/Moscow"))
+                .minusHours(1L);
+        Query query = entityManager.createQuery("SELECT t FROM JavaTime42Zoned t WHERE t.zonedDateTime < :value");
+        query.setParameter("value", earlier);
+        List<?> result = query.getResultList();
+
+        assertThat(result, empty());
+
+        return null;
+      });
+    } finally {
+      entityManager.close();
+      // EntityManagerFactory should be closed by spring.
+    }
+  }
+
+  @Test
+  public void readNativeLessThan() {
+    assumeTrue(jpaConfiguration.getName().contains("Postgres"));
+    // https://hibernate.atlassian.net/browse/HHH-7302
+    EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
+    EntityManager entityManager = factory.createEntityManager();
+    try {
+      // read the entity inserted by SQL
+      this.template.execute(status -> {
+        ZonedDateTime inserted = getInsertedValue();
+        ZonedDateTime earlier = inserted.withZoneSameInstant(ZoneId.of("Europe/Moscow"))
+                .minusHours(1L);
+        Query query = entityManager.createNativeQuery("SELECT * FROM JAVA_TIME_42_ZONED t WHERE t.timestamp_utc < ?1");
+        query.setParameter(1, earlier.toOffsetDateTime().atZoneSameInstant(ZoneOffset.UTC));
+        List<?> result = query.getResultList();
+
+        assertThat(result, empty());
+
+        return null;
+      });
+    } finally {
+      entityManager.close();
+      // EntityManagerFactory should be closed by spring.
+    }
+  }
+
+  @Test
+  public void readJpqlEqual() {
+    // https://hibernate.atlassian.net/browse/HHH-7302
+    EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
+    EntityManager entityManager = factory.createEntityManager();
+    try {
+      // read the entity inserted by SQL
+      this.template.execute(status -> {
+        ZonedDateTime inserted = getInsertedValue();
+        TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
+                "SELECT t FROM JavaTime42Zoned t WHERE t.zonedDateTime = :value", JavaTime42Zoned.class);
+        query.setParameter("value", inserted);
+        List<JavaTime42Zoned> result = query.getResultList();
+
+        assertThat(result, hasSize(1));
+        assertEquals(inserted, result.get(0).getZonedDateTime());
+
+        return null;
+      });
+    } finally {
+      entityManager.close();
+      // EntityManagerFactory should be closed by spring.
+    }
+  }
+
+  @Test
+  public void orderJpql() {
+    // https://hibernate.atlassian.net/browse/HHH-7302
+    EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
+    EntityManager entityManager = factory.createEntityManager();
+    try {
+      // read the entity inserted by SQL
+      this.template.execute(status -> {
+        TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
+                "SELECT t FROM JavaTime42Zoned t ORDER BY t.zonedDateTime", JavaTime42Zoned.class);
+        List<JavaTime42Zoned> result = query.getResultList();
+
+        assertThat(result, hasSize(1));
+
         return null;
       });
     } finally {
