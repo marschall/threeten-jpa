@@ -8,9 +8,7 @@ VALUES(
     1,
     DATE '1988-12-25',
     TIME '15:09:02',
--- travis has a MySQL that's older than the sin
---    TIMESTAMP '1980-01-01 23:03:20.123456789');
-    TIMESTAMP '1980-01-01 23:03:20');
+    '1980-01-01 23:03:20.123456');
 INSERT INTO JAVA_TIME_42 (
     ID,
     DATE_COLUMN,
@@ -20,7 +18,5 @@ VALUES(
     2,
     DATE '2016-03-27',
     TIME '02:55:00',
--- travis has a MySQL that's older than the sin
---    TIMESTAMP '2016-03-27 02:55:00.123456789');
-    TIMESTAMP '2016-03-27 02:55:00');
+    '2016-03-27 02:55:00.123456');
 
