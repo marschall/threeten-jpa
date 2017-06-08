@@ -14,7 +14,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -46,12 +46,12 @@ public class OracleHibernateConverterTest extends AbstractTransactionalJUnit4Spr
   public void read() {
     // read the entity inserted by SQL
     this.template.execute(status -> {
-      Query query = entityManager.createQuery("SELECT t FROM JavaTimeWithZone t");
-      List<?> resultList = query.getResultList();
+      TypedQuery<JavaTimeWithZone> query = entityManager.createQuery("SELECT t FROM JavaTimeWithZone t", JavaTimeWithZone.class);
+      List<JavaTimeWithZone> resultList = query.getResultList();
       assertThat(resultList, hasSize(1));
 
       // validate the entity inserted by SQL
-      JavaTimeWithZone javaTime = (JavaTimeWithZone) resultList.get(0);
+      JavaTimeWithZone javaTime = resultList.get(0);
       assertEquals(ZonedDateTime.parse("1960-01-01T23:03:20-05:00[America/New_York]"), javaTime.getZoned());
       assertEquals(OffsetDateTime.parse("1960-01-01T23:03:20+02:00"), javaTime.getOffset());
 
