@@ -20,21 +20,35 @@ import org.hibernate.type.Type;
 import org.hibernate.usertype.CompositeUserType;
 
 /**
- * Emulates {@link ZonedDateTime} supported by storing a timestamp in a
- * <code>TIMESTAMP WITH TIME ZONE</code> column and a time zone id in a
- * <code>VARCHAR</code> column.
+ * Emulates {@link ZonedDateTime} support by storing a timestamp in a
+ * <code>TIMESTAMP WITH TIME ZONE</code> column named "timestamp_utc"
+ * and a time zone id in a <code>VARCHAR</code> column named "zoneid".
  *
  * <p>The timestamp value is always converted to UTC.</p>
  *
  * <h2>Ordering</h2>
- * Ordering is always done by the timestamp value first and the zone name second.
+ * Ordering on the composite column always done by the timestamp value
+ * first and the zone id second. However ordering by can also be done
+ * by the individual properties with JPQL
+ * <pre><code>SELECT t
+ * FROM MyEntity t
+ * ORDER BY t.zonedDateTimeColumn.zoneid</code></pre>
  *
- * <h2>Comparing</h2>
+ * <h2>Querying</h2>
+ * When querying the composite attribute the following limitations apply.
  * <ul>
  *  <li>Equality comparisons (=) always consider the name of the time zone.</li>
  *  <li>Non-equality comparisons (!=) always consider the name of the time zone.</li>
  *  <li>Other comparisons (&lt;, &lt;=, &gt;=, &gt;) are not supported.</li>
  * </ul>
+ * However the individual properties can be queried in JPQL.
+ * <pre><code>SELECT t
+ * FROM MyEntity t
+ * WHERE t.zonedDateTimeColumn.timestamp_utc &lt; :value</code></pre>
+ * <pre><code>SELECT t
+ * FROM MyEntity t
+ * WHERE t.zonedDateTimeColumn.zoneid = :zoneid</code></pre>
+ * This does not work with Criteria API.
  *
  * @see <a href="https://hibernate.atlassian.net/browse/HHH-7302">HHH-7302</a>
  */

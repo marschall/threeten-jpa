@@ -21,6 +21,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.sql.DataSource;
 
 import org.junit.After;
@@ -105,7 +108,7 @@ public class ZonedDateTimeTypeTest {
       // read the entity inserted by SQL
       this.template.execute(status -> {
         TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
-                "SELECT t FROM JavaTime42Zoned t ORDER BY t.id ASC", JavaTime42Zoned.class);
+                "SELECT t FROM JavaTime42Zoned t ORDER BY t.zonedDateTime ASC", JavaTime42Zoned.class);
         List<JavaTime42Zoned> resultList = query.getResultList();
         assertThat(resultList, hasSize(1));
 
@@ -122,9 +125,7 @@ public class ZonedDateTimeTypeTest {
   }
 
   @Test
-  @Ignore("HHH-7302")
   public void readJpqlLessThan() {
-    // https://hibernate.atlassian.net/browse/HHH-7302
     EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
     EntityManager entityManager = factory.createEntityManager();
     try {
@@ -134,9 +135,40 @@ public class ZonedDateTimeTypeTest {
         ZonedDateTime earlier = inserted.withZoneSameInstant(ZoneId.of("Europe/Moscow"))
                 .minusHours(1L);
         TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
-                "SELECT t FROM JavaTime42Zoned t WHERE t.zonedDateTime < :value", JavaTime42Zoned.class);
-        query.setParameter("value", earlier);
+                "SELECT t FROM JavaTime42Zoned t WHERE t.zonedDateTime.timestamp_utc < :value", JavaTime42Zoned.class);
+        // https://hibernate.atlassian.net/browse/HHH-7302
+        query.setParameter("value", earlier.toOffsetDateTime());
         List<JavaTime42Zoned> result = query.getResultList();
+
+        assertThat(result, empty());
+
+        return null;
+      });
+    } finally {
+      entityManager.close();
+      // EntityManagerFactory should be closed by spring.
+    }
+  }
+
+  @Test
+  @Ignore("HHH-7302")
+  public void readCriteriaApiLessThan() {
+    EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
+    EntityManager entityManager = factory.createEntityManager();
+    try {
+      // read the entity inserted by SQL
+      this.template.execute(status -> {
+        ZonedDateTime inserted = getInsertedValue();
+        ZonedDateTime earlier = inserted.withZoneSameInstant(ZoneId.of("Europe/Moscow"))
+                .minusHours(1L);
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<JavaTime42Zoned> query = builder.createQuery(JavaTime42Zoned.class);
+        Root<JavaTime42Zoned> root = query.from(JavaTime42Zoned.class);
+        CriteriaQuery<JavaTime42Zoned> beforeTwelfeFive = query.where(
+                builder.lessThan(root.get(JavaTime42Zoned_.zonedDateTime), earlier));
+
+        List<JavaTime42Zoned> result = entityManager.createQuery(beforeTwelfeFive).getResultList();
 
         assertThat(result, empty());
 
@@ -208,7 +240,7 @@ public class ZonedDateTimeTypeTest {
       // read the entity inserted by SQL
       this.template.execute(status -> {
         TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
-                "SELECT t FROM JavaTime42Zoned t ORDER BY t.zonedDateTime", JavaTime42Zoned.class);
+                "SELECT t FROM JavaTime42Zoned t ORDER BY t.zonedDateTime.timestamp_utc", JavaTime42Zoned.class);
         List<JavaTime42Zoned> result = query.getResultList();
 
         assertThat(result, hasSize(1));
