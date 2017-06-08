@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assume.assumeTrue;
 
 import java.math.BigInteger;
 import java.sql.Connection;
@@ -151,7 +150,6 @@ public class ZonedDateTimeTypeTest {
 
   @Test
   public void readNativeLessThan() {
-    assumeTrue(jpaConfiguration.getName().contains("Postgres"));
     // https://hibernate.atlassian.net/browse/HHH-7302
     EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
     EntityManager entityManager = factory.createEntityManager();
