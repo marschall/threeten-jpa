@@ -16,6 +16,5 @@ cache:
     - '$HOME/.m2/repository'
 
 before_script:
-  - mysql -e 'create database travis;'
   - psql -c 'create database travis;' -U postgres
 
