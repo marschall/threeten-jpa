@@ -100,9 +100,9 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>javax.xml.bind</groupId>
-        <artifactId>jaxb-api</artifactId>
-        <version>1.0.6</version>
+        <groupId>org.jboss.spec.javax.xml.bind</groupId>
+        <artifactId>jboss-jaxb-api_2.2_spec</artifactId>
+        <version>1.0.4.Final</version>
       </dependency>
       <dependency>
         <groupId>org.eclipse.persistence</groupId>
