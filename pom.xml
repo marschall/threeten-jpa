@@ -100,6 +100,11 @@
         </exclusions>
       </dependency>
       <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>1.0.6</version>
+      </dependency>
+      <dependency>
         <groupId>org.eclipse.persistence</groupId>
         <artifactId>org.eclipse.persistence.jpa</artifactId>
         <version>${eclipselink.version}</version>

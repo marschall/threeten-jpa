@@ -46,6 +46,11 @@
       <artifactId>org.eclipse.persistence.oracle</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <!-- EclipseLink modelgen does not work -->
     <dependency>
       <groupId>org.hibernate</groupId>
