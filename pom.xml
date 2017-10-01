@@ -391,8 +391,8 @@
     <spring.version>4.3.11.RELEASE</spring.version>
     <hibernate.version>5.2.11.Final</hibernate.version>
     <java.version>1.8</java.version>
-    <eclipselink.version>2.6.4</eclipselink.version>
-    <log4j.version>2.8.1</log4j.version>
+    <eclipselink.version>2.7.0</eclipselink.version>
+    <log4j.version>2.9.1</log4j.version>
   </properties>
 
 </project>
