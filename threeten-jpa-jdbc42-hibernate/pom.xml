@@ -51,7 +51,6 @@
       <artifactId>javax.transaction-api</artifactId>
       <scope>provided</scope>
     </dependency>
-    <!-- EclipseLink modelgen does not work -->
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-jpamodelgen</artifactId>

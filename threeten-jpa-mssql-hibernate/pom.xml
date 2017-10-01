@@ -26,7 +26,11 @@
       <artifactId>hibernate-core</artifactId>
       <scope>provided</scope>
     </dependency>
-    <!-- EclipseLink modelgen does not work -->
+    <dependency>
+      <groupId>org.jboss.spec.javax.xml.bind</groupId>
+      <artifactId>jboss-jaxb-api_2.2_spec</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-jpamodelgen</artifactId>
