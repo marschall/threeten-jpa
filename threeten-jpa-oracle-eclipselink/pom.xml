@@ -56,16 +56,10 @@
       <artifactId>jboss-annotations-api_1.2_spec</artifactId>
       <scope>provided</scope>
     </dependency>
+    <!-- EclipseLink modelgen does not work -->
     <dependency>
-      <groupId>org.eclipse.persistence</groupId>
-      <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <!-- used for modelgen -->
-    <dependency>
-      <groupId>javax.inject</groupId>
-      <artifactId>javax.inject</artifactId>
-      <version>1</version>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-jpamodelgen</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -134,14 +128,6 @@
           <excludes>
             <exclude>com/github/marschall/threeten/jpa/oracle/OracleJavaTime_.class</exclude>
           </excludes>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <compilerArgs>
-            <arg>-Aeclipselink.persistencexml=src/test/resources/META-INF/persistence.xml</arg>
-          </compilerArgs>
         </configuration>
       </plugin>
     </plugins>
