@@ -116,6 +116,14 @@
           </excludes>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <compilerArgs>
+            <arg>-Aeclipselink.persistencexml=src/test/resources/META-INF/persistence.xml</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
