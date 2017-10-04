@@ -41,10 +41,9 @@
       <artifactId>jboss-annotations-api_1.2_spec</artifactId>
       <scope>provided</scope>
     </dependency>
-    <!-- EclipseLink modelgen does not work -->
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-jpamodelgen</artifactId>
+      <groupId>org.eclipse.persistence</groupId>
+      <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
