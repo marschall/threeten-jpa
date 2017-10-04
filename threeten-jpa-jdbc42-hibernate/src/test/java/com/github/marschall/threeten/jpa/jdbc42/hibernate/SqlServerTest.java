@@ -1,6 +1,6 @@
 package com.github.marschall.threeten.jpa.jdbc42.hibernate;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,25 +11,26 @@ import java.util.UUID;
 
 import javax.sql.DataSource;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.SqlServerTest.LocalConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalSqlServerConfiguration;
 
-@Ignore
-@ContextConfiguration(classes = {LocalSqlServerConfiguration.class, LocalConfiguration.class})
+@Transactional
+@Disabled
+@SpringJUnitConfig({LocalSqlServerConfiguration.class, LocalConfiguration.class})
 @Sql("classpath:sqlserver-schema.sql")
 @Sql("classpath:sqlserver-data.sql")
-public class SqlServerTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class SqlServerTest {
 
   @Autowired
   private DataSource dataSource;

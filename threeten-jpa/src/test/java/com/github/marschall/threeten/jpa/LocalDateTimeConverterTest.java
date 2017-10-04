@@ -1,12 +1,12 @@
 package com.github.marschall.threeten.jpa;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class LocalDateTimeConverterTest {
 

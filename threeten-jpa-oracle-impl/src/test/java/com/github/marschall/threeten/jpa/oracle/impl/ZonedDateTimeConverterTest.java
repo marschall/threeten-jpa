@@ -1,8 +1,8 @@
 package com.github.marschall.threeten.jpa.oracle.impl;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ import java.time.ZonedDateTime;
 import java.time.zone.ZoneRulesException;
 import java.util.stream.IntStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import oracle.sql.TIMESTAMPTZ;
 import oracle.sql.ZONEIDMAP;

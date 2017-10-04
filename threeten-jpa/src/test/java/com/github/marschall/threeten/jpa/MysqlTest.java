@@ -1,6 +1,6 @@
 package com.github.marschall.threeten.jpa;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,23 +12,24 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import javax.sql.DataSource;
+import javax.transaction.Transactional;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.github.marschall.threeten.jpa.MysqlTest.LocalConfiguration;
 import com.github.marschall.threeten.jpa.test.configuration.MysqlConfiguration;
 
-@ContextConfiguration(classes = {MysqlConfiguration.class, LocalConfiguration.class})
-@Ignore
-public class MysqlTest extends AbstractTransactionalJUnit4SpringContextTests {
+@Transactional
+@SpringJUnitConfig({MysqlConfiguration.class, LocalConfiguration.class})
+@Disabled
+public class MysqlTest {
 
   @Autowired
   private DataSource dataSource;

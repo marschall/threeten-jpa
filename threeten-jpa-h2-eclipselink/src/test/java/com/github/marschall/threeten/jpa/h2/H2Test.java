@@ -1,6 +1,6 @@
 package com.github.marschall.threeten.jpa.h2;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigInteger;
 import java.time.OffsetDateTime;
@@ -13,14 +13,15 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.junit.Test;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.junit.jupiter.api.Test;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.marschall.threeten.jpa.h2.configuration.LocalH2Configuration;
 
-@ContextConfiguration(classes = LocalH2Configuration.class)
-public class H2Test extends AbstractTransactionalJUnit4SpringContextTests {
+@Transactional
+@SpringJUnitConfig(LocalH2Configuration.class)
+public class H2Test {
 
   @PersistenceContext
   private EntityManager entityManager;

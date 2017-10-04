@@ -1,6 +1,6 @@
 package com.github.marschall.threeten.jpa.mssql.hibernate;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigInteger;
 import java.time.OffsetDateTime;
@@ -13,19 +13,20 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.junit.Ignore;
-import org.junit.Test;
-import org.springframework.test.context.ContextConfiguration;
+import org.junit.jupiter.api.Test;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.marschall.threeten.jpa.mssql.hibernate.configuration.LocalSqlServerConfiguration;
+import com.github.marschall.threeten.jpa.test.DisabledOnTravis;
 
-@ContextConfiguration(classes = LocalSqlServerConfiguration.class)
+@Transactional
+@SpringJUnitConfig(LocalSqlServerConfiguration.class)
 @Sql("classpath:sqlserver-schema.sql")
 @Sql("classpath:sqlserver-data.sql")
-@Ignore("needs database")
-public class MssqlTest extends AbstractTransactionalJUnit4SpringContextTests {
+@DisabledOnTravis
+public class MssqlTest {
 
   @PersistenceContext
   private EntityManager entityManager;

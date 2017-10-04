@@ -1,6 +1,6 @@
 package com.github.marschall.threeten.jpa.h2;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -8,14 +8,14 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 import org.h2.api.TimestampWithTimeZone;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class H2OffsetDateTimeConverterTest {
 
   private H2OffsetDateTimeConverter converter;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     this.converter = new H2OffsetDateTimeConverter();
   }

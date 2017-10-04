@@ -1,14 +1,14 @@
 package com.github.marschall.threeten.jpa.oracle.impl;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import oracle.sql.TIMESTAMPTZ;
 

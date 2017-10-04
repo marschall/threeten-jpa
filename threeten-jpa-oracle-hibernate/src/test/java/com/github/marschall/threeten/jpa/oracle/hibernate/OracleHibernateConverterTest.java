@@ -1,9 +1,9 @@
 package com.github.marschall.threeten.jpa.oracle.hibernate;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.math.BigInteger;
 import java.time.Duration;
@@ -16,18 +16,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
-@ContextConfiguration(classes = LocalOracleConfiguration.class)
-@Ignore("needs oracle database")
-public class OracleHibernateConverterTest extends AbstractTransactionalJUnit4SpringContextTests {
+@Transactional
+@SpringJUnitConfig(LocalOracleConfiguration.class)
+@Disabled("needs oracle database")
+public class OracleHibernateConverterTest {
 
   @Autowired
   private PlatformTransactionManager txManager;
@@ -37,7 +38,7 @@ public class OracleHibernateConverterTest extends AbstractTransactionalJUnit4Spr
 
   private TransactionTemplate template;
 
-  @Before
+  @BeforeAll
   public void setUp() {
     this.template = new TransactionTemplate(txManager);
   }

@@ -1,14 +1,14 @@
 package com.github.marschall.threeten.jpa.mssql.impl;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import microsoft.sql.DateTimeOffset;
 
@@ -41,7 +41,7 @@ public class DateTimeOffsetConverterTest {
   }
 
   @Test
-  @Ignore
+  @Disabled
   public void julanCalendar() {
     ZoneOffset offset = ZoneOffset.ofHoursMinutes(11, 11);
     LocalDate date = LocalDate.of(1111, 11, 11);
