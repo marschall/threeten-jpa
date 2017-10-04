@@ -46,6 +46,13 @@
       <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
       <scope>provided</scope>
     </dependency>
+    <!-- used for modelgen -->
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <version>1</version>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>com.microsoft.sqlserver</groupId>
       <artifactId>mssql-jdbc</artifactId>
