@@ -80,6 +80,7 @@
         <properties>
           <property name="eclipselink.target-database" value="com.github.marschall.threeten.jpa.oracle.PatchedOracle12Platform"/>
           <property name="eclipselink.weaving" value="false"/>
+          <property name="eclipselink.logging.logger" value="org.eclipse.persistence.logging.slf4j.SLF4JLogger"/>
         </properties>
     </persistence-unit>
 

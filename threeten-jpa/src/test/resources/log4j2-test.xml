@@ -6,6 +6,9 @@
     </Console>
   </Appenders>
   <Loggers>
+    <Logger name="org.hibernate.engine.jdbc.spi.SqlExceptionHelper" level="error">
+      <AppenderRef ref="Console"/>
+    </Logger>
     <Root level="WARN">
       <AppenderRef ref="Console"/>
     </Root>

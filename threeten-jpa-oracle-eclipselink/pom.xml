@@ -43,6 +43,11 @@
     </dependency>
     <dependency>
       <groupId>org.eclipse.persistence</groupId>
+      <artifactId>org.eclipse.persistence.extension</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.persistence</groupId>
       <artifactId>org.eclipse.persistence.oracle</artifactId>
       <scope>provided</scope>
     </dependency>
