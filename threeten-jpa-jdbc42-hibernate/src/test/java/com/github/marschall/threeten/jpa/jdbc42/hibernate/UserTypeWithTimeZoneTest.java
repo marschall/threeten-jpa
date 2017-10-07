@@ -76,44 +76,43 @@ public class UserTypeWithTimeZoneTest {
   public void read(Class<?> jpaConfiguration, String persistenceUnitName) {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
+      EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
+      EntityManager entityManager = factory.createEntityManager();
+      try {
+        // read the entity inserted by SQL
+        this.template.execute(status -> {
+          TypedQuery<JavaTime42WithZone> query = entityManager.createQuery(
+                  "SELECT t FROM JavaTime42WithZone t ORDER BY t.id ASC", JavaTime42WithZone.class);
+          List<JavaTime42WithZone> resultList = query.getResultList();
+          assertThat(resultList, hasSize(2));
 
+          // validate the entity inserted by SQL
+          JavaTime42WithZone javaTime = resultList.get(0);
+          OffsetDateTime inserted = OffsetDateTime.parse("1960-01-01T23:03:20.123456789+02:30");
+          if (jpaConfiguration.getName().contains("Postgres")) {
+            // postgres stores in UTC
+            OffsetDateTime inUtc = OffsetDateTime.parse("1960-01-01T23:03:20.123457+02:30").withOffsetSameInstant(ZoneOffset.UTC);
+            assertEquals(inUtc, javaTime.getOffset());
+          } else {
+            assertEquals(inserted, javaTime.getOffset());
+          }
+          javaTime = resultList.get(1);
+          inserted = OffsetDateTime.parse("1999-01-23T08:26:56.123456789-05:30");
+          if (jpaConfiguration.getName().contains("Postgres")) {
+            // postgres stores in UTC
+            OffsetDateTime inUtc = OffsetDateTime.parse("1999-01-23T08:26:56.123457-05:30").withOffsetSameInstant(ZoneOffset.UTC);
+            assertEquals(inUtc, javaTime.getOffset());
+          } else {
+            assertEquals(inserted, javaTime.getOffset());
+          }
+          return null;
+        });
+      } finally {
+        entityManager.close();
+        // EntityManagerFactory should be closed by spring.
+      }
     } finally {
       this.tearDown();
-    }
-    EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
-    EntityManager entityManager = factory.createEntityManager();
-    try {
-      // read the entity inserted by SQL
-      this.template.execute(status -> {
-        TypedQuery<JavaTime42WithZone> query = entityManager.createQuery(
-                "SELECT t FROM JavaTime42WithZone t ORDER BY t.id ASC", JavaTime42WithZone.class);
-        List<JavaTime42WithZone> resultList = query.getResultList();
-        assertThat(resultList, hasSize(2));
-
-        // validate the entity inserted by SQL
-        JavaTime42WithZone javaTime = resultList.get(0);
-        OffsetDateTime inserted = OffsetDateTime.parse("1960-01-01T23:03:20.123456789+02:30");
-        if (jpaConfiguration.getName().contains("Postgres")) {
-          // postgres stores in UTC
-          OffsetDateTime inUtc = OffsetDateTime.parse("1960-01-01T23:03:20.123457+02:30").withOffsetSameInstant(ZoneOffset.UTC);
-          assertEquals(inUtc, javaTime.getOffset());
-        } else {
-          assertEquals(inserted, javaTime.getOffset());
-        }
-        javaTime = resultList.get(1);
-        inserted = OffsetDateTime.parse("1999-01-23T08:26:56.123456789-05:30");
-        if (jpaConfiguration.getName().contains("Postgres")) {
-          // postgres stores in UTC
-          OffsetDateTime inUtc = OffsetDateTime.parse("1999-01-23T08:26:56.123457-05:30").withOffsetSameInstant(ZoneOffset.UTC);
-          assertEquals(inUtc, javaTime.getOffset());
-        } else {
-          assertEquals(inserted, javaTime.getOffset());
-        }
-        return null;
-      });
-    } finally {
-      entityManager.close();
-      // EntityManagerFactory should be closed by spring.
     }
   }
 
