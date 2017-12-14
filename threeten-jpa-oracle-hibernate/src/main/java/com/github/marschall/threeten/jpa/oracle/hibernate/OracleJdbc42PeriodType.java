@@ -8,29 +8,22 @@ import java.time.Period;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
 
-import com.github.marschall.threeten.jpa.oracle.impl.IntervalConverter;
-
-import oracle.jdbc.OraclePreparedStatement;
-import oracle.jdbc.OracleResultSet;
 import oracle.jdbc.OracleTypes;
-import oracle.sql.INTERVALYM;
 
 /**
  * Type mapping {@link Period} to {@code INTERVALYM}.
- *
- * @deprecated use ojdbc8 12.2.0.1 and {@link OracleJdbc42PeriodType}
  */
-public class OraclePeriodType extends AbstractThreeTenType {
+public class OracleJdbc42PeriodType extends AbstractThreeTenType {
 
   /**
    * Singleton access.
    */
-  public static final UserType INSTANCE = new OraclePeriodType();
+  public static final UserType INSTANCE = new OracleJdbc42PeriodType();
 
   /**
    * Name of the type.
    */
-  public static final String NAME = "OraclePeriodType";
+  public static final String NAME = "OracleJdbc42PeriodType";
 
   private static final int[] SQL_TYPES = new int []{OracleTypes.INTERVALYM};
 
@@ -46,23 +39,15 @@ public class OraclePeriodType extends AbstractThreeTenType {
 
   @Override
   public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws SQLException {
-    OracleResultSet oracleResultSet = rs.unwrap(OracleResultSet.class);
-    INTERVALYM intervalym = oracleResultSet.getINTERVALYM(names[0]);
-    if (intervalym == null) {
-      return null;
-    } else {
-      return IntervalConverter.intervalymToPeriod(intervalym);
-    }
+    return rs.getObject(names[0], Period.class);
   }
 
   @Override
   public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws SQLException {
-    OraclePreparedStatement oraclePreparedStatement = st.unwrap(OraclePreparedStatement.class);
     if (value == null) {
-      oraclePreparedStatement.setINTERVALYM(index, null);
+      st.setNull(index, OracleTypes.INTERVALYM);
     } else {
-      INTERVALYM intervalym = IntervalConverter.periodToIntervalym((Period) value);
-      oraclePreparedStatement.setINTERVALYM(index, intervalym);
+      st.setObject(index, value, OracleTypes.INTERVALYM);
     }
   }
 

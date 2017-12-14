@@ -8,6 +8,8 @@ import javax.persistence.Converter;
 
 /**
  * Converts {@link Timestamp} to {@link LocalDateTime} and back.
+ *
+ * @deprecated supported out of the box with JPA 2.2
  */
 @Converter(autoApply = true)
 public class LocalDateTimeConverter implements AttributeConverter<LocalDateTime, Timestamp> {

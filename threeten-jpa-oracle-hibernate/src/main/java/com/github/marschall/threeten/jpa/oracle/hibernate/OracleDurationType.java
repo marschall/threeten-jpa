@@ -17,7 +17,10 @@ import oracle.sql.INTERVALDS;
 
 /**
  * Type mapping {@link Duration} to {@code INTERVALDS}.
+ *
+ * @deprecated use ojdbc8 12.2.0.1 and {@link OracleJdbc42DurationType}
  */
+@Deprecated
 public class OracleDurationType extends AbstractThreeTenType {
 
   /**

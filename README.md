@@ -2,7 +2,11 @@ ThreeTen JPA [![Maven Central](https://maven-badges.herokuapp.com/maven-central/
 ============
 
 JPA attribute converters for [JSR-310](https://jcp.org/en/jsr/detail?id=310) (Java 8) dates and times.
-This is stop gap measure until [JPA_SPEC-63](https://github.com/javaee/jpa-spec/issues/63) is fixed in JPA 2.2.
+
+This is stop gap measure until [JPA_SPEC-63](https://github.com/javaee/jpa-spec/issues/63) was fixed in JPA 2.2. As of JPA 2.2 most of these are not needed anymore. These days the project serves the following purposes
+
+1. provide JSR-310 support for users on JPA 2.1
+1. provide support for additional JSR-310 data types not specified by JPA 2.2
 
 We take inspiration from the JDBC 4.2 and currently support the following conversions:
 

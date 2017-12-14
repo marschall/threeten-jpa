@@ -8,6 +8,8 @@ import javax.persistence.Converter;
 
 /**
  * Converts {@link Time} to {@link LocalTime} and back.
+ *
+ * @deprecated supported out of the box with JPA 2.2
  */
 @Converter(autoApply = true)
 public class LocalTimeConverter implements AttributeConverter<LocalTime, Time> {

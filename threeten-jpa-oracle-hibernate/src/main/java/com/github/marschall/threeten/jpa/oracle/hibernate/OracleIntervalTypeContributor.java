@@ -14,6 +14,8 @@ public class OracleIntervalTypeContributor implements TypeContributor {
     // register the Hibernate type mappings
     typeContributions.contributeType(OracleDurationType.INSTANCE, OracleDurationType.NAME);
     typeContributions.contributeType(OraclePeriodType.INSTANCE, OraclePeriodType.NAME);
+    typeContributions.contributeType(OracleJdbc42DurationType.INSTANCE, OracleJdbc42DurationType.NAME);
+    typeContributions.contributeType(OracleJdbc42PeriodType.INSTANCE, OracleJdbc42PeriodType.NAME);
   }
 
 }
