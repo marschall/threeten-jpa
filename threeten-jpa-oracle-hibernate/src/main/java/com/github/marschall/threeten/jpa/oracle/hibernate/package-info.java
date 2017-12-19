@@ -2,7 +2,7 @@
  * Contains additional user types for Oracle.
  * <p>
  * The Oracle driver module has to be visible to the deployment
- * (eg <a href="https://docs.jboss.org/author/display/WFLY10/Class+Loading+in+WildFly">Class Loading in WildFly</a>).
+ * (eg <a href="https://docs.jboss.org/author/display/WFLY/Class+Loading+in+WildFly">Class Loading in WildFly</a>).
  * </p>
  * <table>
  *  <caption>Supported type conversions</caption>
@@ -35,9 +35,19 @@
  *      <td>{@link com.github.marschall.threeten.jpa.oracle.hibernate.OraclePeriodType#NAME}</td>
  *    </tr>
  *    <tr>
+ *      <td><code>INTERVAL YEAR TO MONTH</code></td>
+ *      <td>{@link java.time.Period}</td>
+ *      <td>{@link com.github.marschall.threeten.jpa.oracle.hibernate.OracleJdbc42PeriodType#NAME}</td>
+ *    </tr>
+ *    <tr>
  *      <td><code>INTERVAL DAY TO SECOND</code></td>
  *      <td>{@link java.time.Duration}</td>
  *      <td>{@link com.github.marschall.threeten.jpa.oracle.hibernate.OracleDurationType#NAME}</td>
+ *    </tr>
+ *    <tr>
+ *      <td><code>INTERVAL DAY TO SECOND</code></td>
+ *      <td>{@link java.time.Duration}</td>
+ *      <td>{@link com.github.marschall.threeten.jpa.oracle.hibernate.OracleJdbc42DurationType#NAME}</td>
  *    </tr>
  *  </tbody>
  * </table>

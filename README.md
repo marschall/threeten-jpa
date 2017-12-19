@@ -7,6 +7,8 @@ This is stop gap measure until [JPA_SPEC-63](https://github.com/javaee/jpa-spec/
 
 1. provide JSR-310 support for users on JPA 2.1
 1. provide support for additional JSR-310 data types not specified by JPA 2.2
+1. provide workarounds for driver bugs and missing driver features
+1. provide workarounds for JPA implementation bugs
 
 We take inspiration from the JDBC 4.2 and currently support the following conversions:
 
@@ -24,7 +26,7 @@ We take inspiration from the JDBC 4.2 and currently support the following conver
 
 Not supported is converting `TIME WITH TIMEZONE` to `OffsetTime` because it seems [not very useful](https://www.postgresql.org/docs/current/static/datatype-datetime.html#DATATYPE-TIMEZONES).
 
-This project requires Java SE 8 (for the date and time classes) and JPA 2.1 (for the attribute converters).
+This project requires Java SE 8 (for the date and time classes) and JPA 2.1 (for the attribute converters). Java SE 9 is supported as well.
 
 This project is very similar to [montanajava/jpaattributeconverters](https://bitbucket.org/montanajava/jpaattributeconverters) or [perceptron8/datetime-jpa](https://github.com/perceptron8/datetime-jpa) and can be used in [much the same way](https://wiki.java.net/blog/montanajava/archive/2014/06/17/using-java-8-datetime-classes-jpa).
 

@@ -11,7 +11,7 @@
  * unit.
  * <p>
  * The Oracle driver module has to be visible to the deployment
- * (eg <a href="https://docs.jboss.org/author/display/WFLY10/Class+Loading+in+WildFly">Class Loading in WildFly</a>).
+ * (eg <a href="https://docs.jboss.org/author/display/WFLY/Class+Loading+in+WildFly">Class Loading in WildFly</a>).
  * <table>
  *  <caption>Supported type conversions</caption>
  *  <thead>
