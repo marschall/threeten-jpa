@@ -1,5 +1,7 @@
 /**
- * Contains composite types to support {@link java.time.ZonedDateTime}.
+ * Contains composite types to support {@link java.time.ZonedDateTime}
+ * for databases that do not keep the original time zone or only support
+ * an offset.
  * <table>
  *  <caption>Supported type conversions</caption>
  *  <thead>
