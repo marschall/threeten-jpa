@@ -98,10 +98,12 @@ JDBC 4.2
 
 If your driver supports JDBC 4.2 and you use Hibernate we strongly [recommend](https://github.com/marschall/threeten-jpa/wiki/JDBC-4.2) using the UserTypes from the `threeten-jpa-jdbc42-hibernate` subproject instead of the ones from the `threeten-jpa` subproject.
 
-Hibernate 5
------------
+Hibernate 5.x
+-------------
 
-The hibernate-java8 module introduced in [Hibernate 5.0.0](http://in.relation.to/2015/08/20/hibernate-orm-500-final-release/) (no longer needed for [Hibernate 5.2.0](http://in.relation.to/2016/06/01/hibernate-orm-520-final-release/)) provides functionality that is equivalent to `threeten-jpa`. However if your JDBC driver properly supports JDBC 4.2 we strongly [recommend](https://github.com/marschall/threeten-jpa/wiki/JDBC-4.2) using the UserTypes from the `threeten-jpa-jdbc42-hibernate` subproject instead.
+If your JDBC driver properly supports JDBC 4.2 we strongly [recommend](https://github.com/marschall/threeten-jpa/wiki/JDBC-4.2) using the UserTypes from the `threeten-jpa-jdbc42-hibernate` subproject instead.
+
+Otherwise the hibernate-java8 module introduced in [Hibernate 5.0.0](http://in.relation.to/2015/08/20/hibernate-orm-500-final-release/) (no longer needed for [Hibernate 5.2.0](http://in.relation.to/2016/06/01/hibernate-orm-520-final-release/)) provides functionality that is equivalent to `threeten-jpa` and we recommend you use the Hibernate support instead.
 
 Project Structure
 -----------------
