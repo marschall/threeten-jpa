@@ -3,7 +3,7 @@ ThreeTen JPA [![Maven Central](https://maven-badges.herokuapp.com/maven-central/
 
 JPA attribute converters for [JSR-310](https://jcp.org/en/jsr/detail?id=310) (Java 8) dates and times.
 
-This was stop gap measure until [JPA_SPEC-63](https://github.com/javaee/jpa-spec/issues/63) was fixed in JPA 2.2. However JSR-310 support in JPA is [not ready for prime time](https://marschall.github.io/2018/04/22/jps-jsr-310.html). The project serves the following purposes
+This project was stop gap measure until [JPA_SPEC-63](https://github.com/javaee/jpa-spec/issues/63) was fixed in JPA 2.2. However JSR-310 support in JPA is [not ready for prime time](https://marschall.github.io/2018/04/22/jps-jsr-310.html). The project serves the following purposes:
 
 1. provide JSR-310 support for users on JPA 2.1
 1. provide support for additional JSR-310 data types not specified by JPA 2.2
@@ -93,17 +93,13 @@ Interval Support
 
 [Oracle Interval Support](https://github.com/marschall/threeten-jpa/wiki/Oracle-Interval-Support) is documented on the wiki.
 
-JDBC 4.2
---------
-
-If your driver supports JDBC 4.2 and you use Hibernate we strongly [recommend](https://github.com/marschall/threeten-jpa/wiki/JDBC-4.2) using the UserTypes from the `threeten-jpa-jdbc42-hibernate` subproject instead of the ones from the `threeten-jpa` subproject.
 
 Hibernate 5.x
 -------------
 
-If your JDBC driver properly supports JDBC 4.2 we strongly [recommend](https://github.com/marschall/threeten-jpa/wiki/JDBC-4.2) using the UserTypes from the `threeten-jpa-jdbc42-hibernate` subproject instead.
+If you are on Hibernate 5.x and JDBC driver properly supports JDBC 4.2 we strongly [recommend](https://github.com/marschall/threeten-jpa/wiki/JDBC-4.2) using the UserTypes from the `threeten-jpa-jdbc42-hibernate` subproject.
 
-Otherwise the hibernate-java8 module introduced in [Hibernate 5.0.0](http://in.relation.to/2015/08/20/hibernate-orm-500-final-release/) (no longer needed for [Hibernate 5.2.0](http://in.relation.to/2016/06/01/hibernate-orm-520-final-release/)) provides functionality that is equivalent to `threeten-jpa` and we recommend you use the Hibernate support instead.
+If your driver does not support JDBC 4.2 the hibernate-java8 module introduced in [Hibernate 5.0.0](http://in.relation.to/2015/08/20/hibernate-orm-500-final-release/) (no longer needed for [Hibernate 5.2.0](http://in.relation.to/2016/06/01/hibernate-orm-520-final-release/)) provides functionality that is equivalent to `threeten-jpa` and we recommend you use the Hibernate support instead.
 
 Project Structure
 -----------------
