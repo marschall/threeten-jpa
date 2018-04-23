@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -38,11 +39,11 @@ public class UserTypeWithTimeZoneTest {
 
   public static Stream<Arguments> parameters() {
     return Stream.of(
-//            Arguments.of(LocalHsqlConfiguration.class, "threeten-jpa-hibernate-hsql"),
-//            Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver"),
-//            Arguments.of(LocalDerbyConfiguration.class, "threeten-jpa-hibernate-derby"),
-            Arguments.of(LocalH2Configuration.class, "threeten-jpa-hibernate-h2"),
-            Arguments.of(LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres")
+//            Arguments.of(LocalHsqlConfiguration.class, "threeten-jpa-hibernate-hsql", ChronoUnit.NANOS),
+//            Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", ChronoUnit.MICROS),
+//            Arguments.of(LocalDerbyConfiguration.class, "threeten-jpa-hibernate-derby", ChronoUnit.NANOS),
+            Arguments.of(LocalH2Configuration.class, "threeten-jpa-hibernate-h2", ChronoUnit.NANOS),
+            Arguments.of(LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres", ChronoUnit.MICROS)
             );
   }
 
@@ -74,7 +75,7 @@ public class UserTypeWithTimeZoneTest {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void read(Class<?> jpaConfiguration, String persistenceUnitName) {
+  public void read(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
@@ -88,20 +89,21 @@ public class UserTypeWithTimeZoneTest {
 
         // validate the entity inserted by SQL
         JavaTime42WithZone javaTime = resultList.get(0);
-        OffsetDateTime inserted = OffsetDateTime.parse("1960-01-01T23:03:20.123456789+02:30");
+        OffsetDateTime inserted = OffsetDateTime.parse("1960-01-01T23:03:20.123456789+02:30").truncatedTo(resolution);
         if (jpaConfiguration.getName().contains("Postgres")) {
-          // postgres stores in UTC
-          OffsetDateTime inUtc = OffsetDateTime.parse("1960-01-01T23:03:20.123457+02:30").withOffsetSameInstant(ZoneOffset.UTC);
-          assertEquals(inUtc, javaTime.getOffset());
+          // Postgres stores in UTC
+          inserted = inserted.withOffsetSameInstant(ZoneOffset.UTC);
+          assertEquals(inserted, javaTime.getOffset());
         } else {
           assertEquals(inserted, javaTime.getOffset());
         }
+
         javaTime = resultList.get(1);
-        inserted = OffsetDateTime.parse("1999-01-23T08:26:56.123456789-05:30");
+        inserted = OffsetDateTime.parse("1999-01-23T08:26:56.123456789-05:30").truncatedTo(resolution);
         if (jpaConfiguration.getName().contains("Postgres")) {
-          // postgres stores in UTC
-          OffsetDateTime inUtc = OffsetDateTime.parse("1999-01-23T08:26:56.123457-05:30").withOffsetSameInstant(ZoneOffset.UTC);
-          assertEquals(inUtc, javaTime.getOffset());
+          // Postgres stores in UTC
+          inserted = inserted.withOffsetSameInstant(ZoneOffset.UTC);
+          assertEquals(inserted, javaTime.getOffset());
         } else {
           assertEquals(inserted, javaTime.getOffset());
         }
@@ -123,7 +125,7 @@ public class UserTypeWithTimeZoneTest {
       OffsetDateTime newOffset;
       if (persistenceUnitName.endsWith("-postgres")) {
         // PostgreS only supports UTC
-        newOffset = OffsetDateTime.now(ZoneOffset.UTC).withNano(123_456); // PostgreS only supports microseconds
+        newOffset = OffsetDateTime.now(ZoneOffset.UTC).withNano(123_456_000); // PostgreS only supports microseconds
       } else {
         newOffset = OffsetDateTime.now().withNano(123_456_789);
       }

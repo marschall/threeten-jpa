@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +30,10 @@ import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalDerbyConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalH2Configuration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalHsqlConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalMysqlConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalPostgresConfiguration;
-import com.github.marschall.threeten.jpa.test.Travis;
 
 public class UserTypeWithoutTimeZoneTest {
 
@@ -43,14 +42,12 @@ public class UserTypeWithoutTimeZoneTest {
 
   public static List<Arguments> parameters() {
     List<Arguments> parameters = new ArrayList<>();
-    parameters.add(Arguments.of(LocalHsqlConfiguration.class, "threeten-jpa-hibernate-hsql"));
-    parameters.add(Arguments.of(LocalMysqlConfiguration.class, "threeten-jpa-hibernate-mysql"));
-    parameters.add(Arguments.of(LocalH2Configuration.class, "threeten-jpa-hibernate-h2"));
-    if (!Travis.isTravis()) {
-      parameters.add(Arguments.of(LocalDerbyConfiguration.class, "threeten-jpa-hibernate-derby"));
-    }
-    //        parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver"));
-    parameters.add(Arguments.of(LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres"));
+    parameters.add(Arguments.of(LocalHsqlConfiguration.class, "threeten-jpa-hibernate-hsql", ChronoUnit.NANOS));
+    parameters.add(Arguments.of(LocalMysqlConfiguration.class, "threeten-jpa-hibernate-mysql", ChronoUnit.MICROS));
+    parameters.add(Arguments.of(LocalH2Configuration.class, "threeten-jpa-hibernate-h2", ChronoUnit.NANOS));
+    // parameters.add(Arguments.of(LocalDerbyConfiguration.class, "threeten-jpa-hibernate-derby", ChronoUnit.NANOS));
+    // parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", ChronoUnit.MICROS));
+    parameters.add(Arguments.of(LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres", ChronoUnit.MICROS));
     return parameters;
   }
 
@@ -80,7 +77,7 @@ public class UserTypeWithoutTimeZoneTest {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void runTest(Class<?> jpaConfiguration, String persistenceUnitName) {
+  public void runTest(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
 
@@ -94,27 +91,17 @@ public class UserTypeWithoutTimeZoneTest {
 
         // validate the entity inserted by SQL
         JavaTime42 javaTime = resultList.get(1);
-        assertEquals(LocalTime.parse("02:55:00"), javaTime.getLocalTime());
+        assertEquals(LocalTime.parse("02:55:00.123456789").truncatedTo(resolution), javaTime.getLocalTime());
         assertEquals(LocalDate.parse("2016-03-27"), javaTime.getLocalDate());
-        if (jpaConfiguration.getName().contains("Hsql")) {
-          assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123456"), javaTime.getLocalDateTime());
-        } else if (jpaConfiguration.getName().contains("Postgres")) {
-          assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123457"), javaTime.getLocalDateTime());
-        } else if (jpaConfiguration.getName().contains("Mysql")) {
-          // travis ci
-          //            assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123457"), javaTime.getLocalDateTime());
-          assertEquals(LocalDateTime.parse("2016-03-27T02:55:00"), javaTime.getLocalDateTime());
-        } else {
-          assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123456789"), javaTime.getLocalDateTime());
-        }
+        assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123456789").truncatedTo(resolution), javaTime.getLocalDateTime());
         return null;
       });
 
       // insert a new entity into the database
       BigInteger newId = new BigInteger("3");
-      LocalTime newLocalTime = LocalTime.now().withNano(123_456_789);
+      LocalTime newLocalTime = LocalTime.now().withNano(123_456_789).truncatedTo(resolution);
       LocalDate newLocalDate = LocalDate.now();
-      LocalDateTime newLocalDateTime = LocalDateTime.now().withNano(123_456_789);
+      LocalDateTime newLocalDateTime = LocalDateTime.now().withNano(123_456_789).truncatedTo(resolution);
 
       this.template.execute(status -> {
         EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
