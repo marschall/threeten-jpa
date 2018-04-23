@@ -15,6 +15,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -51,27 +53,32 @@ import com.github.marschall.threeten.jpa.test.configuration.TransactionManagerCo
 
 public class ConverterTest {
 
+  /**
+   * java.sql.Time seems to be converted to seconds always
+   */
+  private static final TemporalUnit TIME_RESOLUTION = ChronoUnit.SECONDS;
+
   private AnnotationConfigApplicationContext applicationContext;
   private TransactionTemplate template;
 
   public static List<Arguments> parameters() {
     List<Arguments> parameters = new ArrayList<>();
-    parameters.add(Arguments.of(DerbyConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-derby"));
-    parameters.add(Arguments.of(H2Configuration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-h2"));
-    parameters.add(Arguments.of(HsqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-hsql"));
-    parameters.add(Arguments.of(MysqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-mysql"));
-    parameters.add(Arguments.of(PostgresConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-postgres"));
+    parameters.add(Arguments.of(DerbyConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-derby", ChronoUnit.NANOS));
+    parameters.add(Arguments.of(H2Configuration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-h2", ChronoUnit.NANOS));
+    parameters.add(Arguments.of(HsqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-hsql", ChronoUnit.NANOS));
+    parameters.add(Arguments.of(MysqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-mysql", ChronoUnit.MICROS));
+    parameters.add(Arguments.of(PostgresConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-postgres", ChronoUnit.MICROS));
     if (!Travis.isTravis()) {
-      parameters.add(Arguments.of(SqlServerConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-sqlserver"));
+      parameters.add(Arguments.of(SqlServerConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-sqlserver", ChronoUnit.MICROS));
     }
-    parameters.add(Arguments.of(DerbyConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-derby"));
-    parameters.add(Arguments.of(H2Configuration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-h2"));
-    parameters.add(Arguments.of(HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"));
-    parameters.add(Arguments.of(MysqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-mysql"));
+    parameters.add(Arguments.of(DerbyConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-derby", ChronoUnit.NANOS));
+    parameters.add(Arguments.of(H2Configuration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-h2", ChronoUnit.NANOS));
+    parameters.add(Arguments.of(HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql", ChronoUnit.NANOS));
+    parameters.add(Arguments.of(MysqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-mysql", ChronoUnit.MICROS));
     if (!Travis.isTravis()) {
-      parameters.add(Arguments.of(SqlServerConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-sqlserver"));
+      parameters.add(Arguments.of(SqlServerConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-sqlserver", ChronoUnit.MICROS));
     }
-    parameters.add(Arguments.of(PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres"));
+    parameters.add(Arguments.of(PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres", ChronoUnit.MICROS));
     return parameters;
   }
 
@@ -121,7 +128,7 @@ public class ConverterTest {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void runTest(Class<?> datasourceConfiguration, Class<?> jpaConfiguration, String persistenceUnitName) {
+  public void runTest(Class<?> datasourceConfiguration, Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
     this.setUp(datasourceConfiguration, jpaConfiguration, persistenceUnitName);
     try {
       this.mysqlHack(persistenceUnitName);
@@ -137,26 +144,15 @@ public class ConverterTest {
         JavaTime javaTime = resultList.get(0);
         assertEquals(LocalTime.parse("15:09:02"), javaTime.getLocalTime());
         assertEquals(LocalDate.parse("1988-12-25"), javaTime.getLocalDate());
-        if (datasourceConfiguration.getName().contains("Hsql")) {
-          assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123456"), javaTime.getLocalDateTime());
-        } else if (datasourceConfiguration.getName().contains("Postgres")) {
-          assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123457"), javaTime.getLocalDateTime());
-        } else if (datasourceConfiguration.getName().contains("SqlServer")) {
-          assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.1234568"), javaTime.getLocalDateTime());
-        } else if (datasourceConfiguration.getName().contains("Mysql")) {
-          // version in Travis is older than the sin
-          assertEquals(LocalDateTime.parse("1980-01-01T23:03:20"), javaTime.getLocalDateTime());
-        } else {
-          assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123456789"), javaTime.getLocalDateTime());
-        }
+        assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123456789").truncatedTo(resolution), javaTime.getLocalDateTime());
         return null;
       });
 
       // insert a new entity into the database
       BigInteger newId = new BigInteger("3");
-      LocalTime newTime = LocalTime.now().withNano(123_456_789);
+      LocalTime newTime = LocalTime.now().withNano(123_456_789).truncatedTo(TIME_RESOLUTION);
       LocalDate newDate = LocalDate.now();
-      LocalDateTime newDateTime = LocalDateTime.now().withNano(123_456_789);
+      LocalDateTime newDateTime = LocalDateTime.now().withNano(123_456_789).truncatedTo(resolution);
 
       this.template.execute(status -> {
         EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);

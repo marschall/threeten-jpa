@@ -1,7 +1,10 @@
 package com.github.marschall.threeten.jpa;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -11,6 +14,7 @@ import javax.persistence.Converter;
  *
  * @deprecated supported out of the box with JPA 2.2
  */
+@Deprecated
 @Converter(autoApply = true)
 public class LocalTimeConverter implements AttributeConverter<LocalTime, Time> {
   // mapping with java.util.Calendar breaks EclipseLink
@@ -20,7 +24,12 @@ public class LocalTimeConverter implements AttributeConverter<LocalTime, Time> {
     if (attribute == null) {
       return null;
     }
-    return Time.valueOf(attribute);
+    long epochMilli = attribute.truncatedTo(ChronoUnit.MILLIS)
+      .atDate(LocalDate.of(1970, 1, 1))
+      .atZone(ZoneId.systemDefault())
+      .toInstant()
+      .toEpochMilli();
+    return new Time(epochMilli);
   }
 
   @Override
