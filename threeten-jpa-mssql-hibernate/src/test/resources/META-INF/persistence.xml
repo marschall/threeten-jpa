@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/persistence/persistence_2_1.xsd">
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/persistence/persistence_2_2.xsd">
 
-    <persistence-unit name="threeten-jpa-hibernate-sqlserver">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+  <persistence-unit name="threeten-jpa-hibernate-sqlserver" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>com.github.marschall.threeten.jpa.mssql.hibernate.JavaTime42WithZone</class>
+    <class>com.github.marschall.threeten.jpa.mssql.hibernate.JavaTime42WithZone</class>
 
-        <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2012Dialect" />
-        </properties>
-    </persistence-unit>
+    <shared-cache-mode>NONE</shared-cache-mode>
+
+    <properties>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2012Dialect" />
+    </properties>
+  </persistence-unit>
 
 </persistence>

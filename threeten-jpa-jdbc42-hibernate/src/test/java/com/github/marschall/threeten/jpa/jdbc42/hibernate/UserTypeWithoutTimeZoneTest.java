@@ -20,12 +20,12 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.sql.DataSource;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
+import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -49,7 +49,7 @@ public class UserTypeWithoutTimeZoneTest {
     if (!Travis.isTravis()) {
       parameters.add(Arguments.of(LocalDerbyConfiguration.class, "threeten-jpa-hibernate-derby"));
     }
-//        parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver"));
+    //        parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver"));
     parameters.add(Arguments.of(LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres"));
     return parameters;
   }
@@ -85,64 +85,63 @@ public class UserTypeWithoutTimeZoneTest {
     try {
 
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
-      EntityManager entityManager = factory.createEntityManager();
-      try {
-        // read the entity inserted by SQL
-        this.template.execute(status -> {
-          TypedQuery<JavaTime42> query = entityManager.createQuery("SELECT t FROM JavaTime42 t ORDER BY t.id ASC", JavaTime42.class);
-          List<JavaTime42> resultList = query.getResultList();
-          assertThat(resultList, hasSize(2));
+      // read the entity inserted by SQL
+      this.template.execute(status -> {
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
+        TypedQuery<JavaTime42> query = entityManager.createQuery("SELECT t FROM JavaTime42 t ORDER BY t.id ASC", JavaTime42.class);
+        List<JavaTime42> resultList = query.getResultList();
+        assertThat(resultList, hasSize(2));
 
-          // validate the entity inserted by SQL
-          JavaTime42 javaTime = resultList.get(1);
-          assertEquals(LocalTime.parse("02:55:00"), javaTime.getLocalTime());
-          assertEquals(LocalDate.parse("2016-03-27"), javaTime.getLocalDate());
-          if (jpaConfiguration.getName().contains("Hsql")) {
-            assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123456"), javaTime.getLocalDateTime());
-          } else if (jpaConfiguration.getName().contains("Postgres")) {
-            assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123457"), javaTime.getLocalDateTime());
-          } else if (jpaConfiguration.getName().contains("Mysql")) {
-            // travis ci
-//            assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123457"), javaTime.getLocalDateTime());
-            assertEquals(LocalDateTime.parse("2016-03-27T02:55:00"), javaTime.getLocalDateTime());
-          } else {
-            assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123456789"), javaTime.getLocalDateTime());
-          }
-          return null;
-         });
+        // validate the entity inserted by SQL
+        JavaTime42 javaTime = resultList.get(1);
+        assertEquals(LocalTime.parse("02:55:00"), javaTime.getLocalTime());
+        assertEquals(LocalDate.parse("2016-03-27"), javaTime.getLocalDate());
+        if (jpaConfiguration.getName().contains("Hsql")) {
+          assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123456"), javaTime.getLocalDateTime());
+        } else if (jpaConfiguration.getName().contains("Postgres")) {
+          assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123457"), javaTime.getLocalDateTime());
+        } else if (jpaConfiguration.getName().contains("Mysql")) {
+          // travis ci
+          //            assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123457"), javaTime.getLocalDateTime());
+          assertEquals(LocalDateTime.parse("2016-03-27T02:55:00"), javaTime.getLocalDateTime());
+        } else {
+          assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123456789"), javaTime.getLocalDateTime());
+        }
+        return null;
+      });
 
-        // insert a new entity into the database
-        BigInteger newId = new BigInteger("3");
-        LocalTime newLocalTime = LocalTime.now();
-        LocalDate newLocalDate = LocalDate.now();
-        LocalDateTime newLocalDateTime = LocalDateTime.now();
+      // insert a new entity into the database
+      BigInteger newId = new BigInteger("3");
+      LocalTime newLocalTime = LocalTime.now().withNano(123_456_789);
+      LocalDate newLocalDate = LocalDate.now();
+      LocalDateTime newLocalDateTime = LocalDateTime.now().withNano(123_456_789);
 
-        this.template.execute(status -> {
-          JavaTime42 toInsert = new JavaTime42();
-          toInsert.setId(newId);
-          toInsert.setLocalTime(newLocalTime);
-          toInsert.setLocalDate(newLocalDate);
-          toInsert.setLocalDateTime(newLocalDateTime);
-          entityManager.persist(toInsert);
-          // the transaction should trigger a flush and write to the database
-          return null;
-        });
+      this.template.execute(status -> {
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
+        JavaTime42 toInsert = new JavaTime42();
+        toInsert.setId(newId);
+        toInsert.setLocalTime(newLocalTime);
+        toInsert.setLocalDate(newLocalDate);
+        toInsert.setLocalDateTime(newLocalDateTime);
+        entityManager.persist(toInsert);
+        status.flush();
+        // the transaction should trigger a flush and write to the database
+        return null;
+      });
 
-        // validate the new entity inserted into the database
-        this.template.execute(status -> {
-          JavaTime42 readBack = entityManager.find(JavaTime42.class, newId);
-          assertNotNull(readBack);
-          assertEquals(newId, readBack.getId());
-          assertEquals(newLocalTime, readBack.getLocalTime());
-          assertEquals(newLocalDate, readBack.getLocalDate());
-          assertEquals(newLocalDateTime, readBack.getLocalDateTime());
-          entityManager.remove(readBack);
-          return null;
-        });
-      } finally {
-        entityManager.close();
-        // EntityManagerFactory should be closed by spring.
-      }
+      // validate the new entity inserted into the database
+      this.template.execute(status -> {
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
+        JavaTime42 readBack = entityManager.find(JavaTime42.class, newId);
+        assertNotNull(readBack);
+        assertEquals(newId, readBack.getId());
+        assertEquals(newLocalTime, readBack.getLocalTime());
+        assertEquals(newLocalDate, readBack.getLocalDate());
+        assertEquals(newLocalDateTime, readBack.getLocalDateTime());
+        entityManager.remove(readBack);
+        status.flush();
+        return null;
+      });
     } finally {
       this.tearDown();
     }

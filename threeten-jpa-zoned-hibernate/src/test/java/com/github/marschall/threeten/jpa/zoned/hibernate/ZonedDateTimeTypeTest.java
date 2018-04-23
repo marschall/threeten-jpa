@@ -31,14 +31,13 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
+import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import com.github.marschall.threeten.jpa.test.Travis;
 import com.github.marschall.threeten.jpa.zoned.hibernate.configuration.LocalH2Configuration;
 import com.github.marschall.threeten.jpa.zoned.hibernate.configuration.LocalHsqlConfiguration;
 import com.github.marschall.threeten.jpa.zoned.hibernate.configuration.LocalPostgresConfiguration;
-import com.github.marschall.threeten.jpa.zoned.hibernate.configuration.LocalSqlServerConfiguration;
 
 public class ZonedDateTimeTypeTest {
 
@@ -48,9 +47,9 @@ public class ZonedDateTimeTypeTest {
   public static List<Arguments> parameters() {
     List<Arguments> parameters = new ArrayList<>();
     parameters.add(Arguments.of(LocalHsqlConfiguration.class, "threeten-jpa-hibernate-hsql"));
-    if (!Travis.isTravis()) {
-      parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver"));
-    }
+//    if (!Travis.isTravis()) {
+//      parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver"));
+//    }
     parameters.add(Arguments.of(LocalH2Configuration.class, "threeten-jpa-hibernate-h2"));
     parameters.add(Arguments.of(LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres"));
     return parameters;
@@ -97,25 +96,20 @@ public class ZonedDateTimeTypeTest {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
-      EntityManager entityManager = factory.createEntityManager();
-      try {
-        // read the entity inserted by SQL
-        this.template.execute(status -> {
-          TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
-                  "SELECT t FROM JavaTime42Zoned t ORDER BY t.zonedDateTime ASC", JavaTime42Zoned.class);
-          List<JavaTime42Zoned> resultList = query.getResultList();
-          assertThat(resultList, hasSize(1));
+      // read the entity inserted by SQL
+      this.template.execute(status -> {
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
+        TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
+                "SELECT t FROM JavaTime42Zoned t ORDER BY t.zonedDateTime ASC", JavaTime42Zoned.class);
+        List<JavaTime42Zoned> resultList = query.getResultList();
+        assertThat(resultList, hasSize(1));
 
-          // validate the entity inserted by SQL
-          JavaTime42Zoned javaTime = resultList.get(0);
-          ZonedDateTime inserted = getInsertedValue(jpaConfiguration);
-          assertEquals(inserted, javaTime.getZonedDateTime());
-          return null;
-        });
-      } finally {
-        entityManager.close();
-        // EntityManagerFactory should be closed by spring.
-      }
+        // validate the entity inserted by SQL
+        JavaTime42Zoned javaTime = resultList.get(0);
+        ZonedDateTime inserted = this.getInsertedValue(jpaConfiguration);
+        assertEquals(inserted, javaTime.getZonedDateTime());
+        return null;
+      });
     } finally {
       this.tearDown(jpaConfiguration, persistenceUnitName);
     }
@@ -127,27 +121,22 @@ public class ZonedDateTimeTypeTest {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
-      EntityManager entityManager = factory.createEntityManager();
-      try {
-        // read the entity inserted by SQL
-        this.template.execute(status -> {
-          ZonedDateTime inserted = getInsertedValue(jpaConfiguration);
-          ZonedDateTime earlier = inserted.withZoneSameInstant(ZoneId.of("Europe/Moscow"))
-                  .minusHours(1L);
-          TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
-                  "SELECT t FROM JavaTime42Zoned t WHERE t.zonedDateTime.timestamp_utc < :value", JavaTime42Zoned.class);
-          // https://hibernate.atlassian.net/browse/HHH-7302
-          query.setParameter("value", earlier.toOffsetDateTime());
-          List<JavaTime42Zoned> result = query.getResultList();
+      // read the entity inserted by SQL
+      this.template.execute(status -> {
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
+        ZonedDateTime inserted = this.getInsertedValue(jpaConfiguration);
+        ZonedDateTime earlier = inserted.withZoneSameInstant(ZoneId.of("Europe/Moscow"))
+                .minusHours(1L);
+        TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
+                "SELECT t FROM JavaTime42Zoned t WHERE t.zonedDateTime.timestamp_utc < :value", JavaTime42Zoned.class);
+        // https://hibernate.atlassian.net/browse/HHH-7302
+        query.setParameter("value", earlier.toOffsetDateTime());
+        List<JavaTime42Zoned> result = query.getResultList();
 
-          assertThat(result, empty());
+        assertThat(result, empty());
 
-          return null;
-        });
-      } finally {
-        entityManager.close();
-        // EntityManagerFactory should be closed by spring.
-      }
+        return null;
+      });
     } finally {
       this.tearDown(jpaConfiguration, persistenceUnitName);
     }
@@ -160,30 +149,25 @@ public class ZonedDateTimeTypeTest {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
-      EntityManager entityManager = factory.createEntityManager();
-      try {
-        // read the entity inserted by SQL
-        this.template.execute(status -> {
-          ZonedDateTime inserted = getInsertedValue(jpaConfiguration);
-          ZonedDateTime earlier = inserted.withZoneSameInstant(ZoneId.of("Europe/Moscow"))
-                  .minusHours(1L);
+      // read the entity inserted by SQL
+      this.template.execute(status -> {
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
+        ZonedDateTime inserted = this.getInsertedValue(jpaConfiguration);
+        ZonedDateTime earlier = inserted.withZoneSameInstant(ZoneId.of("Europe/Moscow"))
+                .minusHours(1L);
 
-          CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-          CriteriaQuery<JavaTime42Zoned> query = builder.createQuery(JavaTime42Zoned.class);
-          Root<JavaTime42Zoned> root = query.from(JavaTime42Zoned.class);
-          CriteriaQuery<JavaTime42Zoned> beforeTwelfeFive = query.where(
-                  builder.lessThan(root.get(JavaTime42Zoned_.zonedDateTime), earlier));
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<JavaTime42Zoned> query = builder.createQuery(JavaTime42Zoned.class);
+        Root<JavaTime42Zoned> root = query.from(JavaTime42Zoned.class);
+        CriteriaQuery<JavaTime42Zoned> beforeTwelfeFive = query.where(
+                builder.lessThan(root.get(JavaTime42Zoned_.zonedDateTime), earlier));
 
-          List<JavaTime42Zoned> result = entityManager.createQuery(beforeTwelfeFive).getResultList();
+        List<JavaTime42Zoned> result = entityManager.createQuery(beforeTwelfeFive).getResultList();
 
-          assertThat(result, empty());
+        assertThat(result, empty());
 
-          return null;
-        });
-      } finally {
-        entityManager.close();
-        // EntityManagerFactory should be closed by spring.
-      }
+        return null;
+      });
     } finally {
       this.tearDown(jpaConfiguration, persistenceUnitName);
     }
@@ -196,26 +180,21 @@ public class ZonedDateTimeTypeTest {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
-      EntityManager entityManager = factory.createEntityManager();
-      try {
-        // read the entity inserted by SQL
-        this.template.execute(status -> {
-          ZonedDateTime inserted = getInsertedValue(jpaConfiguration);
-          ZonedDateTime earlier = inserted.withZoneSameInstant(ZoneId.of("Europe/Moscow"))
-                  .minusHours(1L);
-          Query query = entityManager.createNativeQuery("SELECT * FROM JAVA_TIME_42_ZONED t WHERE t.timestamp_utc < ?1",
-                  JavaTime42Zoned.class);
-          query.setParameter(1, earlier.toOffsetDateTime().atZoneSameInstant(ZoneOffset.UTC));
-          List<?> result = query.getResultList();
+      // read the entity inserted by SQL
+      this.template.execute(status -> {
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
+        ZonedDateTime inserted = this.getInsertedValue(jpaConfiguration);
+        ZonedDateTime earlier = inserted.withZoneSameInstant(ZoneId.of("Europe/Moscow"))
+                .minusHours(1L);
+        Query query = entityManager.createNativeQuery("SELECT * FROM JAVA_TIME_42_ZONED t WHERE t.timestamp_utc < ?1",
+                JavaTime42Zoned.class);
+        query.setParameter(1, earlier.toOffsetDateTime().atZoneSameInstant(ZoneOffset.UTC));
+        List<?> result = query.getResultList();
 
-          assertThat(result, empty());
+        assertThat(result, empty());
 
-          return null;
-        });
-      } finally {
-        entityManager.close();
-        // EntityManagerFactory should be closed by spring.
-      }
+        return null;
+      });
     } finally {
       this.tearDown(jpaConfiguration, persistenceUnitName);
     }
@@ -228,25 +207,20 @@ public class ZonedDateTimeTypeTest {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
-      EntityManager entityManager = factory.createEntityManager();
-      try {
-        // read the entity inserted by SQL
-        this.template.execute(status -> {
-          ZonedDateTime inserted = getInsertedValue(jpaConfiguration);
-          TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
-                  "SELECT t FROM JavaTime42Zoned t WHERE t.zonedDateTime = :value", JavaTime42Zoned.class);
-          query.setParameter("value", inserted);
-          List<JavaTime42Zoned> result = query.getResultList();
+      // read the entity inserted by SQL
+      this.template.execute(status -> {
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
+        ZonedDateTime inserted = this.getInsertedValue(jpaConfiguration);
+        TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
+                "SELECT t FROM JavaTime42Zoned t WHERE t.zonedDateTime = :value", JavaTime42Zoned.class);
+        query.setParameter("value", inserted);
+        List<JavaTime42Zoned> result = query.getResultList();
 
-          assertThat(result, hasSize(1));
-          assertEquals(inserted, result.get(0).getZonedDateTime());
+        assertThat(result, hasSize(1));
+        assertEquals(inserted, result.get(0).getZonedDateTime());
 
-          return null;
-        });
-      } finally {
-        entityManager.close();
-        // EntityManagerFactory should be closed by spring.
-      }
+        return null;
+      });
     } finally {
       this.tearDown(jpaConfiguration, persistenceUnitName);
     }
@@ -259,22 +233,17 @@ public class ZonedDateTimeTypeTest {
     try {
       // https://hibernate.atlassian.net/browse/HHH-7302
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
-      EntityManager entityManager = factory.createEntityManager();
-      try {
-        // read the entity inserted by SQL
-        this.template.execute(status -> {
-          TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
-                  "SELECT t FROM JavaTime42Zoned t ORDER BY t.zonedDateTime.timestamp_utc", JavaTime42Zoned.class);
-          List<JavaTime42Zoned> result = query.getResultList();
+      // read the entity inserted by SQL
+      this.template.execute(status -> {
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
+        TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
+                "SELECT t FROM JavaTime42Zoned t ORDER BY t.zonedDateTime.timestamp_utc", JavaTime42Zoned.class);
+        List<JavaTime42Zoned> result = query.getResultList();
 
-          assertThat(result, hasSize(1));
+        assertThat(result, hasSize(1));
 
-          return null;
-        });
-      } finally {
-        entityManager.close();
-        // EntityManagerFactory should be closed by spring.
-      }
+        return null;
+      });
     } finally {
       this.tearDown(jpaConfiguration, persistenceUnitName);
     }
@@ -286,34 +255,32 @@ public class ZonedDateTimeTypeTest {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
-      EntityManager entityManager = factory.createEntityManager();
-      try {
-        // insert a new entity into the database
-        BigInteger newId = new BigInteger("3");
-        ZonedDateTime newZoned = ZonedDateTime.now();
+      // insert a new entity into the database
+      BigInteger newId = new BigInteger("3");
+      ZonedDateTime newZoned = ZonedDateTime.now().withNano(123_456_789);
 
-        this.template.execute(status -> {
-          JavaTime42Zoned toInsert = new JavaTime42Zoned();
-          toInsert.setId(newId);
-          toInsert.setZonedDateTime(newZoned);
-          entityManager.persist(toInsert);
-          // the transaction should trigger a flush and write to the database
-          return null;
-        });
+      this.template.execute(status -> {
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
+        JavaTime42Zoned toInsert = new JavaTime42Zoned();
+        toInsert.setId(newId);
+        toInsert.setZonedDateTime(newZoned);
+        entityManager.persist(toInsert);
+        status.flush();
+        // the transaction should trigger a flush and write to the database
+        return null;
+      });
 
-        // validate the new entity inserted into the database
-        this.template.execute(status -> {
-          JavaTime42Zoned readBack = entityManager.find(JavaTime42Zoned.class, newId);
-          assertNotNull(readBack);
-          assertEquals(newId, readBack.getId());
-          assertEquals(newZoned, readBack.getZonedDateTime());
-          entityManager.remove(readBack);
-          return null;
-        });
-      } finally {
-        entityManager.close();
-        // EntityManagerFactory should be closed by spring.
-      }
+      // validate the new entity inserted into the database
+      this.template.execute(status -> {
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
+        JavaTime42Zoned readBack = entityManager.find(JavaTime42Zoned.class, newId);
+        assertNotNull(readBack);
+        assertEquals(newId, readBack.getId());
+        assertEquals(newZoned, readBack.getZonedDateTime());
+        entityManager.remove(readBack);
+        status.flush();
+        return null;
+      });
     } finally {
       this.tearDown(jpaConfiguration, persistenceUnitName);
     }

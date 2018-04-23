@@ -34,6 +34,7 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
+import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -123,66 +124,66 @@ public class ConverterTest {
   public void runTest(Class<?> datasourceConfiguration, Class<?> jpaConfiguration, String persistenceUnitName) {
     this.setUp(datasourceConfiguration, jpaConfiguration, persistenceUnitName);
     try {
-      mysqlHack(persistenceUnitName);
+      this.mysqlHack(persistenceUnitName);
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
-      EntityManager entityManager = factory.createEntityManager();
-      try {
-        // read the entity inserted by SQL
-        this.template.execute((s) -> {
-          TypedQuery<JavaTime> query = entityManager.createQuery("SELECT t FROM JavaTime t ORDER BY t.id ASC", JavaTime.class);
-          List<JavaTime> resultList = query.getResultList();
-          assertThat(resultList, hasSize(2));
+      // read the entity inserted by SQL
+      this.template.execute(status -> {
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
+        TypedQuery<JavaTime> query = entityManager.createQuery("SELECT t FROM JavaTime t ORDER BY t.id ASC", JavaTime.class);
+        List<JavaTime> resultList = query.getResultList();
+        assertThat(resultList, hasSize(2));
 
-          // validate the entity inserted by SQL
-          JavaTime javaTime = resultList.get(0);
-          assertEquals(LocalTime.parse("15:09:02"), javaTime.getLocalTime());
-          assertEquals(LocalDate.parse("1988-12-25"), javaTime.getLocalDate());
-          if (datasourceConfiguration.getName().contains("Hsql")) {
-            assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123456"), javaTime.getLocalDateTime());
-          } else if (datasourceConfiguration.getName().contains("Postgres")) {
-            assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123457"), javaTime.getLocalDateTime());
-          } else if (datasourceConfiguration.getName().contains("SqlServer")) {
-            assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.1234568"), javaTime.getLocalDateTime());
-          } else if (datasourceConfiguration.getName().contains("Mysql")) {
-            // version in Travis is older than the sin
-            assertEquals(LocalDateTime.parse("1980-01-01T23:03:20"), javaTime.getLocalDateTime());
-          } else {
-            assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123456789"), javaTime.getLocalDateTime());
-          }
-          return null;
-        });
+        // validate the entity inserted by SQL
+        JavaTime javaTime = resultList.get(0);
+        assertEquals(LocalTime.parse("15:09:02"), javaTime.getLocalTime());
+        assertEquals(LocalDate.parse("1988-12-25"), javaTime.getLocalDate());
+        if (datasourceConfiguration.getName().contains("Hsql")) {
+          assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123456"), javaTime.getLocalDateTime());
+        } else if (datasourceConfiguration.getName().contains("Postgres")) {
+          assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123457"), javaTime.getLocalDateTime());
+        } else if (datasourceConfiguration.getName().contains("SqlServer")) {
+          assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.1234568"), javaTime.getLocalDateTime());
+        } else if (datasourceConfiguration.getName().contains("Mysql")) {
+          // version in Travis is older than the sin
+          assertEquals(LocalDateTime.parse("1980-01-01T23:03:20"), javaTime.getLocalDateTime());
+        } else {
+          assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123456789"), javaTime.getLocalDateTime());
+        }
+        return null;
+      });
 
-        // insert a new entity into the database
-        BigInteger newId = new BigInteger("3");
-        LocalTime newTime = LocalTime.now();
-        LocalDate newDate = LocalDate.now();
-        LocalDateTime newDateTime = LocalDateTime.now();
+      // insert a new entity into the database
+      BigInteger newId = new BigInteger("3");
+      LocalTime newTime = LocalTime.now().withNano(123_456_789);
+      LocalDate newDate = LocalDate.now();
+      LocalDateTime newDateTime = LocalDateTime.now().withNano(123_456_789);
 
-        this.template.execute((s) -> {
-          JavaTime toInsert = new JavaTime();
-          toInsert.setId(newId);
-          toInsert.setLocalDate(newDate);
-          toInsert.setLocalTime(newTime);
-          toInsert.setLocalDateTime(newDateTime);
-          entityManager.persist(toInsert);
-          // the transaction should trigger a flush and write to the database
-          return null;
-        });
+      this.template.execute(status -> {
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
+        JavaTime toInsert = new JavaTime();
+        toInsert.setId(newId);
+        toInsert.setLocalDate(newDate);
+        toInsert.setLocalTime(newTime);
+        toInsert.setLocalDateTime(newDateTime);
+        entityManager.persist(toInsert);
+        status.flush();
+        // the transaction should trigger a flush and write to the database
+        return null;
+      });
 
-        // validate the new entity inserted into the database
-        this.template.execute((s) -> {
-          JavaTime readBack = entityManager.find(JavaTime.class, newId);
-          assertNotNull(readBack);
-          assertEquals(newId, readBack.getId());
-          assertEquals(newTime, readBack.getLocalTime());
-          assertEquals(newDate, readBack.getLocalDate());
-          assertEquals(newDateTime, readBack.getLocalDateTime());
-          entityManager.remove(readBack);
-          return null;
-        });
-      } finally {
-        entityManager.close();
-      }
+      // validate the new entity inserted into the database
+      this.template.execute(status -> {
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
+        JavaTime readBack = entityManager.find(JavaTime.class, newId);
+        assertNotNull(readBack);
+        assertEquals(newId, readBack.getId());
+        assertEquals(newTime, readBack.getLocalTime());
+        assertEquals(newDate, readBack.getLocalDate());
+        assertEquals(newDateTime, readBack.getLocalDateTime());
+        entityManager.remove(readBack);
+        status.flush();
+        return null;
+      });
     } finally {
       this.tearDown();
     }
