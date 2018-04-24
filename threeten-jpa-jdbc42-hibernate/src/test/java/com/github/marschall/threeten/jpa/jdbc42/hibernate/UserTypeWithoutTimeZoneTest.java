@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 import java.math.BigInteger;
 import java.sql.Connection;
@@ -45,7 +46,7 @@ public class UserTypeWithoutTimeZoneTest {
     parameters.add(Arguments.of(LocalMysqlConfiguration.class, "threeten-jpa-hibernate-mysql", ChronoUnit.MICROS));
     parameters.add(Arguments.of(LocalH2Configuration.class, "threeten-jpa-hibernate-h2", ChronoUnit.NANOS));
     // parameters.add(Arguments.of(LocalDerbyConfiguration.class, "threeten-jpa-hibernate-derby", ChronoUnit.NANOS));
-    // parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", ChronoUnit.MICROS));
+//     parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", ChronoUnit.MICROS));
     parameters.add(Arguments.of(LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres", ChronoUnit.MICROS));
     return parameters;
   }
@@ -75,7 +76,7 @@ public class UserTypeWithoutTimeZoneTest {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void runTest(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
+  public void read(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
 
@@ -94,6 +95,21 @@ public class UserTypeWithoutTimeZoneTest {
         assertEquals(LocalDateTime.parse("2016-03-27T02:55:00.123456789").truncatedTo(resolution), javaTime.getLocalDateTime());
         return null;
       });
+
+    } finally {
+      this.tearDown();
+    }
+  }
+
+  @ParameterizedTest
+  @MethodSource("parameters")
+  public void readAndWrite(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
+    assumeFalse(persistenceUnitName.endsWith("-hsql"));
+    assumeFalse(persistenceUnitName.endsWith("-mysql"));
+    this.setUp(jpaConfiguration, persistenceUnitName);
+    try {
+
+      EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
 
       // insert a new entity into the database
       BigInteger newId = BigInteger.valueOf(3L);

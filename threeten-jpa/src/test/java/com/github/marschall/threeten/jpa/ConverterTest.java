@@ -126,7 +126,7 @@ public class ConverterTest {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void runTest(Class<?> datasourceConfiguration, Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
+  public void read(Class<?> datasourceConfiguration, Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
     this.setUp(datasourceConfiguration, jpaConfiguration, persistenceUnitName);
     try {
       this.mysqlHack(persistenceUnitName);
@@ -145,6 +145,19 @@ public class ConverterTest {
         assertEquals(LocalDateTime.parse("1980-01-01T23:03:20.123456789").truncatedTo(resolution), javaTime.getLocalDateTime());
         return null;
       });
+
+    } finally {
+      this.tearDown();
+    }
+  }
+
+  @ParameterizedTest
+  @MethodSource("parameters")
+  public void readAndWrite(Class<?> datasourceConfiguration, Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
+    this.setUp(datasourceConfiguration, jpaConfiguration, persistenceUnitName);
+    try {
+      this.mysqlHack(persistenceUnitName);
+      EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
 
       // insert a new entity into the database
       BigInteger newId = BigInteger.valueOf(3L);

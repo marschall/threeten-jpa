@@ -63,7 +63,7 @@ public class OracleConverterTest {
   }
 
   @Test
-  public void runTest(Class<?> jpaConfiguration, String persistenceUnitName) {
+  public void read(Class<?> jpaConfiguration, String persistenceUnitName) {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
@@ -80,6 +80,16 @@ public class OracleConverterTest {
         assertEquals(LocalDateTime.parse("1960-01-01T23:03:20"), javaTime.getLocalDateTime());
         return null;
       });
+    } finally {
+      this.tearDown();
+    }
+  }
+
+  @Test
+  public void readAndWrite(Class<?> jpaConfiguration, String persistenceUnitName) {
+    this.setUp(jpaConfiguration, persistenceUnitName);
+    try {
+      EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
 
       // insert a new entity into the database
       BigInteger newId = BigInteger.valueOf(2L);
