@@ -8,7 +8,6 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -17,14 +16,9 @@ import javax.persistence.criteria.Root;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionOperations;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import com.github.marschall.threeten.jpa.h2.configuration.LocalH2Configuration;
 
@@ -34,9 +28,9 @@ public class H2Test {
 
   @PersistenceContext
   private EntityManager entityManager;
-  
+
   @Autowired
-  private PlatformTransactionManager txManager;
+  private TransactionOperations transactionTemplate;
 
   @Test
   public void readFirstRow() {
@@ -109,28 +103,26 @@ public class H2Test {
     assertEquals(expectedOffset, entity.getOffsetDateTime());
 
   }
-  
+
   @Test
   public void persist() {
-    TransactionDefinition transactionDefinition = new DefaultTransactionDefinition(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
-    TransactionOperations transactionTemplate = new TransactionTemplate(this.txManager, transactionDefinition);
     BigInteger id = BigInteger.valueOf(3L);
-    
+
     OffsetDateTime offsetDateTime = OffsetDateTime.parse("2018-04-24T14:53:56.123456789-02:30");
     JavaTime42WithZone thirdRow = new JavaTime42WithZone();
     thirdRow.setId(id);
     thirdRow.setOffsetDateTime(offsetDateTime);
-    
-    transactionTemplate.execute(status -> {
+
+    this.transactionTemplate.execute(status -> {
       this.entityManager.persist(thirdRow);
       status.flush();
       return null;
     });
-    
-    JavaTime42WithZone readBack = transactionTemplate.execute(status -> {
+
+    JavaTime42WithZone readBack = this.transactionTemplate.execute(status -> {
       return this.entityManager.find(JavaTime42WithZone.class, id);
     });
-    
+
     assertNotSame(thirdRow, readBack);
     assertNotSame(thirdRow.getOffsetDateTime(), readBack.getOffsetDateTime());
     assertEquals(thirdRow.getOffsetDateTime(), readBack.getOffsetDateTime());

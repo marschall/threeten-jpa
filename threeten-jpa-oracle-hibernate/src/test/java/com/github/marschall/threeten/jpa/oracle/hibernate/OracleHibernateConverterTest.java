@@ -1,7 +1,7 @@
 package com.github.marschall.threeten.jpa.oracle.hibernate;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.junit.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -13,17 +13,16 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.transaction.support.TransactionOperations;
 
 @Transactional
 @SpringJUnitConfig(LocalOracleConfiguration.class)
@@ -31,23 +30,17 @@ import org.springframework.transaction.support.TransactionTemplate;
 public class OracleHibernateConverterTest {
 
   @Autowired
-  private PlatformTransactionManager txManager;
+  private EntityManagerFactory entityManagerFactory;
 
-  @PersistenceContext
-  private EntityManager entityManager;
-
-  private TransactionTemplate template;
-
-  @BeforeEach
-  public void setUp() {
-    this.template = new TransactionTemplate(this.txManager);
-  }
+  @Autowired
+  private TransactionOperations template;
 
   @Test
   public void read() {
     // read the entity inserted by SQL
     this.template.execute(status -> {
-      TypedQuery<JavaTimeWithZone> query = this.entityManager.createQuery("SELECT t FROM JavaTimeWithZone t", JavaTimeWithZone.class);
+      EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(this.entityManagerFactory);
+      TypedQuery<JavaTimeWithZone> query = entityManager.createQuery("SELECT t FROM JavaTimeWithZone t", JavaTimeWithZone.class);
       List<JavaTimeWithZone> resultList = query.getResultList();
       assertThat(resultList, hasSize(1));
 
@@ -64,8 +57,6 @@ public class OracleHibernateConverterTest {
 
   @Test
   public void insert() {
-    try {
-
       // insert a new entity into the database
       BigInteger newId = BigInteger.valueOf(2L);
       ZonedDateTime newZoned = ZonedDateTime.now().withNano(123_456_789);
@@ -74,33 +65,31 @@ public class OracleHibernateConverterTest {
       Duration newDuration = Duration.parse("P321456789DT23H55M10.123456789S");
 
       this.template.execute(status -> {
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(this.entityManagerFactory);
         JavaTimeWithZone toInsert = new JavaTimeWithZone();
         toInsert.setId(newId);
         toInsert.setZoned(newZoned);
         toInsert.setOffset(newOffset);
         toInsert.setPeriod(newPeriod);
         toInsert.setDuration(newDuration);
-        this.entityManager.persist(toInsert);
+        entityManager.persist(toInsert);
         // the transaction should trigger a flush and write to the database
         return null;
       });
 
       // validate the new entity inserted into the database
       this.template.execute(status -> {
-        JavaTimeWithZone readBack = this.entityManager.find(JavaTimeWithZone.class, newId);
+        EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(this.entityManagerFactory);
+        JavaTimeWithZone readBack = entityManager.find(JavaTimeWithZone.class, newId);
         assertNotNull(readBack);
         assertEquals(newId, readBack.getId());
         assertEquals(newZoned, readBack.getZoned());
         assertEquals(newOffset, readBack.getOffset());
         assertEquals(newPeriod, readBack.getPeriod());
         assertEquals(newDuration, readBack.getDuration());
-        this.entityManager.remove(readBack);
+        entityManager.remove(readBack);
         return null;
       });
-    } finally {
-      this.entityManager.close();
-      // EntityManagerFactory should be closed by spring.
-    }
   }
 
 }

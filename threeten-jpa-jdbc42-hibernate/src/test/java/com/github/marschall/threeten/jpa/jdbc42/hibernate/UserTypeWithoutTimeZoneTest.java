@@ -27,8 +27,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.transaction.support.TransactionOperations;
 
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalH2Configuration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalHsqlConfiguration;
@@ -38,7 +37,7 @@ import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalPos
 public class UserTypeWithoutTimeZoneTest {
 
   private AnnotationConfigApplicationContext applicationContext;
-  private TransactionTemplate template;
+  private TransactionOperations template;
 
   public static List<Arguments> parameters() {
     List<Arguments> parameters = new ArrayList<>();
@@ -54,8 +53,7 @@ public class UserTypeWithoutTimeZoneTest {
   private void setUp(Class<?> jpaConfiguration, String persistenceUnitName) {
     this.applicationContext = new AnnotationConfigApplicationContext(jpaConfiguration);
 
-    PlatformTransactionManager txManager = this.applicationContext.getBean(PlatformTransactionManager.class);
-    this.template = new TransactionTemplate(txManager);
+    this.template = this.applicationContext.getBean(TransactionOperations.class);
 
     this.template.execute(status -> {
       Map<String, DatabasePopulator> beans = this.applicationContext.getBeansOfType(DatabasePopulator.class);

@@ -31,15 +31,12 @@ import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.transaction.support.TransactionOperations;
 
 @Disabled("needs oracle database")
 public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4SpringContextTests {
 
-  private PlatformTransactionManager txManager;
-
-  private TransactionTemplate template;
+  private TransactionOperations template;
 
   private AnnotationConfigApplicationContext applicationContext;
 
@@ -52,8 +49,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
     propertySources.addFirst(new MapPropertySource("persistence unit name", source));
     this.applicationContext.refresh();
 
-    this.txManager = this.applicationContext.getBean(PlatformTransactionManager.class);
-    this.template = new TransactionTemplate(this.txManager);
+    this.template = this.applicationContext.getBean(TransactionOperations.class);
   }
 
   @ParameterizedTest

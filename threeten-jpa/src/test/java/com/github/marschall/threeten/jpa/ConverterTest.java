@@ -37,8 +37,7 @@ import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.transaction.support.TransactionOperations;
 
 import com.github.marschall.threeten.jpa.configuration.EclipseLinkConfiguration;
 import com.github.marschall.threeten.jpa.configuration.HibernateConfiguration;
@@ -59,7 +58,7 @@ public class ConverterTest {
   private static final TemporalUnit TIME_RESOLUTION = ChronoUnit.SECONDS;
 
   private AnnotationConfigApplicationContext applicationContext;
-  private TransactionTemplate template;
+  private TransactionOperations template;
 
   public static List<Arguments> parameters() {
     List<Arguments> parameters = new ArrayList<>();
@@ -91,8 +90,7 @@ public class ConverterTest {
     propertySources.addFirst(new MapPropertySource("persistence unit name", source));
     this.applicationContext.refresh();
 
-    PlatformTransactionManager txManager = this.applicationContext.getBean(PlatformTransactionManager.class);
-    this.template = new TransactionTemplate(txManager);
+    this.template = this.applicationContext.getBean(TransactionOperations.class);
 
     this.template.execute(status -> {
       Map<String, DatabasePopulator> beans = this.applicationContext.getBeansOfType(DatabasePopulator.class);

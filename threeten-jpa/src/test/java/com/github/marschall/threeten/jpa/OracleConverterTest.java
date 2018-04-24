@@ -26,8 +26,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.transaction.support.TransactionOperations;
 
 import com.github.marschall.threeten.jpa.configuration.EclipseLinkConfiguration;
 import com.github.marschall.threeten.jpa.configuration.HibernateConfiguration;
@@ -38,7 +37,7 @@ import com.github.marschall.threeten.jpa.test.configuration.TransactionManagerCo
 public class OracleConverterTest {
 
   private AnnotationConfigApplicationContext applicationContext;
-  private TransactionTemplate template;
+  private TransactionOperations template;
 
   public static Stream<Arguments> parameters() {
     return Stream.of(
@@ -56,8 +55,7 @@ public class OracleConverterTest {
     propertySources.addFirst(new MapPropertySource("persistence unit name", source));
     this.applicationContext.refresh();
 
-    PlatformTransactionManager txManager = this.applicationContext.getBean(PlatformTransactionManager.class);
-    this.template = new TransactionTemplate(txManager);
+    this.template = this.applicationContext.getBean(TransactionOperations.class);
   }
 
   private void tearDown() {
