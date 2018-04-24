@@ -98,7 +98,7 @@ public class UserTypeWithoutTimeZoneTest {
       });
 
       // insert a new entity into the database
-      BigInteger newId = new BigInteger("3");
+      BigInteger newId = BigInteger.valueOf(3L);
       LocalTime newLocalTime = LocalTime.now().withNano(123_456_789).truncatedTo(resolution);
       LocalDate newLocalDate = LocalDate.now();
       LocalDateTime newLocalDateTime = LocalDateTime.now().withNano(123_456_789).truncatedTo(resolution);

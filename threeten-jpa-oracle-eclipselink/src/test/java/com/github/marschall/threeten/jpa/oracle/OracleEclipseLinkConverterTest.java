@@ -67,7 +67,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
     EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
     this.template.execute(status -> {
       EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
-      OracleJavaTime firstRow = entityManager.find(OracleJavaTime.class, new BigInteger("1"));
+      OracleJavaTime firstRow = entityManager.find(OracleJavaTime.class, BigInteger.valueOf(1L));
 
       ZoneOffset zoneOffset = ZoneOffset.ofHoursMinutes(2, 0);
       OffsetDateTime expectedOffset = OffsetDateTime.of(1997, 1, 31, 9, 26, 56, 660000000, zoneOffset);
@@ -97,7 +97,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
     EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
     this.template.execute(status -> {
       EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
-      OracleJavaTime secondRow = entityManager.find(OracleJavaTime.class, new BigInteger("2"));
+      OracleJavaTime secondRow = entityManager.find(OracleJavaTime.class, BigInteger.valueOf(2L));
       ZoneOffset zoneOffset = ZoneOffset.ofHoursMinutes(-3, -30);
       OffsetDateTime expectedOffset = OffsetDateTime.of(1999, 1, 15, 8, 26, 56, 660000000, zoneOffset);
       assertEquals(expectedOffset, secondRow.getOffsetDateTime());
@@ -123,7 +123,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
   public void insert(String persistenceUnitName) {
     this.setUp(persistenceUnitName);
       // insert a new entity into the database
-      BigInteger newId = new BigInteger("3");
+      BigInteger newId = BigInteger.valueOf(3L);
       ZoneOffset offset = ZoneOffset.ofHoursMinutes(2, 0);
       ZoneId zoneId = ZoneId.of("Europe/Berlin");
       LocalDateTime localDateTime = LocalDateTime.of(2014, 4, 27, 22, 24, 30, 0);
@@ -190,7 +190,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
       OracleJavaTime oracleJavaTime = entityManager.createQuery(beforeTwelfeFive).getSingleResult();
       assertNotNull(oracleJavaTime);
 
-      assertEquals(new BigInteger("1"), oracleJavaTime.getId());
+      assertEquals(BigInteger.valueOf(1L), oracleJavaTime.getId());
 
       ZoneOffset zoneOffset = ZoneOffset.ofHoursMinutes(2, 0);
       OffsetDateTime expectedOffset = OffsetDateTime.of(1997, 1, 31, 9, 26, 56, 660000000, zoneOffset);

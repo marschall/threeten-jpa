@@ -149,7 +149,7 @@ public class ConverterTest {
       });
 
       // insert a new entity into the database
-      BigInteger newId = new BigInteger("3");
+      BigInteger newId = BigInteger.valueOf(3L);
       LocalTime newTime = LocalTime.now().withNano(123_456_789).truncatedTo(TIME_RESOLUTION);
       LocalDate newDate = LocalDate.now();
       LocalDateTime newDateTime = LocalDateTime.now().withNano(123_456_789).truncatedTo(resolution);

@@ -256,7 +256,7 @@ public class ZonedDateTimeTypeTest {
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
       // insert a new entity into the database
-      BigInteger newId = new BigInteger("3");
+      BigInteger newId = BigInteger.valueOf(3L);
       ZonedDateTime newZoned = ZonedDateTime.now().withNano(123_456_789);
 
       this.template.execute(status -> {

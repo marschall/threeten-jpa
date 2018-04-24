@@ -67,7 +67,7 @@ public class OracleHibernateConverterTest {
     try {
 
       // insert a new entity into the database
-      BigInteger newId = new BigInteger("2");
+      BigInteger newId = BigInteger.valueOf(2L);
       ZonedDateTime newZoned = ZonedDateTime.now().withNano(123_456_789);
       OffsetDateTime newOffset = OffsetDateTime.now().withNano(123_456_789);
       Period newPeriod = Period.of(123_567_789, 11, 0);

@@ -121,7 +121,7 @@ public class UserTypeWithTimeZoneTest {
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
       // insert a new entity into the database
-      BigInteger newId = new BigInteger("3");
+      BigInteger newId = BigInteger.valueOf(3L);
       OffsetDateTime newOffset;
       if (persistenceUnitName.endsWith("-postgres")) {
         // PostgreS only supports UTC

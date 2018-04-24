@@ -84,7 +84,7 @@ public class OracleConverterTest {
       });
 
       // insert a new entity into the database
-      BigInteger newId = new BigInteger("2");
+      BigInteger newId = BigInteger.valueOf(2L);
       LocalDate newDate = LocalDate.now();
       LocalDateTime newDateTime = LocalDateTime.now().withNano(123_456_789);
 
