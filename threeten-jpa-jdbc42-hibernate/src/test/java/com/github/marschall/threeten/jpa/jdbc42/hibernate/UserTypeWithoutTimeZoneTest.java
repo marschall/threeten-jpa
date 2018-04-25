@@ -32,6 +32,7 @@ import org.springframework.transaction.support.TransactionOperations;
 
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalH2Configuration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalHsqlConfiguration;
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalMariaDbConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalMysqlConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalPostgresConfiguration;
 
@@ -44,9 +45,10 @@ public class UserTypeWithoutTimeZoneTest {
     List<Arguments> parameters = new ArrayList<>();
     parameters.add(Arguments.of(LocalHsqlConfiguration.class, "threeten-jpa-hibernate-hsql", ChronoUnit.NANOS));
     parameters.add(Arguments.of(LocalMysqlConfiguration.class, "threeten-jpa-hibernate-mysql", ChronoUnit.MICROS));
+    parameters.add(Arguments.of(LocalMariaDbConfiguration.class, "threeten-jpa-hibernate-mariadb", ChronoUnit.MICROS));
     parameters.add(Arguments.of(LocalH2Configuration.class, "threeten-jpa-hibernate-h2", ChronoUnit.NANOS));
     // parameters.add(Arguments.of(LocalDerbyConfiguration.class, "threeten-jpa-hibernate-derby", ChronoUnit.NANOS));
-//     parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", ChronoUnit.MICROS));
+    // parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", ChronoUnit.MICROS));
     parameters.add(Arguments.of(LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres", ChronoUnit.MICROS));
     return parameters;
   }
@@ -105,7 +107,7 @@ public class UserTypeWithoutTimeZoneTest {
   @MethodSource("parameters")
   public void readAndWrite(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
     assumeFalse(persistenceUnitName.endsWith("-hsql"));
-    assumeFalse(persistenceUnitName.endsWith("-mysql"));
+//    assumeFalse(persistenceUnitName.endsWith("-mysql"));
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
 
@@ -136,7 +138,11 @@ public class UserTypeWithoutTimeZoneTest {
         JavaTime42 readBack = entityManager.find(JavaTime42.class, newId);
         assertNotNull(readBack);
         assertEquals(newId, readBack.getId());
-        assertEquals(newLocalTime, readBack.getLocalTime());
+        if (persistenceUnitName.endsWith("-mariadb")) {
+          assertEquals(newLocalTime.truncatedTo(ChronoUnit.SECONDS), readBack.getLocalTime());
+        } else {
+          assertEquals(newLocalTime, readBack.getLocalTime());
+        }
         assertEquals(newLocalDate, readBack.getLocalDate());
         assertEquals(newLocalDateTime, readBack.getLocalDateTime());
         entityManager.remove(readBack);

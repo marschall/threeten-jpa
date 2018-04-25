@@ -80,13 +80,13 @@ public class ZonedDateTimeTypeTest {
     this.applicationContext.close();
   }
 
-  private ZonedDateTime getInsertedValue(ChronoUnit resolution) {
+  private ZonedDateTime getInsertedValue(TemporalUnit resolution) {
     return ZonedDateTime.parse("1999-01-23T03:26:56.123456789-05:00[America/New_York]").truncatedTo(resolution);
   }
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void read(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
+  public void read(Class<?> jpaConfiguration, String persistenceUnitName, TemporalUnit resolution) {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
@@ -111,7 +111,7 @@ public class ZonedDateTimeTypeTest {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void readJpqlLessThan(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
+  public void readJpqlLessThan(Class<?> jpaConfiguration, String persistenceUnitName, TemporalUnit resolution) {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
@@ -139,7 +139,7 @@ public class ZonedDateTimeTypeTest {
   @ParameterizedTest
   @MethodSource("parameters")
   @Disabled("HHH-7302")
-  public void readCriteriaApiLessThan(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
+  public void readCriteriaApiLessThan(Class<?> jpaConfiguration, String persistenceUnitName, TemporalUnit resolution) {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
@@ -169,7 +169,7 @@ public class ZonedDateTimeTypeTest {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void readNativeLessThan(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
+  public void readNativeLessThan(Class<?> jpaConfiguration, String persistenceUnitName, TemporalUnit resolution) {
     // https://hibernate.atlassian.net/browse/HHH-7302
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
@@ -196,7 +196,7 @@ public class ZonedDateTimeTypeTest {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void readJpqlEqual(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
+  public void readJpqlEqual(Class<?> jpaConfiguration, String persistenceUnitName, TemporalUnit resolution) {
     // https://hibernate.atlassian.net/browse/HHH-7302
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
@@ -222,7 +222,7 @@ public class ZonedDateTimeTypeTest {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void orderJpql(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
+  public void orderJpql(Class<?> jpaConfiguration, String persistenceUnitName, TemporalUnit resolution) {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
       // https://hibernate.atlassian.net/browse/HHH-7302
@@ -245,7 +245,7 @@ public class ZonedDateTimeTypeTest {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void write(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
+  public void write(Class<?> jpaConfiguration, String persistenceUnitName, TemporalUnit resolution) {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);

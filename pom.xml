@@ -202,7 +202,17 @@
       <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
-        <version>6.0.6</version>
+        <version>8.0.11</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mariadb.jdbc</groupId>
+        <artifactId>mariadb-java-client</artifactId>
+        <version>2.2.3</version>
+      </dependency>
+      <dependency>
+        <groupId>org.firebirdsql.jdbc</groupId>
+        <artifactId>jaybird-jdk18</artifactId>
+        <version>3.0.3</version>
       </dependency>
       <dependency>
         <groupId>com.microsoft.sqlserver</groupId>

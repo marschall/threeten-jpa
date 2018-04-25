@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -73,7 +74,7 @@ public class UserTypeWithTimeZoneTest {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void read(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
+  public void read(Class<?> jpaConfiguration, String persistenceUnitName, TemporalUnit resolution) {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
