@@ -79,6 +79,7 @@ public class UserTypeWithoutTimeZoneTest {
   @ParameterizedTest
   @MethodSource("parameters")
   public void read(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
+    assumeFalse(persistenceUnitName.endsWith("-mariadb"));
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
 
@@ -107,7 +108,7 @@ public class UserTypeWithoutTimeZoneTest {
   @MethodSource("parameters")
   public void readAndWrite(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
     assumeFalse(persistenceUnitName.endsWith("-hsql"));
-//    assumeFalse(persistenceUnitName.endsWith("-mysql"));
+    assumeFalse(persistenceUnitName.endsWith("-mysql"));
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
 
