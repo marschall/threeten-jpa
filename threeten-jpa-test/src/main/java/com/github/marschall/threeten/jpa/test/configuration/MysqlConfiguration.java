@@ -1,5 +1,7 @@
 package com.github.marschall.threeten.jpa.test.configuration;
 
+import static com.github.marschall.threeten.jpa.test.Travis.isTravis;
+
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
@@ -21,13 +23,9 @@ public class MysqlConfiguration {
     // https://dev.mysql.com/doc/connector-j/6.0/en/connector-j-reference-configuration-properties.html
     dataSource.setUrl("jdbc:mysql://localhost:3306/" + database + "?useSSL=false&serverTimezone=UTC&logger=com.mysql.cj.log.Slf4JLogger");
     dataSource.setUsername(userName);
-    String password = this.isTravis() ? "" : userName;
+    String password = isTravis() ? "" : userName;
     dataSource.setPassword(password);
     return dataSource;
-  }
-
-  private boolean isTravis() {
-    return System.getenv().getOrDefault("TRAVIS", "false").equals("true");
   }
 
   @Bean

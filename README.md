@@ -37,7 +37,7 @@ Usage
 <dependency>
     <groupId>com.github.marschall</groupId>
     <artifactId>threeten-jpa</artifactId>
-    <version>1.10.0</version>
+    <version>1.11.0</version>
 </dependency>
 ```
 
@@ -74,14 +74,14 @@ Converters
 
 You can find a complete list of all converters in the Javadoc
 
- * [threeten-jpa](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa/1.10.0)
- * [threeten-jpa-jdbc42-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-jdbc42-hibernate/1.10.0)
- * [threeten-jpa-oracle-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-hibernate/1.10.0)
- * [threeten-jpa-oracle-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-eclipselink/1.10.0)
- * [threeten-jpa-h2-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-h2-eclipselink/1.10.0)
- * [threeten-jpa-mssql-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-mssql-eclipselink/1.10.0)
- * [threeten-jpa-mssql-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-mssql-hibernate/1.10.0)
- * [threeten-jpa-zoned-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-zoned-hibernate/1.10.0)
+ * [threeten-jpa](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa/1.11.0)
+ * [threeten-jpa-jdbc42-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-jdbc42-hibernate/1.11.0)
+ * [threeten-jpa-oracle-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-hibernate/1.11.0)
+ * [threeten-jpa-oracle-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-oracle-eclipselink/1.11.0)
+ * [threeten-jpa-h2-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-h2-eclipselink/1.11.0)
+ * [threeten-jpa-mssql-eclipselink](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-mssql-eclipselink/1.11.0)
+ * [threeten-jpa-mssql-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-mssql-hibernate/1.11.0)
+ * [threeten-jpa-zoned-hibernate](https://www.javadoc.io/doc/com.github.marschall/threeten-jpa-zoned-hibernate/1.11.0)
 
 Time Zone Support
 -----------------
@@ -129,11 +129,14 @@ OpenJPA does currently not yet support JPA 2.1.
 
 Tested with the following databases:
  * Derby
+ * Firebird
  * H2
  * HSQL
- * MySQL 5.7
- * Oracle 12.1c with the 12.1c driver
- * PostgreS 9.6
+ * MariaDB
+ * MySQL
+ * Oracle
+ * PostgreS
+ * SQL Server
 
 License
 -------
