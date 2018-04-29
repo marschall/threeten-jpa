@@ -20,7 +20,6 @@ import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -44,6 +43,7 @@ import com.github.marschall.threeten.jpa.configuration.EclipseLinkConfiguration;
 import com.github.marschall.threeten.jpa.configuration.HibernateConfiguration;
 import com.github.marschall.threeten.jpa.test.Travis;
 import com.github.marschall.threeten.jpa.test.configuration.DerbyConfiguration;
+import com.github.marschall.threeten.jpa.test.configuration.FirebirdConfiguration;
 import com.github.marschall.threeten.jpa.test.configuration.H2Configuration;
 import com.github.marschall.threeten.jpa.test.configuration.HsqlConfiguration;
 import com.github.marschall.threeten.jpa.test.configuration.MariaDbConfiguration;
@@ -68,17 +68,21 @@ public class ConverterTest {
     parameters.add(Arguments.of(H2Configuration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-h2", ChronoUnit.NANOS));
     parameters.add(Arguments.of(HsqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-hsql", ChronoUnit.NANOS));
     parameters.add(Arguments.of(MysqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-mysql", ChronoUnit.MICROS));
-    parameters.add(Arguments.of(MariaDbConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-mariadb", ChronoUnit.MICROS));
     parameters.add(Arguments.of(PostgresConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-postgres", ChronoUnit.MICROS));
     if (!Travis.isTravis()) {
+      parameters.add(Arguments.of(FirebirdConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-firebird", ChronoUnit.MILLIS));
+      parameters.add(Arguments.of(MariaDbConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-mariadb", ChronoUnit.MICROS));
       parameters.add(Arguments.of(SqlServerConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-sqlserver", ChronoUnit.MICROS));
     }
+
     parameters.add(Arguments.of(DerbyConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-derby", ChronoUnit.NANOS));
     parameters.add(Arguments.of(H2Configuration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-h2", ChronoUnit.NANOS));
     parameters.add(Arguments.of(HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql", ChronoUnit.NANOS));
     parameters.add(Arguments.of(MysqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-mysql", ChronoUnit.MICROS));
-    parameters.add(Arguments.of(MariaDbConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-mariadb", ChronoUnit.MICROS));
     if (!Travis.isTravis()) {
+      // for whatever reason the Hibernate tests don't see the table in the script
+//      parameters.add(Arguments.of(FirebirdConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-firebird", ChronoUnit.MILLIS));
+      parameters.add(Arguments.of(MariaDbConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-mariadb", ChronoUnit.MICROS));
       parameters.add(Arguments.of(SqlServerConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-sqlserver", ChronoUnit.MICROS));
     }
     parameters.add(Arguments.of(PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres", ChronoUnit.MICROS));

@@ -45,11 +45,15 @@ public class UserTypeWithoutTimeZoneTest {
     List<Arguments> parameters = new ArrayList<>();
     parameters.add(Arguments.of(LocalHsqlConfiguration.class, "threeten-jpa-hibernate-hsql", ChronoUnit.NANOS));
     parameters.add(Arguments.of(LocalMysqlConfiguration.class, "threeten-jpa-hibernate-mysql", ChronoUnit.MICROS));
+    // for whatever reason the firebird scripts can not see the table
+//    parameters.add(Arguments.of(LocalFirebirdConfiguration.class, "threeten-jpa-hibernate-firebird", ChronoUnit.MILLIS));
     parameters.add(Arguments.of(LocalMariaDbConfiguration.class, "threeten-jpa-hibernate-mariadb", ChronoUnit.MICROS));
     parameters.add(Arguments.of(LocalH2Configuration.class, "threeten-jpa-hibernate-h2", ChronoUnit.NANOS));
+    parameters.add(Arguments.of(LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres", ChronoUnit.MICROS));
+
+    // incomplete JDBC 4.2 support
     // parameters.add(Arguments.of(LocalDerbyConfiguration.class, "threeten-jpa-hibernate-derby", ChronoUnit.NANOS));
     // parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", ChronoUnit.MICROS));
-    parameters.add(Arguments.of(LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres", ChronoUnit.MICROS));
     return parameters;
   }
 

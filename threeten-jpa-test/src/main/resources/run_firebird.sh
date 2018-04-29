@@ -10,4 +10,4 @@ docker run -d \
     -e 'FIREBIRD_PASSWORD=Cent-Quick-Space-Bath-8' \
     -p 3050:3050 \
     -v $(pwd)/src/main/resources/firebird.conf:/var/firebird/etc/firebird.conf \
-    jacobalberty/firebird:3.0.3
+    jacobalberty/firebird:3.0.2
