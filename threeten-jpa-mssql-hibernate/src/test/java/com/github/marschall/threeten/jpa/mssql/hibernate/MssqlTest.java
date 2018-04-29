@@ -36,7 +36,7 @@ public class MssqlTest {
     JavaTime42WithZone firstRow = this.entityManager.find(JavaTime42WithZone.class, BigInteger.valueOf(1L));
 
     ZoneOffset zoneOffset = ZoneOffset.ofHoursMinutes(2, 30);
-    OffsetDateTime expectedOffset = OffsetDateTime.of(1960, 1, 1, 23, 3, 20, 123456700, zoneOffset);
+    OffsetDateTime expectedOffset = OffsetDateTime.of(1960, 1, 1, 23, 3, 20, 123456000, zoneOffset);
     assertEquals(expectedOffset, firstRow.getOffsetDateTime());
   }
 
@@ -44,7 +44,7 @@ public class MssqlTest {
   public void readSecondRow() {
     JavaTime42WithZone secondRow = this.entityManager.find(JavaTime42WithZone.class, BigInteger.valueOf(2L));
     ZoneOffset zoneOffset = ZoneOffset.ofHoursMinutes(-5, -30);
-    OffsetDateTime expectedOffset = OffsetDateTime.of(1999, 1, 23, 8, 26, 56, 123456700, zoneOffset);
+    OffsetDateTime expectedOffset = OffsetDateTime.of(1999, 1, 23, 8, 26, 56, 123456000, zoneOffset);
     assertEquals(expectedOffset, secondRow.getOffsetDateTime());
   }
 
@@ -62,7 +62,7 @@ public class MssqlTest {
     assertEquals(BigInteger.valueOf(1L), entity.getId());
 
     ZoneOffset zoneOffset = ZoneOffset.ofHoursMinutes(2, 30);
-    OffsetDateTime expectedOffset = OffsetDateTime.of(1960, 1, 1, 23, 3, 20, 123456700, zoneOffset);
+    OffsetDateTime expectedOffset = OffsetDateTime.of(1960, 1, 1, 23, 3, 20, 123456000, zoneOffset);
     assertEquals(expectedOffset, entity.getOffsetDateTime());
   }
 
@@ -79,7 +79,7 @@ public class MssqlTest {
     assertEquals(BigInteger.valueOf(1L), entity.getId());
 
     ZoneOffset zoneOffset = ZoneOffset.ofHoursMinutes(2, 30);
-    OffsetDateTime expectedOffset = OffsetDateTime.of(1960, 1, 1, 23, 3, 20, 123456700, zoneOffset);
+    OffsetDateTime expectedOffset = OffsetDateTime.of(1960, 1, 1, 23, 3, 20, 123456000, zoneOffset);
     assertEquals(expectedOffset, entity.getOffsetDateTime());
   }
 
@@ -98,7 +98,7 @@ public class MssqlTest {
     assertEquals(BigInteger.valueOf(1L), entity.getId());
 
     ZoneOffset zoneOffset = ZoneOffset.ofHoursMinutes(2, 30);
-    OffsetDateTime expectedOffset = OffsetDateTime.of(1960, 1, 1, 23, 3, 20, 123456700, zoneOffset);
+    OffsetDateTime expectedOffset = OffsetDateTime.of(1960, 1, 1, 23, 3, 20, 123456000, zoneOffset);
     assertEquals(expectedOffset, entity.getOffsetDateTime());
 
   }

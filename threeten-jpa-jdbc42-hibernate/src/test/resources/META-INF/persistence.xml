@@ -100,7 +100,7 @@
     <shared-cache-mode>NONE</shared-cache-mode>
 
     <properties>
-      <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDB53Dialect" />
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDB103Dialect" />
     </properties>
   </persistence-unit>
 
