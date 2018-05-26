@@ -39,17 +39,13 @@ public class HsqlTest extends AbstractTransactionalJUnit4SpringContextTests {
     try (Connection connection = this.dataSource.getConnection();
          PreparedStatement preparedStatement = connection.prepareStatement(
                  "SELECT TIMESTAMP '1960-01-01 23:03:20+05:00' "
-//                 "SELECT CAST('1960-01-01 23:03:20+05:00' AS TIMESTAMP WITH TIME ZONE) + INTERVAL '5:00' HOUR TO MINUTE "
-//                 "SELECT CAST('1960-01-01 23:03:20+05:00' AS TIMESTAMP WITH TIME ZONE) + TIMEZONE() "
-//                 "SELECT TIMESTAMP_WITH_ZONE(TIMESTAMP '1960-01-01 23:03:20') "
-//                 "SELECT TIMESTAMP '1960-01-01 23:03:20' AT TIME ZONE INTERVAL '2:00' HOUR TO MINUTE "
                + "FROM (VALUES(0))");
          ResultSet resultSet = preparedStatement.executeQuery()) {
 
       OffsetDateTime expected = OffsetDateTime.parse("1960-01-01T23:03:20+05:00");
       while (resultSet.next()) {
         assertEquals(expected, resultSet.getObject(1, OffsetDateTime.class));
-//        assertEquals("1960-01-01 23:03:20+02:00", resultSet.getObject(1, String.class));
+        assertEquals("1960-01-01 23:03:20+02:00", resultSet.getObject(1, String.class));
       }
     }
   }
@@ -68,9 +64,9 @@ public class HsqlTest extends AbstractTransactionalJUnit4SpringContextTests {
       try (PreparedStatement select = connection.prepareStatement("SELECT UUID_COLUMN FROM UUID_TEST");
            ResultSet resultSet = select.executeQuery()) {
         while (resultSet.next()) {
-//          assertEquals(uuid, resultSet.getObject(1, UUID.class));
+          assertEquals(uuid, resultSet.getObject(1, UUID.class));
           assertEquals(uuid.toString(), resultSet.getString(1));
-//          assertEquals(uuid.toString(), resultSet.getBytes(1));
+          assertEquals(uuid.toString(), resultSet.getBytes(1));
         }
       }
     }

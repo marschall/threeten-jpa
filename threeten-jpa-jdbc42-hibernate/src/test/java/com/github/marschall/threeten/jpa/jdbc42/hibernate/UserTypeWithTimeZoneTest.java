@@ -30,6 +30,7 @@ import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.transaction.support.TransactionOperations;
 
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalH2Configuration;
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalHsqlConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalPostgresConfiguration;
 
 public class UserTypeWithTimeZoneTest {
@@ -39,7 +40,7 @@ public class UserTypeWithTimeZoneTest {
 
   public static Stream<Arguments> parameters() {
     return Stream.of(
-//            Arguments.of(LocalHsqlConfiguration.class, "threeten-jpa-hibernate-hsql", ChronoUnit.NANOS),
+            Arguments.of(LocalHsqlConfiguration.class, "threeten-jpa-hibernate-hsql", ChronoUnit.NANOS),
 //            Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", ChronoUnit.MICROS),
 //            Arguments.of(LocalDerbyConfiguration.class, "threeten-jpa-hibernate-derby", ChronoUnit.NANOS),
             Arguments.of(LocalH2Configuration.class, "threeten-jpa-hibernate-h2", ChronoUnit.NANOS),

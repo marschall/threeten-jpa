@@ -115,7 +115,6 @@ public class UserTypeWithoutTimeZoneTest {
   @ParameterizedTest
   @MethodSource("parameters")
   public void readAndWrite(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
-    assumeFalse(persistenceUnitName.endsWith("-hsql"));
     assumeFalse(persistenceUnitName.endsWith("-mysql"));
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
