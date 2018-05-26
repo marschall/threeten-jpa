@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.github.marschall</groupId>
     <artifactId>threeten-jpa-master</artifactId>
-    <version>1.10.1-SNAPSHOT</version>
+    <version>1.12-SNAPSHOT</version>
   </parent>
   <artifactId>threeten-jpa</artifactId>
   <name>ThreeTen-JPA</name>
@@ -118,6 +118,16 @@
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mariadb.jdbc</groupId>
+      <artifactId>mariadb-java-client</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.firebirdsql.jdbc</groupId>
+      <artifactId>jaybird-jdk18</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>

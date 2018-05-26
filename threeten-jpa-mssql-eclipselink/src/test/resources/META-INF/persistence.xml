@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/persistence/persistence_2_1.xsd">
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/persistence/persistence_2_2.xsd">
 
-    <persistence-unit name="threeten-jpa-eclipselink-mssql">
-        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        
-        <class>com.github.marschall.threeten.jpa.mssql.eclipselink.JavaTime42WithZone_</class>
-        
-        <class>com.github.marschall.threeten.jpa.mssql.eclipselink.MssqlOffsetDateTimeConverter</class>
-        
-        <properties>
-          <property name="eclipselink.target-database" value="SQLServer"/>
-          <property name="eclipselink.weaving" value="false"/>
-          <property name="eclipselink.logging.logger" value="org.eclipse.persistence.logging.slf4j.SLF4JLogger"/>
-        </properties>
-    </persistence-unit>
-    
+  <persistence-unit name="threeten-jpa-eclipselink-mssql" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+    <class>com.github.marschall.threeten.jpa.mssql.eclipselink.JavaTime42WithZone_</class>
+
+    <class>com.github.marschall.threeten.jpa.mssql.eclipselink.MssqlOffsetDateTimeConverter</class>
+
+    <shared-cache-mode>NONE</shared-cache-mode>
+
+    <properties>
+      <property name="eclipselink.target-database" value="SQLServer" />
+      <property name="eclipselink.weaving" value="false" />
+      <!-- EclipseLink can't see it
+      <property name="eclipselink.logging.logger" value="org.eclipse.persistence.logging.slf4j.SLF4JLogger" />
+       -->
+    </properties>
+  </persistence-unit>
+
 </persistence>

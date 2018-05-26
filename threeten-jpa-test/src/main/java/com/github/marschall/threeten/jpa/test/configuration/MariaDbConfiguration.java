@@ -1,7 +1,5 @@
 package com.github.marschall.threeten.jpa.test.configuration;
 
-import static com.github.marschall.threeten.jpa.test.Travis.isTravis;
-
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
@@ -12,27 +10,24 @@ import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
 @Configuration
-public class MysqlConfiguration {
+public class MariaDbConfiguration {
 
   @Bean
   public DataSource dataSource() {
     SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
     dataSource.setSuppressClose(true);
-    String userName = System.getProperty("user.name");
-    String database = userName;
-    // https://dev.mysql.com/doc/connector-j/6.0/en/connector-j-reference-configuration-properties.html
-    dataSource.setUrl("jdbc:mysql://localhost:3306/" + database + "?useSSL=false&serverTimezone=UTC&logger=com.mysql.cj.log.Slf4JLogger");
-    dataSource.setUsername(userName);
-    String password = isTravis() ? "" : userName;
-    dataSource.setPassword(password);
+    // https://mariadb.com/kb/en/mariadb/about-mariadb-connector-j/
+    dataSource.setUrl("jdbc:mariadb://localhost:3307/jdbc?serverTimezone=UTC");
+    dataSource.setUsername("jdbc");
+    dataSource.setPassword("Cent-Quick-Space-Bath-8");
     return dataSource;
   }
 
   @Bean
   public DatabasePopulator databasePopulator() {
     return new ResourceDatabasePopulator(
-        new ClassPathResource("mysql-schema.sql"),
-        new ClassPathResource("mysql-data.sql"));
+        new ClassPathResource("mariadb-schema.sql"),
+        new ClassPathResource("mariadb-data.sql"));
   }
 
 }

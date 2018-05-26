@@ -60,10 +60,6 @@
  *  </thead>
  *  <tbody>
  *    <tr>
- *      <td>11g</td>
- *      <td>{@link com.github.marschall.threeten.jpa.oracle.PatchedOracle11Platform}</td>
- *    </tr>
- *    <tr>
  *      <td>12c</td>
  *      <td>{@link com.github.marschall.threeten.jpa.oracle.PatchedOracle12Platform}</td>
  *    </tr>

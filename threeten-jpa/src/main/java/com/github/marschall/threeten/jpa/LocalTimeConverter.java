@@ -11,6 +11,7 @@ import javax.persistence.Converter;
  *
  * @deprecated supported out of the box with JPA 2.2
  */
+@Deprecated
 @Converter(autoApply = true)
 public class LocalTimeConverter implements AttributeConverter<LocalTime, Time> {
   // mapping with java.util.Calendar breaks EclipseLink
