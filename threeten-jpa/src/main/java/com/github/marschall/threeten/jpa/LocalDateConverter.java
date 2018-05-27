@@ -11,8 +11,8 @@ import javax.persistence.Converter;
  *
  * @deprecated supported out of the box with JPA 2.2
  */
-@Converter(autoApply = true)
 @Deprecated
+@Converter(autoApply = true)
 public class LocalDateConverter implements AttributeConverter<LocalDate, Date> {
   // mapping with java.util.Calendar breaks EclipseLink
 
