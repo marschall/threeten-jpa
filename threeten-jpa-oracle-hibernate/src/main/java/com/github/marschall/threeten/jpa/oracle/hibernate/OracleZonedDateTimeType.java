@@ -10,7 +10,10 @@ import oracle.sql.TIMESTAMPTZ;
 
 /**
  * Type mapping {@link ZonedDateTime} to {@code TIMESTAMPTZ}.
+ *
+ * @deprecated use ojdbc8 18.3 and {@link com.github.marschall.threeten.jpa.jdbc42.hibernate.Jdbc42ZonedDateTimeType}.
  */
+@Deprecated
 public class OracleZonedDateTimeType extends AbstractTimestamptzType {
 
   /**

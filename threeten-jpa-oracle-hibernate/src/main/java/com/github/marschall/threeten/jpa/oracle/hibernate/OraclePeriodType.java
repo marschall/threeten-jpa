@@ -18,8 +18,9 @@ import oracle.sql.INTERVALYM;
 /**
  * Type mapping {@link Period} to {@code INTERVALYM}.
  *
- * @deprecated use ojdbc8 12.2.0.1 and {@link OracleJdbc42PeriodType}
+ * @deprecated use ojdbc8 12.2.0.1 and {@link OracleJdbc42PeriodType}.
  */
+@Deprecated
 public class OraclePeriodType extends AbstractThreeTenType {
 
   /**
