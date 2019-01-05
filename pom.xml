@@ -277,10 +277,10 @@
         <configuration>
           <links>
             <link>https://docs.oracle.com/javase/8/docs/api/</link>
-            <link>https://docs.oracle.com/javaee/7/api/</link>
+            <link>https://javaee.github.io/javaee-spec/javadocs/</link>
             <link>https://www.h2database.com/javadoc/</link>
             <link>https://docs.jboss.org/hibernate/orm/current/javadocs/</link>
-            <link>https://docs.oracle.com/database/122/JAJDB/</link>
+            <link>hhttps://docs.oracle.com/en/database/oracle/oracle-database/18/jajdb/</link>
           </links>
         </configuration>
         <executions>
