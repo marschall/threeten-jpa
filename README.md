@@ -124,8 +124,6 @@ The project includes the following submodule:
 Tested with following JPA providers:
  * EclipseLink
  * Hibernate
- 
-OpenJPA does currently not yet support JPA 2.1.
 
 Tested with the following databases:
  * Derby
