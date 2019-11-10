@@ -41,6 +41,7 @@ import org.springframework.transaction.support.TransactionOperations;
 
 import com.github.marschall.threeten.jpa.configuration.EclipseLinkConfiguration;
 import com.github.marschall.threeten.jpa.configuration.HibernateConfiguration;
+import com.github.marschall.threeten.jpa.test.HundredNanoseconds;
 import com.github.marschall.threeten.jpa.test.Travis;
 import com.github.marschall.threeten.jpa.test.configuration.DerbyConfiguration;
 import com.github.marschall.threeten.jpa.test.configuration.FirebirdConfiguration;
@@ -72,7 +73,7 @@ public class ConverterTest {
     if (!Travis.isTravis()) {
       parameters.add(Arguments.of(FirebirdConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-firebird", ChronoUnit.MILLIS));
       parameters.add(Arguments.of(MariaDbConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-mariadb", ChronoUnit.MICROS));
-      parameters.add(Arguments.of(SqlServerConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-sqlserver", ChronoUnit.MICROS));
+      parameters.add(Arguments.of(SqlServerConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-sqlserver", new HundredNanoseconds()));
     }
 
     parameters.add(Arguments.of(DerbyConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-derby", ChronoUnit.NANOS));
@@ -83,7 +84,7 @@ public class ConverterTest {
       // for whatever reason the Hibernate tests don't see the table in the script
 //      parameters.add(Arguments.of(FirebirdConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-firebird", ChronoUnit.MILLIS));
       parameters.add(Arguments.of(MariaDbConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-mariadb", ChronoUnit.MICROS));
-      parameters.add(Arguments.of(SqlServerConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-sqlserver", ChronoUnit.MICROS));
+      parameters.add(Arguments.of(SqlServerConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-sqlserver", new HundredNanoseconds()));
     }
     parameters.add(Arguments.of(PostgresConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-postgres", ChronoUnit.MICROS));
     return parameters;

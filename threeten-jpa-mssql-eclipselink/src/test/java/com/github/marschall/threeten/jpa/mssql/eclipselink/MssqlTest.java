@@ -13,19 +13,19 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.marschall.threeten.jpa.mssql.eclipselink.configuration.LocalSqlServerConfiguration;
-import com.github.marschall.threeten.jpa.test.DisabledOnTravis;
 
 @Transactional
 @SpringJUnitConfig(LocalSqlServerConfiguration.class)
 @Sql("classpath:sqlserver-schema.sql")
 @Sql("classpath:sqlserver-data.sql")
-@DisabledOnTravis
+@Disabled
 public class MssqlTest {
 
   @PersistenceContext

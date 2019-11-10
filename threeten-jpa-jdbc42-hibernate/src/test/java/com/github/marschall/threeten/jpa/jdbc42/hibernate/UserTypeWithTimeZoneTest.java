@@ -12,9 +12,9 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -32,20 +32,28 @@ import org.springframework.transaction.support.TransactionOperations;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalH2Configuration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalHsqlConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalPostgresConfiguration;
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalSqlServerConfiguration;
+import com.github.marschall.threeten.jpa.test.HundredNanoseconds;
+import com.github.marschall.threeten.jpa.test.Travis;
 
 public class UserTypeWithTimeZoneTest {
 
   private AnnotationConfigApplicationContext applicationContext;
   private TransactionOperations template;
 
-  public static Stream<Arguments> parameters() {
-    return Stream.of(
-            Arguments.of(LocalHsqlConfiguration.class, "threeten-jpa-hibernate-hsql", ChronoUnit.NANOS),
-//            Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", ChronoUnit.MICROS),
-//            Arguments.of(LocalDerbyConfiguration.class, "threeten-jpa-hibernate-derby", ChronoUnit.NANOS),
-            Arguments.of(LocalH2Configuration.class, "threeten-jpa-hibernate-h2", ChronoUnit.NANOS),
-            Arguments.of(LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres", ChronoUnit.MICROS)
-            );
+  public static List<Arguments> parameters() {
+
+    List<Arguments> parameters = new ArrayList<>();
+    parameters.add(Arguments.of(LocalHsqlConfiguration.class, "threeten-jpa-hibernate-hsql", ChronoUnit.NANOS));
+
+    if (Travis.isTravis()) {
+      parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", new HundredNanoseconds()));
+    }
+//    parameters.add(Arguments.of(LocalDerbyConfiguration.class, "threeten-jpa-hibernate-derby", ChronoUnit.NANOS));
+    parameters.add(Arguments.of(LocalH2Configuration.class, "threeten-jpa-hibernate-h2", ChronoUnit.NANOS));
+    parameters.add(Arguments.of(LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres", ChronoUnit.MICROS));
+
+    return parameters;
   }
 
   private void setUp(Class<?> jpaConfiguration, String persistenceUnitName) {
@@ -116,19 +124,21 @@ public class UserTypeWithTimeZoneTest {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void write(Class<?> jpaConfiguration, String persistenceUnitName) {
+  public void write(Class<?> jpaConfiguration, String persistenceUnitName, TemporalUnit resolution) {
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
       // insert a new entity into the database
       BigInteger newId = BigInteger.valueOf(3L);
-      OffsetDateTime newOffset;
+
+      OffsetDateTime now;
       if (persistenceUnitName.endsWith("-postgres")) {
         // PostgreS only supports UTC
-        newOffset = OffsetDateTime.now(ZoneOffset.UTC).withNano(123_456_000); // PostgreS only supports microseconds
+        now = OffsetDateTime.now(ZoneOffset.UTC);
       } else {
-        newOffset = OffsetDateTime.now().withNano(123_456_789);
+        now = OffsetDateTime.now();
       }
+      OffsetDateTime newOffset = now.withNano(123_456_789).truncatedTo(resolution);
 
       this.template.execute(status -> {
         EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);

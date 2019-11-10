@@ -20,7 +20,9 @@ import microsoft.sql.DateTimeOffset;
 
 /**
  * Type mapping {@link OffsetDateTime} to {@code DateTimeOffset}.
+ * @deprecated use up to date drivers and threeten-jpa-jdbc42-hibernate
  */
+@Deprecated
 public class MssqlOffsetDateTimeType implements UserType {
 
   /**

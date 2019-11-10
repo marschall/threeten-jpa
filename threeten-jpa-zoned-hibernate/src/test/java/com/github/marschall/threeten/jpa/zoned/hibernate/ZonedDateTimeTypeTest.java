@@ -36,9 +36,12 @@ import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.transaction.support.TransactionOperations;
 
+import com.github.marschall.threeten.jpa.test.HundredNanoseconds;
+import com.github.marschall.threeten.jpa.test.Travis;
 import com.github.marschall.threeten.jpa.zoned.hibernate.configuration.LocalH2Configuration;
 import com.github.marschall.threeten.jpa.zoned.hibernate.configuration.LocalHsqlConfiguration;
 import com.github.marschall.threeten.jpa.zoned.hibernate.configuration.LocalPostgresConfiguration;
+import com.github.marschall.threeten.jpa.zoned.hibernate.configuration.LocalSqlServerConfiguration;
 
 public class ZonedDateTimeTypeTest {
 
@@ -48,9 +51,9 @@ public class ZonedDateTimeTypeTest {
   public static List<Arguments> parameters() {
     List<Arguments> parameters = new ArrayList<>();
     parameters.add(Arguments.of(LocalHsqlConfiguration.class, "threeten-jpa-hibernate-hsql", ChronoUnit.NANOS));
-//    if (!Travis.isTravis()) {
-//      parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", ChronoUnit.MICROS));
-//    }
+    if (!Travis.isTravis()) {
+      parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", new HundredNanoseconds()));
+    }
     parameters.add(Arguments.of(LocalH2Configuration.class, "threeten-jpa-hibernate-h2", ChronoUnit.NANOS));
     parameters.add(Arguments.of(LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres", ChronoUnit.MICROS));
     return parameters;

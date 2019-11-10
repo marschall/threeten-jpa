@@ -109,8 +109,8 @@ The project includes the following submodule:
  * `threeten-jpa` contains portable converters.
  * `threeten-jpa-oracle-eclipselink` contains extensions that work only with Oracle in combination with EclipseLink to map `TIMESTAMP WITH TIMEZONE` to `ZonedDateTime` or `OffsetDateTime`.
  * `threeten-jpa-h2-eclipselink` contains extensions that work only with H2 in combination with EclipseLink to map `TIMESTAMP WITH TIMEZONE` to `OffsetDateTime`.
- * `threeten-jpa-mssql-eclipselink` contains extensions that work only with SQL Server in combination with EclipseLink to map `DATETIMEOFFSET` to `OffsetDateTime`.
- * `threeten-jpa-mssql-hibernate` contains extensions that work only with SQL Server in combination with Hibernate to map `DATETIMEOFFSET` to `OffsetDateTime`.
+ * `threeten-jpa-mssql-eclipselink` contains extensions that work only with an old SQL Server driver in combination with EclipseLink to map `DATETIMEOFFSET` to `OffsetDateTime`.
+ * `threeten-jpa-mssql-hibernate` contains extensions that work only with an old SQL Server driver SQL Server in combination with Hibernate to map `DATETIMEOFFSET` to `OffsetDateTime`.
  * `threeten-jpa-oracle-hibernate` contains extensions that work only with Oracle in combination with Hibernate to map `TIMESTAMP WITH TIMEZONE` to `ZonedDateTime` to `OffsetDateTime`.
  * `threeten-jpa-jdbc42-hibernate` contains extensions that work with any JDBC 4.2 compliant driver in combination with Hibernate. They map
   * `TIMESTAMP WITH TIMEZONE` to `ZonedDateTime` or `OffsetDateTime`

@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,8 @@ import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalHsq
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalMariaDbConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalMysqlConfiguration;
 import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalPostgresConfiguration;
+import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalSqlServerConfiguration;
+import com.github.marschall.threeten.jpa.test.HundredNanoseconds;
 
 public class UserTypeWithoutTimeZoneTest {
 
@@ -49,15 +52,14 @@ public class UserTypeWithoutTimeZoneTest {
     if (!isTravis()) {
       // for whatever reason the firebird scripts can not see the table
       //    parameters.add(Arguments.of(LocalFirebirdConfiguration.class, "threeten-jpa-hibernate-firebird", ChronoUnit.MILLIS));
-      parameters.add(Arguments.of(LocalMariaDbConfiguration.class,
-              "threeten-jpa-hibernate-mariadb", ChronoUnit.MICROS));
+      parameters.add(Arguments.of(LocalMariaDbConfiguration.class, "threeten-jpa-hibernate-mariadb", ChronoUnit.MICROS));
+      parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", new HundredNanoseconds()));
     }
     parameters.add(Arguments.of(LocalH2Configuration.class, "threeten-jpa-hibernate-h2", ChronoUnit.NANOS));
     parameters.add(Arguments.of(LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres", ChronoUnit.MICROS));
 
     // incomplete JDBC 4.2 support
     // parameters.add(Arguments.of(LocalDerbyConfiguration.class, "threeten-jpa-hibernate-derby", ChronoUnit.NANOS));
-    // parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", ChronoUnit.MICROS));
     return parameters;
   }
 
@@ -86,7 +88,7 @@ public class UserTypeWithoutTimeZoneTest {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void read(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
+  public void read(Class<?> jpaConfiguration, String persistenceUnitName, TemporalUnit resolution) {
     assumeFalse(persistenceUnitName.endsWith("-mariadb"));
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
@@ -114,8 +116,9 @@ public class UserTypeWithoutTimeZoneTest {
 
   @ParameterizedTest
   @MethodSource("parameters")
-  public void readAndWrite(Class<?> jpaConfiguration, String persistenceUnitName, ChronoUnit resolution) {
+  public void readAndWrite(Class<?> jpaConfiguration, String persistenceUnitName, TemporalUnit resolution) {
     assumeFalse(persistenceUnitName.endsWith("-mysql"));
+    assumeFalse(persistenceUnitName.endsWith("-sqlserver"));
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
 
@@ -146,11 +149,7 @@ public class UserTypeWithoutTimeZoneTest {
         JavaTime42 readBack = entityManager.find(JavaTime42.class, newId);
         assertNotNull(readBack);
         assertEquals(newId, readBack.getId());
-        if (persistenceUnitName.endsWith("-mariadb")) {
-          assertEquals(newLocalTime.truncatedTo(ChronoUnit.SECONDS), readBack.getLocalTime());
-        } else {
-          assertEquals(newLocalTime, readBack.getLocalTime());
-        }
+        assertEquals(newLocalTime, readBack.getLocalTime());
         assertEquals(newLocalDate, readBack.getLocalDate());
         assertEquals(newLocalDateTime, readBack.getLocalDateTime());
         entityManager.remove(readBack);
