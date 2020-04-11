@@ -90,7 +90,6 @@ public class UserTypeDateTest {
   @ParameterizedTest
   @MethodSource("parameters")
   public void read(Class<?> jpaConfiguration, String persistenceUnitName, TemporalUnit resolution) {
-    assumeFalse(persistenceUnitName.endsWith("-mariadb"));
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
 
@@ -117,7 +116,6 @@ public class UserTypeDateTest {
   @MethodSource("parameters")
   public void readAndWrite(Class<?> jpaConfiguration, String persistenceUnitName, TemporalUnit resolution) {
     assumeFalse(persistenceUnitName.endsWith("-mysql"));
-    assumeFalse(persistenceUnitName.endsWith("-sqlserver"));
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
 

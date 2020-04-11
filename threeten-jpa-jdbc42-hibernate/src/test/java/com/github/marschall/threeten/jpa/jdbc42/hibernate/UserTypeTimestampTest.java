@@ -117,7 +117,6 @@ public class UserTypeTimestampTest {
   @MethodSource("parameters")
   public void readAndWrite(Class<?> jpaConfiguration, String persistenceUnitName, TemporalUnit resolution) {
     assumeFalse(persistenceUnitName.endsWith("-mysql"));
-    assumeFalse(persistenceUnitName.endsWith("-sqlserver"));
     this.setUp(jpaConfiguration, persistenceUnitName);
     try {
 
