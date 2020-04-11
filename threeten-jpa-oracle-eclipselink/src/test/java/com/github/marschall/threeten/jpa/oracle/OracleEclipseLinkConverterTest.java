@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.math.BigInteger;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -21,20 +23,28 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.sql.DataSource;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.CompositeDatabasePopulator;
+import org.springframework.jdbc.datasource.init.DatabasePopulator;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.transaction.support.TransactionOperations;
 
-@Disabled("needs oracle database")
-public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4SpringContextTests {
+import com.github.marschall.threeten.jpa.oracle.configuration.LocalOracleConfiguration;
+import com.github.marschall.threeten.jpa.oracle.entity.OracleJavaTime;
+import com.github.marschall.threeten.jpa.oracle.entity.OracleJavaTime_;
+import com.github.marschall.threeten.jpa.test.DisabledOnTravis;
+
+@DisabledOnTravis
+public class OracleEclipseLinkConverterTest {
 
   private TransactionOperations template;
 
@@ -50,6 +60,23 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
     this.applicationContext.refresh();
 
     this.template = this.applicationContext.getBean(TransactionOperations.class);
+
+    ResourceDatabasePopulator schemaPopulator = new ResourceDatabasePopulator(
+            new ClassPathResource("sql/threeten-jpa-oracle-eclipselink/oracle-schema.sql"));
+    schemaPopulator.setSeparator("!!");
+    DatabasePopulator dataPopulator = new ResourceDatabasePopulator(
+            new ClassPathResource("sql/threeten-jpa-oracle-eclipselink/oracle-data.sql"));
+
+    DatabasePopulator compositePopulator = new CompositeDatabasePopulator(schemaPopulator, dataPopulator);
+    this.template.execute(status -> {
+      DataSource dataSource = this.applicationContext.getBean(DataSource.class);
+      try (Connection connection = dataSource.getConnection()) {
+          compositePopulator.populate(connection);
+      } catch (SQLException e) {
+        throw new RuntimeException("could initialize database", e);
+      }
+      return null;
+    });
   }
 
   @ParameterizedTest
@@ -73,7 +100,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
       ZonedDateTime expectedZone = ZonedDateTime.of(1999, 1, 15, 8, 0, 0, 0, zoneId);
       assertEquals(expectedZone, firstRow.getZonedDateTime());
 
-      assertNotNull(firstRow.getCalendar());
+//      assertNotNull(firstRow.getCalendar());
 
       assertEquals(Period.of(123, 2, 0), firstRow.getPeriod());
       assertEquals(Duration.parse("P4DT5H12M10.222S"), firstRow.getDuration());
@@ -102,7 +129,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
       ZonedDateTime expectedZone = ZonedDateTime.of(2016, 9, 22, 17, 0, 0, 0, zoneId);
       assertEquals(expectedZone, secondRow.getZonedDateTime());
 
-      assertNotNull(secondRow.getCalendar());
+//      assertNotNull(secondRow.getCalendar());
 
       assertEquals(Period.of(123, 2, 0), secondRow.getPeriod());
       assertEquals(Duration.parse("P4DT5H12M10.222S"), secondRow.getDuration());
@@ -138,7 +165,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
         toInsert.setId(newId);
         toInsert.setOffsetDateTime(newOffsetDateTime);
         toInsert.setZonedDateTime(newZonedDateTime);
-        toInsert.setCalendar(newCalendar);
+//        toInsert.setCalendar(newCalendar);
         toInsert.setPeriod(newPeriod);
         toInsert.setDuration(newDuration);
         entityManager.persist(toInsert);
@@ -155,7 +182,7 @@ public class OracleEclipseLinkConverterTest extends AbstractTransactionalJUnit4S
         assertEquals(newId, readBack.getId());
         assertEquals(newOffsetDateTime, readBack.getOffsetDateTime());
         assertEquals(newZonedDateTime, readBack.getZonedDateTime());
-        assertEquals(newCalendar, readBack.getCalendar());
+//        assertEquals(newCalendar, readBack.getCalendar());
         assertEquals(newPeriod, readBack.getPeriod());
         assertEquals(newDuration, readBack.getDuration());
         entityManager.remove(readBack);

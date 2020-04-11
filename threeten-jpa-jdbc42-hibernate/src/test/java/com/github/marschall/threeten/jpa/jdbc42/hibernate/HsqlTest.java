@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +28,7 @@ import com.github.marschall.threeten.jpa.jdbc42.hibernate.configuration.LocalHsq
 @Transactional
 @Disabled
 @SpringJUnitConfig({LocalHsqlConfiguration.class, LocalConfiguration.class})
-public class HsqlTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class HsqlTest {
 
   @Autowired
   private DataSource dataSource;

@@ -1,5 +1,6 @@
 package com.github.marschall.threeten.jpa.test;
 
+import static com.github.marschall.threeten.jpa.test.Travis.isTravis;
 import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 
 import java.lang.reflect.AnnotatedElement;
@@ -22,7 +23,7 @@ public final class DisabledOnTravisCondition implements ExecutionCondition {
     Optional<AnnotatedElement> element = context.getElement();
     Optional<DisabledOnTravis> disabled = findAnnotation(element, DisabledOnTravis.class);
     if (disabled.isPresent()) {
-      if (Travis.isTravis()) {
+      if (isTravis()) {
         String reason = element.get() + " is disabled on TravisCI";
         return ConditionEvaluationResult.disabled(reason);
       } else {

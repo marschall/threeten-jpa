@@ -1,5 +1,6 @@
 package com.github.marschall.threeten.jpa.zoned.hibernate;
 
+import static com.github.marschall.threeten.jpa.test.Travis.isTravis;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
@@ -37,11 +38,12 @@ import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 import org.springframework.transaction.support.TransactionOperations;
 
 import com.github.marschall.threeten.jpa.test.HundredNanoseconds;
-import com.github.marschall.threeten.jpa.test.Travis;
 import com.github.marschall.threeten.jpa.zoned.hibernate.configuration.LocalH2Configuration;
 import com.github.marschall.threeten.jpa.zoned.hibernate.configuration.LocalHsqlConfiguration;
 import com.github.marschall.threeten.jpa.zoned.hibernate.configuration.LocalPostgresConfiguration;
 import com.github.marschall.threeten.jpa.zoned.hibernate.configuration.LocalSqlServerConfiguration;
+import com.github.marschall.threeten.jpa.zoned.hibernate.entity.JavaTimestamp42Zoned;
+import com.github.marschall.threeten.jpa.zoned.hibernate.entity.JavaTimestamp42Zoned_;
 
 public class ZonedDateTimeTypeTest {
 
@@ -51,8 +53,8 @@ public class ZonedDateTimeTypeTest {
   public static List<Arguments> parameters() {
     List<Arguments> parameters = new ArrayList<>();
     parameters.add(Arguments.of(LocalHsqlConfiguration.class, "threeten-jpa-hibernate-hsql", ChronoUnit.NANOS));
-    if (!Travis.isTravis()) {
-      parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", new HundredNanoseconds()));
+    if (!isTravis()) {
+      parameters.add(Arguments.of(LocalSqlServerConfiguration.class, "threeten-jpa-hibernate-sqlserver", HundredNanoseconds.INSTANCE));
     }
     parameters.add(Arguments.of(LocalH2Configuration.class, "threeten-jpa-hibernate-h2", ChronoUnit.NANOS));
     parameters.add(Arguments.of(LocalPostgresConfiguration.class, "threeten-jpa-hibernate-postgres", ChronoUnit.MICROS));
@@ -97,13 +99,13 @@ public class ZonedDateTimeTypeTest {
       // read the entity inserted by SQL
       this.template.execute(status -> {
         EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
-        TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
-                "SELECT t FROM JavaTime42Zoned t ORDER BY t.zonedDateTime ASC", JavaTime42Zoned.class);
-        List<JavaTime42Zoned> resultList = query.getResultList();
+        TypedQuery<JavaTimestamp42Zoned> query = entityManager.createQuery(
+                "SELECT t FROM JavaTimestamp42Zoned t ORDER BY t.zonedDateTime ASC", JavaTimestamp42Zoned.class);
+        List<JavaTimestamp42Zoned> resultList = query.getResultList();
         assertThat(resultList, hasSize(1));
 
         // validate the entity inserted by SQL
-        JavaTime42Zoned javaTime = resultList.get(0);
+        JavaTimestamp42Zoned javaTime = resultList.get(0);
         ZonedDateTime inserted = this.getInsertedValue(resolution);
         assertEquals(inserted, javaTime.getZonedDateTime());
         return null;
@@ -125,11 +127,11 @@ public class ZonedDateTimeTypeTest {
         ZonedDateTime inserted = this.getInsertedValue(resolution);
         ZonedDateTime earlier = inserted.withZoneSameInstant(ZoneId.of("Europe/Moscow"))
                 .minusHours(1L);
-        TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
-                "SELECT t FROM JavaTime42Zoned t WHERE t.zonedDateTime.timestamp_utc < :value", JavaTime42Zoned.class);
+        TypedQuery<JavaTimestamp42Zoned> query = entityManager.createQuery(
+                "SELECT t FROM JavaTimestamp42Zoned t WHERE t.zonedDateTime.timestamp_utc < :value", JavaTimestamp42Zoned.class);
         // https://hibernate.atlassian.net/browse/HHH-7302
         query.setParameter("value", earlier.toOffsetDateTime());
-        List<JavaTime42Zoned> result = query.getResultList();
+        List<JavaTimestamp42Zoned> result = query.getResultList();
 
         assertThat(result, empty());
 
@@ -155,12 +157,12 @@ public class ZonedDateTimeTypeTest {
                 .minusHours(1L);
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<JavaTime42Zoned> query = builder.createQuery(JavaTime42Zoned.class);
-        Root<JavaTime42Zoned> root = query.from(JavaTime42Zoned.class);
-        CriteriaQuery<JavaTime42Zoned> beforeTwelfeFive = query.where(
-                builder.lessThan(root.get(JavaTime42Zoned_.zonedDateTime), earlier));
+        CriteriaQuery<JavaTimestamp42Zoned> query = builder.createQuery(JavaTimestamp42Zoned.class);
+        Root<JavaTimestamp42Zoned> root = query.from(JavaTimestamp42Zoned.class);
+        CriteriaQuery<JavaTimestamp42Zoned> beforeTwelfeFive = query.where(
+                builder.lessThan(root.get(JavaTimestamp42Zoned_.zonedDateTime), earlier));
 
-        List<JavaTime42Zoned> result = entityManager.createQuery(beforeTwelfeFive).getResultList();
+        List<JavaTimestamp42Zoned> result = entityManager.createQuery(beforeTwelfeFive).getResultList();
 
         assertThat(result, empty());
 
@@ -184,8 +186,8 @@ public class ZonedDateTimeTypeTest {
         ZonedDateTime inserted = this.getInsertedValue(resolution);
         ZonedDateTime earlier = inserted.withZoneSameInstant(ZoneId.of("Europe/Moscow"))
                 .minusHours(1L);
-        Query query = entityManager.createNativeQuery("SELECT * FROM JAVA_TIME_42_ZONED t WHERE t.timestamp_utc < ?1",
-                JavaTime42Zoned.class);
+        Query query = entityManager.createNativeQuery("SELECT * FROM JAVA_TIMESTAMP_42_ZONED t WHERE t.timestamp_utc < ?1",
+                JavaTimestamp42Zoned.class);
         query.setParameter(1, earlier.toOffsetDateTime().atZoneSameInstant(ZoneOffset.UTC));
         List<?> result = query.getResultList();
 
@@ -209,10 +211,10 @@ public class ZonedDateTimeTypeTest {
       this.template.execute(status -> {
         EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
         ZonedDateTime inserted = this.getInsertedValue(resolution);
-        TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
-                "SELECT t FROM JavaTime42Zoned t WHERE t.zonedDateTime = :value", JavaTime42Zoned.class);
+        TypedQuery<JavaTimestamp42Zoned> query = entityManager.createQuery(
+                "SELECT t FROM JavaTimestamp42Zoned t WHERE t.zonedDateTime = :value", JavaTimestamp42Zoned.class);
         query.setParameter("value", inserted);
-        List<JavaTime42Zoned> result = query.getResultList();
+        List<JavaTimestamp42Zoned> result = query.getResultList();
 
         assertThat(result, hasSize(1));
         assertEquals(inserted, result.get(0).getZonedDateTime());
@@ -234,9 +236,9 @@ public class ZonedDateTimeTypeTest {
       // read the entity inserted by SQL
       this.template.execute(status -> {
         EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
-        TypedQuery<JavaTime42Zoned> query = entityManager.createQuery(
-                "SELECT t FROM JavaTime42Zoned t ORDER BY t.zonedDateTime.timestamp_utc", JavaTime42Zoned.class);
-        List<JavaTime42Zoned> result = query.getResultList();
+        TypedQuery<JavaTimestamp42Zoned> query = entityManager.createQuery(
+                "SELECT t FROM JavaTimestamp42Zoned t ORDER BY t.zonedDateTime.timestamp_utc", JavaTimestamp42Zoned.class);
+        List<JavaTimestamp42Zoned> result = query.getResultList();
 
         assertThat(result, hasSize(1));
 
@@ -261,7 +263,7 @@ public class ZonedDateTimeTypeTest {
 
       this.template.execute(status -> {
         EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
-        JavaTime42Zoned toInsert = new JavaTime42Zoned();
+        JavaTimestamp42Zoned toInsert = new JavaTimestamp42Zoned();
         toInsert.setId(newId);
         toInsert.setZonedDateTime(newZoned);
         entityManager.persist(toInsert);
@@ -273,7 +275,7 @@ public class ZonedDateTimeTypeTest {
       // validate the new entity inserted into the database
       this.template.execute(status -> {
         EntityManager entityManager = EntityManagerFactoryUtils.getTransactionalEntityManager(factory);
-        JavaTime42Zoned readBack = entityManager.find(JavaTime42Zoned.class, newId);
+        JavaTimestamp42Zoned readBack = entityManager.find(JavaTimestamp42Zoned.class, newId);
         assertNotNull(readBack);
         assertEquals(newId, readBack.getId());
         assertEquals(newZoned, readBack.getZonedDateTime());

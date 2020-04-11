@@ -12,6 +12,8 @@ public final class HundredNanoseconds implements TemporalUnit {
 
   private static final Duration DURATION = Duration.ofNanos(100L);
 
+  public static final TemporalUnit INSTANCE = new HundredNanoseconds();
+
   @Override
   public Duration getDuration() {
     return DURATION;

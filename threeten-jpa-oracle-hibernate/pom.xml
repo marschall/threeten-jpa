@@ -11,9 +11,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>threeten-jpa-oracle-api</artifactId>
-      <version>${project.version}</version>
+      <groupId>com.oracle.ojdbc</groupId>
+      <artifactId>ojdbc8</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -57,6 +56,12 @@
       <artifactId>junit-jupiter-api</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>threeten-jpa-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
     <!-- Only required to run tests in an IDE that bundles an older version -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -74,13 +79,6 @@
       <artifactId>hamcrest-junit</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- 
-    <dependency>
-      <groupId>oracle</groupId>
-      <artifactId>ojdbc7</artifactId>
-      <scope>test</scope>
-    </dependency>
-     -->
 
      <!-- logging -->
     <dependency>

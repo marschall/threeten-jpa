@@ -11,9 +11,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>threeten-jpa-oracle-api</artifactId>
-      <version>${project.version}</version>
+      <groupId>com.oracle.ojdbc</groupId>
+      <artifactId>ojdbc8</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>

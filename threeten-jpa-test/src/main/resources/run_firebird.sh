@@ -9,4 +9,4 @@ docker run --name jdbc-firebird \
  -e 'FIREBIRD_PASSWORD=Cent-Quick-Space-Bath-8' \
  -p 3050:3050 \
  --mount type=tmpfs,destination=/firebird/data \
- -d jacobalberty/firebird:3.0.3
+ -d jacobalberty/firebird:3.0.4

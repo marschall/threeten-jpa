@@ -5,7 +5,7 @@
   <persistence-unit name="threeten-jpa-eclipselink-oracle" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.oracle.OracleJavaTime</class>
+    <class>com.github.marschall.threeten.jpa.oracle.entity.OracleJavaTime</class>
 
     <class>com.github.marschall.threeten.jpa.oracle.OracleOffsetDateTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.oracle.OracleZonedDateTimeConverter</class>
@@ -23,7 +23,7 @@
   <persistence-unit name="threeten-jpa-eclipselink-oracle11" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.oracle.OracleJavaTime</class>
+    <class>com.github.marschall.threeten.jpa.oracle.entity.OracleJavaTime</class>
 
     <class>com.github.marschall.threeten.jpa.oracle.OracleOffsetDateTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.oracle.OracleZonedDateTimeConverter</class>
@@ -41,7 +41,7 @@
   <persistence-unit name="threeten-jpa-eclipselink-oracle12" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.oracle.OracleJavaTime</class>
+    <class>com.github.marschall.threeten.jpa.oracle.entity.OracleJavaTime</class>
 
     <class>com.github.marschall.threeten.jpa.oracle.OracleOffsetDateTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.oracle.OracleZonedDateTimeConverter</class>
@@ -59,7 +59,7 @@
   <persistence-unit name="threeten-jpa-eclipselink-oracle11patched" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.oracle.OracleJavaTime</class>
+    <class>com.github.marschall.threeten.jpa.oracle.entity.OracleJavaTime</class>
 
     <class>com.github.marschall.threeten.jpa.oracle.OracleOffsetDateTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.oracle.OracleZonedDateTimeConverter</class>
@@ -77,7 +77,7 @@
   <persistence-unit name="threeten-jpa-eclipselink-oracle12patched" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.oracle.OracleJavaTime</class>
+    <class>com.github.marschall.threeten.jpa.oracle.entity.OracleJavaTime</class>
 
     <class>com.github.marschall.threeten.jpa.oracle.OracleOffsetDateTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.oracle.OracleZonedDateTimeConverter</class>

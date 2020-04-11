@@ -16,17 +16,24 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionOperations;
 
+import com.github.marschall.threeten.jpa.oracle.hibernate.configuration.LocalOracleConfiguration;
+import com.github.marschall.threeten.jpa.oracle.hibernate.entity.JavaTimeWithZone;
+import com.github.marschall.threeten.jpa.test.DisabledOnTravis;
+
 @Transactional
 @SpringJUnitConfig(LocalOracleConfiguration.class)
-@Disabled("needs oracle database")
+@DisabledOnTravis
+@Sql(scripts = "classpath:sql/threeten-jpa-oracle-hibernate/oracle-schema.sql", config = @SqlConfig(separator = "!!"))
+@Sql("classpath:sql/threeten-jpa-oracle-hibernate/oracle-data.sql")
 public class OracleHibernateConverterTest {
 
   @Autowired
@@ -46,8 +53,8 @@ public class OracleHibernateConverterTest {
 
       // validate the entity inserted by SQL
       JavaTimeWithZone javaTime = resultList.get(0);
-      assertEquals(ZonedDateTime.parse("1960-01-01T23:03:20-05:00[America/New_York]"), javaTime.getZoned());
-      assertEquals(OffsetDateTime.parse("1960-01-01T23:03:20+02:00"), javaTime.getOffset());
+      assertEquals(ZonedDateTime.parse("1960-01-01T23:03:20.123456789-05:00[America/New_York]"), javaTime.getZoned());
+      assertEquals(OffsetDateTime.parse("1960-01-01T23:03:20.987654321+02:00"), javaTime.getOffset());
 
       assertEquals(Period.of(123, 2, 0), javaTime.getPeriod());
       assertEquals(Duration.parse("P4DT5H12M10.222S"), javaTime.getDuration());

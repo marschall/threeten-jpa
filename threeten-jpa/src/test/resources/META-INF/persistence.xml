@@ -5,7 +5,9 @@
   <persistence-unit name="threeten-jpa-hibernate-derby" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -21,7 +23,9 @@
   <persistence-unit name="threeten-jpa-hibernate-h2" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -37,7 +41,9 @@
   <persistence-unit name="threeten-jpa-hibernate-firebird" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -53,7 +59,9 @@
   <persistence-unit name="threeten-jpa-hibernate-hsql" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -69,7 +77,9 @@
   <persistence-unit name="threeten-jpa-hibernate-postgres" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -78,14 +88,16 @@
     <shared-cache-mode>NONE</shared-cache-mode>
 
     <properties>
-      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect" />
+      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect" />
     </properties>
   </persistence-unit>
 
   <persistence-unit name="threeten-jpa-hibernate-sqlserver" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -101,7 +113,9 @@
   <persistence-unit name="threeten-jpa-hibernate-mysql" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -110,14 +124,16 @@
     <shared-cache-mode>NONE</shared-cache-mode>
 
     <properties>
-      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL57Dialect" />
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
     </properties>
   </persistence-unit>
 
   <persistence-unit name="threeten-jpa-hibernate-mariadb" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -133,7 +149,8 @@
   <persistence-unit name="threeten-jpa-hibernate-oracle" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.OracleJavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
@@ -148,7 +165,9 @@
   <persistence-unit name="threeten-jpa-eclipselink-derby" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -167,7 +186,9 @@
   <persistence-unit name="threeten-jpa-eclipselink-firebird" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -186,7 +207,9 @@
   <persistence-unit name="threeten-jpa-eclipselink-h2" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -205,7 +228,9 @@
   <persistence-unit name="threeten-jpa-eclipselink-hsql" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -224,7 +249,9 @@
   <persistence-unit name="threeten-jpa-eclipselink-postgres" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -243,7 +270,9 @@
   <persistence-unit name="threeten-jpa-eclipselink-sqlserver" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+     <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -262,7 +291,9 @@
   <persistence-unit name="threeten-jpa-eclipselink-mysql" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -281,7 +312,9 @@
   <persistence-unit name="threeten-jpa-eclipselink-mariadb" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.JavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTime42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
@@ -302,7 +335,8 @@
   <persistence-unit name="threeten-jpa-eclipselink-oracle" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>com.github.marschall.threeten.jpa.OracleJavaTime</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaDate42</class>
+    <class>com.github.marschall.threeten.jpa.entity.JavaTimestamp42</class>
 
     <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
     <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>

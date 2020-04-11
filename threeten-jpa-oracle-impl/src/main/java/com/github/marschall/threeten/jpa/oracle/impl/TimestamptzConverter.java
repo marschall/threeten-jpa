@@ -173,9 +173,9 @@ public final class TimestamptzConverter {
     int hour = bytes[4] - 1;
     int minute = bytes[5] - 1;
     int second = bytes[6] - 1;
-    int nanoOfSecond = toUnsignedInt(bytes[7]) << 24
-            | toUnsignedInt(bytes[8]) << 16
-            | toUnsignedInt(bytes[9]) << 8
+    int nanoOfSecond = (toUnsignedInt(bytes[7]) << 24)
+            | (toUnsignedInt(bytes[8]) << 16)
+            | (toUnsignedInt(bytes[9]) << 8)
             | toUnsignedInt(bytes[10]);
     return LocalDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond);
   }
@@ -191,7 +191,7 @@ public final class TimestamptzConverter {
   private static ZoneOffset extractOffset(byte[] bytes) {
     int hours = bytes[11] - 20;
     int minutes = bytes[12] - 60;
-    if (hours == 0 && minutes == 0) {
+    if ((hours == 0) && (minutes == 0)) {
       return ZoneOffset.UTC;
     }
     return ZoneOffset.ofHoursMinutes(hours, minutes);
@@ -220,8 +220,8 @@ public final class TimestamptzConverter {
 
   private static void writeDateTime(byte[] bytes, LocalDateTime utc) {
     int year = utc.getYear();
-    bytes[0] = (byte) (year / 100 + 100);
-    bytes[1] = (byte) (year % 100 + 100);
+    bytes[0] = (byte) ((year / 100) + 100);
+    bytes[1] = (byte) ((year % 100) + 100);
 
     bytes[2] = (byte) utc.getMonthValue();
     bytes[3] = (byte) utc.getDayOfMonth();
@@ -230,9 +230,9 @@ public final class TimestamptzConverter {
     bytes[6] = (byte) (utc.getSecond() + 1);
 
     int nano = utc.getNano();
-    bytes[7] = (byte) (nano >> 24);
-    bytes[8] = (byte) (nano >> 16 & 0xFF);
-    bytes[9] = (byte) (nano >> 8 & 0xFF);
+    bytes[7] = (byte) (nano >>> 24);
+    bytes[8] = (byte) ((nano >>> 16) & 0xFF);
+    bytes[9] = (byte) ((nano >>> 8) & 0xFF);
     bytes[10] = (byte) (nano & 0xFF);
   }
 
@@ -243,7 +243,7 @@ public final class TimestamptzConverter {
   }
 
   private static void writeZoneId(byte[] bytes, int regionCode) {
-    bytes[11] = (byte) (REGIONIDBIT | (regionCode & 0b1111111000000) >>> 6);
+    bytes[11] = (byte) (REGIONIDBIT | ((regionCode & 0b1111111000000) >>> 6));
     bytes[12] = (byte) ((regionCode & 0b111111) << 2);
   }
 

@@ -46,7 +46,6 @@
     <module>threeten-jpa</module>
     <module>threeten-jpa-oracle-eclipselink</module>
     <module>threeten-jpa-oracle-hibernate</module>
-    <module>threeten-jpa-oracle-api</module>
     <module>threeten-jpa-jdbc42-hibernate</module>
     <module>threeten-jpa-oracle-impl</module>
     <module>threeten-jpa-h2-eclipselink</module>
@@ -212,12 +211,18 @@
       <dependency>
         <groupId>org.firebirdsql.jdbc</groupId>
         <artifactId>jaybird-jdk18</artifactId>
-        <version>3.0.7</version>
+        <version>4.0.0.java8</version>
       </dependency>
       <dependency>
         <groupId>com.microsoft.sqlserver</groupId>
         <artifactId>mssql-jdbc</artifactId>
-        <version>7.4.1.jre8</version>
+        <version>8.2.2.jre8</version>
+        <exclusions>
+          <exclusion>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-keyvault</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
@@ -239,13 +244,38 @@
         <artifactId>log4j-jul</artifactId>
         <version>${log4j.version}</version>
       </dependency>
-      <!-- 
       <dependency>
-        <groupId>oracle</groupId>
-        <artifactId>ojdbc7</artifactId>
-        <version>12.1.0.1</version>
+        <groupId>com.oracle.ojdbc</groupId>
+        <artifactId>ojdbc8</artifactId>
+        <version>19.3.0.0</version>
+        <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>com.oracle.ojdbc</groupId>
+            <artifactId>ucp</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.oracle.ojdbc</groupId>
+            <artifactId>ons</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.oracle.ojdbc</groupId>
+            <artifactId>osdt_cert</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.oracle.ojdbc</groupId>
+            <artifactId>oraclepki</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.oracle.ojdbc</groupId>
+            <artifactId>osdt_core</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.oracle.ojdbc</groupId>
+            <artifactId>simplefan</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
-       -->
     </dependencies>
   
   </dependencyManagement>

@@ -135,13 +135,11 @@
       <artifactId>mssql-jdbc</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- 
     <dependency>
-      <groupId>oracle</groupId>
-      <artifactId>ojdbc7</artifactId>
+      <groupId>com.oracle.ojdbc</groupId>
+      <artifactId>ojdbc8</artifactId>
       <scope>test</scope>
     </dependency>
-     -->
      
      <!-- logging -->
     <dependency>

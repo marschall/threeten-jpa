@@ -116,7 +116,6 @@ The project includes the following submodule:
   * `TIMESTAMP WITH TIMEZONE` to `ZonedDateTime` or `OffsetDateTime`
   * `TIMESTAMP [ WITHOUT TIME ZONE ]` to `LocalDateTime` 
   * `TIME` to `LocalTime`
- * `threeten-jpa-oracle-api` contains stub Oracle classes. These are only used for compilation and not present at runtime.
  * `threeten-jpa-oracle-impl` contains the type conversion code from Oracle types to Java 8 types.
  * `threeten-jpa-zoned-hibernate` contains composite user types to support `ZonedDateTime`.
 
