@@ -23,7 +23,7 @@ public class OracleConfiguration {
     dataSource.setUsername("jdbc");
     dataSource.setPassword("Cent-Quick-Space-Bath-8");
     Properties connectionProperties = new Properties();
-    connectionProperties.put("oracle.net.disableOob", "true");
+    connectionProperties.setProperty("oracle.net.disableOob", "true");
     dataSource.setConnectionProperties(connectionProperties);
     return dataSource;
   }
