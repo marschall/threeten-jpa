@@ -1,5 +1,8 @@
 package com.github.marschall.threeten.jpa.test.configuration;
 
+
+import static com.github.marschall.threeten.jpa.test.Travis.isTravis;
+
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
@@ -20,7 +23,8 @@ public class PostgresConfiguration {
     // defaults from Postgres.app
     dataSource.setUrl("jdbc:postgresql:" + userName);
     dataSource.setUsername(userName);
-    dataSource.setPassword("");
+    String password = isTravis() ? "" : "Cent-Quick-Space-Bath-8";
+    dataSource.setPassword(password);
     return dataSource;
   }
 
