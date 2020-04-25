@@ -178,7 +178,7 @@
       </dependency>
       <dependency>
         <groupId>org.firebirdsql.jdbc</groupId>
-        <artifactId>jaybird-jdk18</artifactId>
+        <artifactId>jaybird</artifactId>
         <version>4.0.0.java8</version>
       </dependency>
       <dependency>
