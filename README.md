@@ -135,6 +135,9 @@ Tested with the following databases:
  * PostgreS
  * SQL Server
 
+
+DB2 is currently not supported as IBM does not ship a JDBC 4.2 driver.
+
 License
 -------
 

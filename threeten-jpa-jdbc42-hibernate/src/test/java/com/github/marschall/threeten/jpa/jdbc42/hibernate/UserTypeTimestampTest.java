@@ -50,6 +50,8 @@ public class UserTypeTimestampTest {
     parameters.add(Arguments.of(LocalHsqlConfiguration.class, "threeten-jpa-hibernate-hsql", ChronoUnit.NANOS));
     parameters.add(Arguments.of(LocalMysqlConfiguration.class, "threeten-jpa-hibernate-mysql", ChronoUnit.MICROS));
     if (!isTravis()) {
+      // IBM does not ship a JDBC 4.2 driver
+//      parameters.add(Arguments.of(LocalDb2Configuration.class, "threeten-jpa-hibernate-db2", ChronoUnit.NANOS));
       // for whatever reason the firebird scripts can not see the table
       //    parameters.add(Arguments.of(LocalFirebirdConfiguration.class, "threeten-jpa-hibernate-firebird", ChronoUnit.MILLIS));
       parameters.add(Arguments.of(LocalMariaDbConfiguration.class, "threeten-jpa-hibernate-mariadb", ChronoUnit.MICROS));
