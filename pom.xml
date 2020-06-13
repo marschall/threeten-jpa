@@ -213,33 +213,33 @@
         <version>${log4j.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.oracle.ojdbc</groupId>
+        <groupId>com.oracle.database.jdbc</groupId>
         <artifactId>ojdbc8</artifactId>
-        <version>19.3.0.0</version>
+        <version>19.6.0.0</version>
         <scope>test</scope>
         <exclusions>
           <exclusion>
-            <groupId>com.oracle.ojdbc</groupId>
+            <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ucp</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>com.oracle.ojdbc</groupId>
+            <groupId>com.oracle.database.ha</groupId>
             <artifactId>ons</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>com.oracle.ojdbc</groupId>
+            <groupId>com.oracle.database.security</groupId>
             <artifactId>osdt_cert</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>com.oracle.ojdbc</groupId>
+            <groupId>com.oracle.database.security</groupId>
             <artifactId>oraclepki</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>com.oracle.ojdbc</groupId>
+            <groupId>com.oracle.database.security</groupId>
             <artifactId>osdt_core</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>com.oracle.ojdbc</groupId>
+            <groupId>com.oracle.database.ha</groupId>
             <artifactId>simplefan</artifactId>
           </exclusion>
         </exclusions>
