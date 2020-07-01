@@ -404,7 +404,7 @@
     <hibernate.version>5.4.13.Final</hibernate.version>
     <java.version>1.8</java.version>
     <eclipselink.version>2.7.6</eclipselink.version>
-    <log4j.version>2.13.1</log4j.version>
+    <log4j.version>2.13.3</log4j.version>
   </properties>
 
 </project>
