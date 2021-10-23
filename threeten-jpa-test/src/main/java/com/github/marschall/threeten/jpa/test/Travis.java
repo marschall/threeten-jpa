@@ -1,11 +1,9 @@
 package com.github.marschall.threeten.jpa.test;
 
-import org.aopalliance.aop.AspectException;
-
 public final class Travis {
 
   private Travis() {
-    throw new AspectException("not instantiable");
+    throw new AssertionError("not instantiable");
   }
 
   public static boolean isTravis() {
