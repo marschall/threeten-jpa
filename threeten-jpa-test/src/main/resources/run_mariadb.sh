@@ -10,4 +10,4 @@ docker run --name jdbc-mariadb \
  -p 3307:3306 \
  --mount type=tmpfs,destination=/var/lib/mysql \
  -v ${DIRECTORY}/mariadb:/docker-entrypoint-initdb.d \
- -d mariadb:10.4.12
+ -d mariadb:10.6.5

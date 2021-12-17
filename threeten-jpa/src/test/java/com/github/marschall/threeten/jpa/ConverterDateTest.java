@@ -39,7 +39,6 @@ import org.springframework.transaction.support.TransactionOperations;
 import com.github.marschall.threeten.jpa.configuration.EclipseLinkConfiguration;
 import com.github.marschall.threeten.jpa.configuration.HibernateConfiguration;
 import com.github.marschall.threeten.jpa.entity.JavaDate42;
-import com.github.marschall.threeten.jpa.test.configuration.Db2Configuration;
 import com.github.marschall.threeten.jpa.test.configuration.DerbyConfiguration;
 import com.github.marschall.threeten.jpa.test.configuration.FirebirdConfiguration;
 import com.github.marschall.threeten.jpa.test.configuration.H2Configuration;
@@ -64,7 +63,7 @@ public class ConverterDateTest {
     parameters.add(Arguments.of(MysqlConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-mysql"));
     parameters.add(Arguments.of(PostgresConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-postgres"));
     if (!isTravis()) {
-      parameters.add(Arguments.of(Db2Configuration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-db2"));
+//      parameters.add(Arguments.of(Db2Configuration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-db2"));
       parameters.add(Arguments.of(FirebirdConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-firebird"));
       parameters.add(Arguments.of(MariaDbConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-mariadb"));
       parameters.add(Arguments.of(SqlServerConfiguration.class, EclipseLinkConfiguration.class, "threeten-jpa-eclipselink-sqlserver"));
@@ -76,7 +75,7 @@ public class ConverterDateTest {
     parameters.add(Arguments.of(HsqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-hsql"));
     parameters.add(Arguments.of(MysqlConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-mysql"));
     if (!isTravis()) {
-      parameters.add(Arguments.of(Db2Configuration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-db2"));
+//      parameters.add(Arguments.of(Db2Configuration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-db2"));
       // for whatever reason the Hibernate tests don't see the table in the script
 //      parameters.add(Arguments.of(FirebirdConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-firebird"));
       parameters.add(Arguments.of(MariaDbConfiguration.class, HibernateConfiguration.class, "threeten-jpa-hibernate-mariadb"));
