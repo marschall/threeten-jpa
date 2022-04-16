@@ -44,7 +44,6 @@
     <module>threeten-jpa-oracle-hibernate</module>
     <module>threeten-jpa-jdbc42-hibernate</module>
     <module>threeten-jpa-oracle-impl</module>
-    <module>threeten-jpa-h2-eclipselink</module>
     <module>threeten-jpa-mssql-eclipselink</module>
     <module>threeten-jpa-mssql-hibernate</module>
     <module>threeten-jpa-mssql-impl</module>
@@ -168,7 +167,7 @@
       <dependency>
         <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
-        <version>1.4.200</version>
+        <version>2.1.212</version>
       </dependency>
       <dependency>
         <groupId>org.hsqldb</groupId>
@@ -198,7 +197,7 @@
       <dependency>
         <groupId>com.microsoft.sqlserver</groupId>
         <artifactId>mssql-jdbc</artifactId>
-        <version>9.4.1.jre8</version>
+        <version>10.2.0.jre8</version>
       </dependency>
       <dependency>
         <groupId>com.ibm.db2</groupId>
