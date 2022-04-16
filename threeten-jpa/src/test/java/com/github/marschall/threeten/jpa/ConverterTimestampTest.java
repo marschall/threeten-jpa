@@ -167,6 +167,10 @@ public class ConverterTimestampTest {
         // hsql is weird, it looks like reading has nanos but writing has millis
         resolution = MILLIS;
       }
+      if (persistenceUnitName.endsWith("-mariadb")) {
+        // mariadb is weird, it looks like reading has micros but writing has millis
+        resolution = MILLIS;
+      }
       EntityManagerFactory factory = this.applicationContext.getBean(EntityManagerFactory.class);
 
       // insert a new entity into the database
