@@ -1,14 +1,11 @@
 ThreeTen JPA [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-jpa/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/threeten-jpa) [![Build Status](https://travis-ci.org/marschall/threeten-jpa.svg?branch=master)](https://travis-ci.org/marschall/threeten-jpa)
 ============
 
+Archived with JPA 2.2 and [hibernate.type.java_time_use_direct_jdbc=true](https://vladmihalcea.com/hibernate-type-java_time_use_direct_jdbc/) there are now built-in alternatives.
+
 JPA attribute converters for [JSR-310](https://jcp.org/en/jsr/detail?id=310) (Java 8) dates and times.
 
-This project was stop gap measure until [JPA_SPEC-63](https://github.com/javaee/jpa-spec/issues/63) was fixed in JPA 2.2. However JSR-310 support in JPA is [not ready for prime time](https://marschall.github.io/2018/04/22/jpa-jsr-310.html). The project serves the following purposes:
-
-1. provide JSR-310 support for users on JPA 2.1
-1. provide support for additional JSR-310 data types not specified by JPA 2.2
-1. provide workarounds for driver bugs and missing driver features
-1. provide workarounds for JPA implementation bugs
+This project was stop gap measure until [JPA_SPEC-63](https://github.com/javaee/jpa-spec/issues/63) was fixed in JPA 2.2.
 
 We take inspiration from the JDBC 4.2 and currently support the following conversions:
 
